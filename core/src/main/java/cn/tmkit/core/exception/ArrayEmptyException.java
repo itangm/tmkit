@@ -9,7 +9,7 @@ package cn.tmkit.core.exception;
  */
 public class ArrayEmptyException extends GenericRuntimeException {
 
-    private static final long serialVersionUID = 2022L;
+    private static final long serialVersionUID = 2023L;
 
     /**
      * Array Empty Exception Constructor

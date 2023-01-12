@@ -9,7 +9,7 @@ package cn.tmkit.core.exception;
  */
 public class GenericRuntimeException extends RuntimeException {
 
-    private static final long serialVersionUID = 2022L;
+    private static final long serialVersionUID = 2023L;
 
     /**
      * Generic Runtime Exception Constructor
