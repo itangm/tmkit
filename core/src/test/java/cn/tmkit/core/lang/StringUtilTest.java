@@ -405,7 +405,7 @@ public class StringUtilTest {
         assertTrue(Strings.endsWithIgnoreCase(cse, suffix));
         suffix = "G";
         assertTrue(Strings.endsWithIgnoreCase(cse, suffix));
-        cse = "author: miles.tang\n";
+        cse = "author: ming.tang\n";
         suffix = "\n";
         assertTrue(Strings.endsWithIgnoreCase(cse, suffix));
     }
