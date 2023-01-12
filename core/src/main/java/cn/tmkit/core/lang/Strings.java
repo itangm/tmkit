@@ -104,10 +104,6 @@ public class Strings {
      */
     public static final String SPACE = EMPTY_STRING + Chars.SPACE;
 
-    public static final String[] EMPTY_STRING_ARRAY = new String[0];
-
-    public static final int INDEX_NOT_FOUND = -1;
-
     // endregion
 
 
@@ -175,7 +171,7 @@ public class Strings {
      * @see #isBlank(CharSequence)
      */
     public static boolean isAnyBlank(CharSequence... array) {
-        if (array == null || array.length == 0) {
+        if (Arrays.isEmpty(array)) {
             return true;
         }
         for (CharSequence cse : array) {
@@ -193,7 +189,7 @@ public class Strings {
      * @return 数组是否都为空
      */
     public static boolean isAllBlank(CharSequence... array) {
-        if (array == null || array.length == 0) {
+        if (Arrays.isEmpty(array)) {
             return true;
         }
         for (CharSequence cse : array) {
@@ -212,7 +208,7 @@ public class Strings {
      * @see #isNotBlank(CharSequence)
      */
     public static boolean isAnyNotBlank(CharSequence... array) {
-        if (array == null || array.length == 0) {
+        if (Arrays.isEmpty(array)) {
             return false;
         }
         for (CharSequence cse : array) {
@@ -231,7 +227,7 @@ public class Strings {
      * @see #isNotBlank(CharSequence)
      */
     public static boolean isAllNotBlank(CharSequence... array) {
-        if (array == null || array.length == 0) {
+        if (Arrays.isEmpty(array)) {
             return false;
         }
         for (CharSequence cse : array) {
@@ -323,7 +319,7 @@ public class Strings {
      * @see Strings#isEmpty(CharSequence)
      */
     public static boolean isAnyEmpty(CharSequence... array) {
-        if (array == null || array.length == 0) {
+        if (Arrays.isEmpty(array)) {
             return true;
         }
         for (CharSequence ele : array) {
@@ -354,7 +350,7 @@ public class Strings {
      * @see #isEmpty(CharSequence)
      */
     public static boolean isAllEmpty(CharSequence... array) {
-        if (array == null || array.length == 0) {
+        if (Arrays.isEmpty(array)) {
             return true;
         }
         for (CharSequence cse : array) {
@@ -612,10 +608,10 @@ public class Strings {
      * @return 新数组，不为{@code null}
      */
     public static @NotNull String[] trim(CharSequence... array) {
-        if (array == null || array.length == 0) {
-            return Strings.EMPTY_STRING_ARRAY;
+        if (Arrays.isEmpty(array)) {
+            return Arrays.EMPTY_STRING_ARRAY;
         }
-        return trimToList(array).toArray(Strings.EMPTY_STRING_ARRAY);
+        return trimToList(array).toArray(Arrays.EMPTY_STRING_ARRAY);
     }
 
     /**
@@ -625,7 +621,7 @@ public class Strings {
      * @return 新集合，不为{@code null}
      */
     public static @NotNull List<String> trimToList(CharSequence... array) {
-        if (array == null || array.length == 0) {
+        if (Arrays.isEmpty(array)) {
             return Collections.emptyList();
         }
         return java.util.Arrays.stream(array).map(Strings::trim).collect(Collectors.toList());
@@ -825,7 +821,7 @@ public class Strings {
      */
     public static int indexOf(CharSequence cse, char searchChar, int startPos, int endPos) {
         if (isEmpty(cse)) {
-            return Strings.INDEX_NOT_FOUND;
+            return Arrays.INDEX_NOT_FOUND;
         }
         final int len = cse.length();
         if (startPos <= 0 || startPos > len) {
@@ -839,7 +835,7 @@ public class Strings {
                 return i;
             }
         }
-        return Strings.INDEX_NOT_FOUND;
+        return Arrays.INDEX_NOT_FOUND;
     }
 
     /**
@@ -924,10 +920,10 @@ public class Strings {
      * @return 存在为{@code true},否则为{@code false}
      */
     public static boolean containsAny(CharSequence cse, boolean ignoreCase, CharSequence... array) {
-        if (array == null || array.length == 0) {
+        if (Arrays.isEmpty(array)) {
             return false;
         }
-        return java.util.Arrays.stream(array).anyMatch(element -> contains(element, cse, ignoreCase));
+        return Arrays.stream(array).anyMatch(element -> contains(element, cse, ignoreCase));
     }
 
     /**
@@ -960,11 +956,11 @@ public class Strings {
      * @return 存在为{@code true},否则为{@code false}
      */
     public static boolean containsAll(CharSequence cse, boolean ignoreCase, CharSequence... array) {
-        if (Objects.isNull(cse) || array == null || array.length == 0) {
+        if (Objects.isNull(cse) || Arrays.isEmpty(array)) {
             return false;
         }
         String search = ignoreCase ? cse.toString().toLowerCase(Locale.ROOT) : cse.toString();
-        return java.util.Arrays.stream(array).allMatch(element -> contains(element, search, ignoreCase));
+        return Arrays.stream(array).allMatch(element -> contains(element, search, ignoreCase));
     }
 
     // endregion
@@ -1081,7 +1077,7 @@ public class Strings {
      * @return 新的字符串
      */
     public static String replace(CharSequence cse, char[] chars, CharSequence replacedStr) {
-        if (isEmpty(cse) || chars == null || chars.length == 0) {
+        if (isEmpty(cse) || Arrays.isEmpty(chars)) {
             return str(cse);
         }
         int length = cse.length();
@@ -1561,7 +1557,7 @@ public class Strings {
 
         final List<String> list = splitToList(cse, separator, ignoreEmpty, isTrim);
 
-        return list.toArray(Strings.EMPTY_STRING_ARRAY);
+        return list.toArray(Arrays.EMPTY_STRING_ARRAY);
     }
 
     /**
@@ -1609,7 +1605,7 @@ public class Strings {
 
         final List<String> list = splitToList(cse, separator, ignoreEmpty, isTrim);
 
-        return list.toArray(Strings.EMPTY_STRING_ARRAY);
+        return list.toArray(Arrays.EMPTY_STRING_ARRAY);
     }
 
     /**
@@ -1909,7 +1905,7 @@ public class Strings {
      * @return 非{@code null}的字符串数组
      */
     public static String[] toStringArray(Collection<CharSequence> collection) {
-        return (Collections.isEmpty(collection) ? Strings.EMPTY_STRING_ARRAY : collection.stream().map(Strings::str).toArray(String[]::new));
+        return (Collections.isEmpty(collection) ? Arrays.EMPTY_STRING_ARRAY : collection.stream().map(Strings::str).toArray(String[]::new));
     }
 
     // endregion

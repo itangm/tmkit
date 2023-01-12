@@ -97,7 +97,7 @@ public class Collections {
      */
     @SafeVarargs
     public static <E> ArrayList<E> newArrayList(E... values) {
-        if (values == null || values.length == 0) {
+        if (Arrays.isEmpty(values)) {
             return new ArrayList<>();
         }
         ArrayList<E> result = new ArrayList<>(values.length);
@@ -223,7 +223,7 @@ public class Collections {
      * 将集合数据转为字符串，每个元素之间采用{@code separator}拼接。
      * <p>元素的值为{@code null}会忽略</p>
      *
-     * @param c       集合数据
+     * @param c         集合数据
      * @param separator 分隔符
      * @return 字符串
      */
@@ -309,7 +309,7 @@ public class Collections {
      */
     @SafeVarargs
     public static <E> boolean addAll(Collection<? super E> coll, E... elements) {
-        if (coll == null || (elements == null || elements.length == 0)) {
+        if (coll == null || Arrays.isEmpty(elements)) {
             return false;
         }
         return java.util.Collections.addAll(coll, elements);
@@ -326,14 +326,14 @@ public class Collections {
      */
     @SafeVarargs
     public static <E> Collection<? extends E> merge(Collection<? extends E> coll, E... elements) {
-        if (isEmpty(coll) && (elements == null || elements.length == 0)) {
+        if (isEmpty(coll) && Arrays.isEmpty(elements)) {
             return (coll == null) ? emptyList() : coll;
         }
-        if (isNotEmpty(coll) && (elements == null || elements.length == 0)) {
+        if (isNotEmpty(coll) && Arrays.isEmpty(elements)) {
             return coll;
         }
-        if (isEmpty(coll) && !(elements == null || elements.length == 0)) {
-            ArrayList<E> arrayList = new ArrayList<E>();
+        if (isEmpty(coll) && Arrays.isNotEmpty(elements)) {
+            ArrayList<E> arrayList = new ArrayList<>();
             addAll(arrayList, elements);
             return arrayList;
         }

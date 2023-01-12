@@ -354,9 +354,9 @@ public class StringUtilTest {
     @Test
     public void testTrim() {
         CharSequence[] array = null;
-        assertArrayEquals(Strings.EMPTY_STRING_ARRAY, Strings.trim(array));
+        assertArrayEquals(Arrays.EMPTY_STRING_ARRAY, Strings.trim(array));
         array = new CharSequence[0];
-        assertArrayEquals(Strings.EMPTY_STRING_ARRAY, Strings.trim(array));
+        assertArrayEquals(Arrays.EMPTY_STRING_ARRAY, Strings.trim(array));
         array = new CharSequence[2];
         assertArrayEquals(new String[]{null, null}, Strings.trim(array));
         array = new CharSequence[]{"", " ", " \t", "\r\n\t"};
