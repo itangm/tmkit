@@ -1,4 +1,4 @@
-package cn.tmkit.core.lang;
+package cn.tmkit.core.support;
 
 import java.util.Iterator;
 

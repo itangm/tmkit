@@ -1,6 +1,6 @@
 package cn.tmkit.core.tuple;
 
-import cn.tmkit.core.lang.CloneSupport;
+import cn.tmkit.core.support.CloneSupport;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;

@@ -1,4 +1,4 @@
-package cn.tmkit.core.lang;
+package cn.tmkit.core.support;
 
 import cn.tmkit.core.exception.CloneRuntimeException;
 

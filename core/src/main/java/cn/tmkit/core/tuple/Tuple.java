@@ -1,7 +1,7 @@
 package cn.tmkit.core.tuple;
 
 import cn.tmkit.core.lang.Asserts;
-import cn.tmkit.core.lang.CombineIterator;
+import cn.tmkit.core.support.CombineIterator;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
