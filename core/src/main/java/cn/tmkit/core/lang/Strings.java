@@ -254,7 +254,7 @@ public class Strings {
      * @see #hasLength(CharSequence)
      */
     public static boolean isAnyNotBlank(Collection<CharSequence> strColl) {
-        if (strColl == null || strColl.isEmpty()) {
+        if (Collections.isEmpty(strColl)) {
             return false;
         }
         for (CharSequence cs : strColl) {
@@ -277,7 +277,7 @@ public class Strings {
      * @see #hasLength(CharSequence)
      */
     public static boolean isAllNotBlank(Collection<CharSequence> strColl) {
-        if (strColl == null || strColl.isEmpty()) {
+        if (Collections.isEmpty(strColl)) {
             return false;
         }
         for (CharSequence str : strColl) {
@@ -634,13 +634,10 @@ public class Strings {
     /**
      * 去除字符串集合中的每个元素左右两侧空白部分
      *
-     * @param array 原数组，不为{@code null}
+     * @param list 原数组，不为{@code null}
      */
-    public static @NotNull List<String> trim(List<CharSequence> array) {
-        if (array == null || array.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return array.stream().map(Strings::trim).collect(Collectors.toList());
+    public static @NotNull List<String> trim(List<CharSequence> list) {
+        return Collections.isEmpty(list) ? Collections.emptyList() : list.stream().map(Strings::trim).collect(Collectors.toList());
     }
 
 
@@ -1698,7 +1695,7 @@ public class Strings {
         }
         final int length = cse.length();
         if (length == 0) {
-            return java.util.Collections.emptyList();
+            return Collections.emptyList();
         }
         String str = cse.toString();
 
@@ -1760,7 +1757,7 @@ public class Strings {
         }
         final int length = cse.length();
         if (length == 0) {
-            return java.util.Collections.emptyList();
+            return Collections.emptyList();
         }
         String str = cse.toString(), sepCs = str(separator);
 
@@ -1821,7 +1818,7 @@ public class Strings {
 
         final List<String> strList = splitToList(str, separator, true, true);
         if (strList == null || strList.size() == 0) {
-            return java.util.Collections.emptyList();
+            return Collections.emptyList();
         }
 
         return str2IntList(strList);
@@ -1841,7 +1838,7 @@ public class Strings {
         }
         final List<String> strList = splitToList(str, separator, true, true);
         if (strList == null || strList.size() == 0) {
-            return java.util.Collections.emptyList();
+            return Collections.emptyList();
         }
         return str2IntList(strList);
     }
@@ -1912,7 +1909,7 @@ public class Strings {
      * @return 非{@code null}的字符串数组
      */
     public static String[] toStringArray(Collection<CharSequence> collection) {
-        return ((collection == null || collection.isEmpty()) ? Strings.EMPTY_STRING_ARRAY : collection.stream().map(Strings::str).toArray(String[]::new));
+        return (Collections.isEmpty(collection) ? Strings.EMPTY_STRING_ARRAY : collection.stream().map(Strings::str).toArray(String[]::new));
     }
 
     // endregion
