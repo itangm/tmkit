@@ -86,7 +86,7 @@ public class Charsets {
      * @return {@link Charset}
      */
     public static Charset forName(String charsetName, Charset defaultEncoding) {
-        return (charsetName == null || charsetName.isEmpty()) ? defaultEncoding : Charset.forName(charsetName);
+        return StringUtil.isBlank(charsetName) ? defaultEncoding : Charset.forName(charsetName);
     }
 
     /**

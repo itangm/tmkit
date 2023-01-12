@@ -2,7 +2,6 @@ package cn.tmkit.core.lang;
 
 import org.junit.jupiter.api.Test;
 
-import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,10 +32,8 @@ public class CharsetUtilTest {
     public void forName() {
         assertEquals(Charsets.UTF_8, CharsetUtil.forName(null));
         assertEquals(CharsetUtil.UTF_8, CharsetUtil.forName(""));
-        // assertEquals(CharsetUtil.UTF_8, CharsetUtil.forName(" "));
-        assertThrows(IllegalCharsetNameException.class, () -> assertEquals(CharsetUtil.UTF_8, CharsetUtil.forName(" ")));
-        // assertEquals(CharsetUtil.UTF_8, CharsetUtil.forName("\t"));
-        assertThrows(IllegalCharsetNameException.class, () -> assertEquals(CharsetUtil.UTF_8, CharsetUtil.forName("\t")));
+        assertEquals(CharsetUtil.UTF_8, CharsetUtil.forName(" "));
+        assertEquals(CharsetUtil.UTF_8, CharsetUtil.forName("\t"));
         assertThrows(UnsupportedCharsetException.class, () ->
                 assertEquals(CharsetUtil.UTF_8, CharsetUtil.forName("ISO")));
         assertEquals(CharsetUtil.ISO_8859_1_VALUE, CharsetUtil.forName("ISO-8859-1").name());
