@@ -3,6 +3,7 @@ package cn.tmkit.core.io;
 import cn.tmkit.core.exception.IoRuntimeException;
 import cn.tmkit.core.lang.Arrays;
 import cn.tmkit.core.lang.Charsets;
+import cn.tmkit.core.lang.Objects;
 import cn.tmkit.core.lang.Strings;
 
 import java.io.*;
@@ -11,7 +12,6 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * IO工具类
@@ -603,7 +603,9 @@ public class IoUtil {
      * @return 文件后缀
      */
     public static String getRealBinExt(InputStream in) {
-        Objects.requireNonNull(in, "in == null");
+        if (Objects.isNull(in)) {
+            return null;
+        }
         //https://filesignatures.net/index.php?page=all&order=EXT&alpha=M
         //https://my.oschina.net/ososchina/blog/1610685?nocache=1541639315254
 
@@ -638,16 +640,6 @@ public class IoUtil {
             }
         }
         return null;
-    }
-
-    /**
-     * 通过输入流获取缓冲输入流
-     *
-     * @param in 输入流
-     * @return {@linkplain BufferedInputStream}
-     */
-    public static BufferedInputStream getBufferedInputStream(InputStream in) {
-        return (in instanceof BufferedInputStream) ? (BufferedInputStream) in : new BufferedInputStream(in);
     }
 
     /**
@@ -710,6 +702,49 @@ public class IoUtil {
     }
 
     //endregion
+
+    /**
+     * 将{@linkplain OutputStream}转为{@linkplain BufferedOutputStream}
+     *
+     * @param out {@linkplain OutputStream}
+     * @return {@linkplain BufferedOutputStream}
+     */
+    public static BufferedOutputStream toBuffered(OutputStream out) {
+        if (Objects.isNull(out)) {
+            return null;
+        }
+        if (out instanceof BufferedOutputStream) {
+            return (BufferedOutputStream) out;
+        }
+        return new BufferedOutputStream(out);
+    }
+
+    public static BufferedInputStream toBuffered(InputStream in) {
+        return getBufferedInputStream(in);
+    }
+
+    /**
+     * 将{@linkplain OutputStream}转为{@linkplain BufferedOutputStream}
+     *
+     * @param out {@linkplain OutputStream}
+     * @return {@linkplain BufferedOutputStream}
+     */
+    public static BufferedOutputStream getBufferedOutputStream(OutputStream out) {
+        return toBuffered(out);
+    }
+
+    /**
+     * 将{@linkplain InputStream}转为{@linkplain BufferedInputStream}
+     *
+     * @param in {@linkplain InputStream}
+     * @return {@linkplain BufferedInputStream}
+     */
+    public static BufferedInputStream getBufferedInputStream(InputStream in) {
+        if (Objects.isNull(in)) {
+            return null;
+        }
+        return (in instanceof BufferedInputStream) ? (BufferedInputStream) in : new BufferedInputStream(in);
+    }
 
 
 }

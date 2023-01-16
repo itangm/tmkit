@@ -1,18 +1,12 @@
 package cn.tmkit.core.io;
 
-import cn.tmkit.core.exception.FileNotFoundRuntimeException;
 import cn.tmkit.core.exception.IoRuntimeException;
 import cn.tmkit.core.lang.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
-import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +17,7 @@ import java.util.List;
  * @version 0.0.1
  * @date 2023-01-12
  */
-public class Files {
+public class Files extends Paths {
 
     // region 内置常量
 
@@ -56,16 +50,6 @@ public class Files {
      * Windows路径分隔符
      */
     public static final String WINDOWS_SEPARATOR = Strings.EMPTY_STRING + Chars.BACKSLASH;
-
-    /**
-     * The file copy buffer size (30 MB)
-     */
-    private static final long FILE_COPY_BUFFER_SIZE = ONE_MB * 30;
-
-    // endregion
-
-
-    // region 其它
 
     // endregion
 
@@ -102,7 +86,7 @@ public class Files {
     public static void touch(@Nullable File file) {
         if (Objects.nonNull(file)) {
             if (!file.exists()) {
-                forceMakeDir(file.getParentFile());
+                mkdir(file.getParentFile());
                 try {
                     boolean ignored = file.createNewFile();
                 } catch (IOException e) {
@@ -214,7 +198,7 @@ public class Files {
         if (dir == null) {
             dir = getTmpDir();
         } else {
-            forceMakeDir(dir);
+            mkdir(dir);
         }
         try {
             File tmpFile = File.createTempFile(prefix, suffix, dir).getCanonicalFile();
@@ -597,9 +581,8 @@ public class Files {
 
     /**
      * 检查父完整路径是否为自路径的前半部分，如果不是说明不是子路径，可能存在slip注入。
-     * <p>
-     * https://www.freebuf.com/vuls/180383.html
-     * </p>
+     *
+     * <p><a href="https://www.freebuf.com/vuls/180383.html">Zip Slip任意文件覆盖漏洞分析</a></p>
      *
      * @param parentFile 父文件或目录
      * @param file       子文件或目录
@@ -649,16 +632,43 @@ public class Files {
 
     // endregion
 
-    // region Read Files
+    // region 读文件
+
+    // region 读文本文件
 
     /**
      * 将文件的内容全部读取,采用系统默认编码
      *
-     * @param file 待读的文件
+     * @param path 待读的文件
      * @return 文件内容
      */
-    public static List<String> readLines(final File file) {
-        return readLines(file, null);
+    public static List<String> readLines(String path) throws IoRuntimeException {
+        return readLines(path, (String) null);
+    }
+
+    /**
+     * 将文件的内容全部读取
+     *
+     * @param path    待读的文件
+     * @param charset 字符集，如果为空则为系统默认编码
+     * @return 文件内容
+     */
+    public static List<String> readLines(String path, @Nullable String charset) throws IoRuntimeException {
+        return readLines(path, Charsets.forName(charset));
+    }
+
+    /**
+     * 将文件的内容全部读取
+     *
+     * @param path    待读的文件
+     * @param charset 字符集，如果为空则为系统默认编码
+     * @return 文件内容
+     */
+    public static List<String> readLines(String path, @Nullable Charset charset) throws IoRuntimeException {
+        if (Strings.isBlank(path)) {
+            return null;
+        }
+        return readLines(new File(path), charset);
     }
 
     /**
@@ -667,7 +677,17 @@ public class Files {
      * @param file 待读的文件
      * @return 文件内容
      */
-    public static List<String> readUtf8Lines(final File file) {
+    public static List<String> readLines(final File file) throws IoRuntimeException {
+        return readLines(file, null);
+    }
+
+    /**
+     * 将文件的内容全部读取,采用{@code UTF-8}编码
+     *
+     * @param file 待读的文件
+     * @return 文件内容
+     */
+    public static List<String> readUtf8Lines(final File file) throws IoRuntimeException {
         return readLines(file, Charsets.UTF_8);
     }
 
@@ -675,25 +695,52 @@ public class Files {
      * 将文件的内容全部读取
      *
      * @param file    待读的文件
-     * @param charset 字符编码
+     * @param charset 字符编码，如果为空则为系统编码编码
      * @return 文件内容
      */
-    public static List<String> readLines(File file, final Charset charset) {
-        try (FileInputStream in = openFileInputStream(file)) {
-            return IoUtil.readLines(in, charset);
-        } catch (IOException e) {
-            throw new IoRuntimeException(e);
+    public static List<String> readLines(File file, @Nullable Charset charset) throws IoRuntimeException {
+        FileInputStream fis = null;
+        try {
+            fis = openFileInputStream(file);
+            return IoUtil.readLines(fis, charset);
+        } finally {
+            IoUtil.closeQuietly(fis);
         }
     }
 
     /**
      * 读取文本类型文件内容
      *
-     * @param file 文件对象
+     * @param path 待读取的文件路径
      * @return 返回文件内容
      */
-    public static String readString(File file) {
-        return readString(file, (Charset) null);
+    public static String readStr(String path) throws IoRuntimeException {
+        return readStr(path, (String) null);
+    }
+
+    /**
+     * 读取文本类型文件内容
+     *
+     * @param path    待读取的文件路径
+     * @param charset 字符集，如果为空则为系统默认编码
+     * @return 返回文件内容
+     */
+    public static String readStr(String path, String charset) throws IoRuntimeException {
+        return readStr(path, Charsets.forName(charset));
+    }
+
+    /**
+     * 读取文本类型文件内容
+     *
+     * @param path    待读取的文件路径
+     * @param charset 字符集，如果为空则为系统默认编码
+     * @return 返回文件内容
+     */
+    public static String readStr(String path, Charset charset) throws IoRuntimeException {
+        if (Strings.isBlank(path)) {
+            return null;
+        }
+        return readStr(new File(path), charset);
     }
 
     /**
@@ -702,8 +749,19 @@ public class Files {
      * @param file 文件对象
      * @return 返回文件内容
      */
-    public static String readUtf8String(File file) {
-        return readString(file, Charsets.UTF_8);
+    public static String readStr(File file) throws IoRuntimeException {
+        return readStr(file, (Charset) null);
+    }
+
+    /**
+     * 读取文本类型文件内容
+     *
+     * @param file    文件对象
+     * @param charset 字符集，如果为空则为系统编码编码
+     * @return 返回文件内容
+     */
+    public static String readStr(File file, @Nullable String charset) throws IoRuntimeException {
+        return readStr(file, Charsets.forName(charset));
     }
 
     /**
@@ -713,23 +771,53 @@ public class Files {
      * @param charset 字符集
      * @return 返回文件内容
      */
-    public static String readString(File file, String charset) {
-        return readString(file, Charsets.forName(charset));
-    }
-
-    /**
-     * 读取文本类型文件内容
-     *
-     * @param file    文件对象
-     * @param charset 字符集
-     * @return 返回文件内容
-     */
-    public static String readString(File file, Charset charset) {
+    public static String readStr(File file, Charset charset) throws IoRuntimeException {
         try (FileInputStream in = openFileInputStream(file)) {
             return IoUtil.read(in, charset);
         } catch (IOException e) {
             throw new IoRuntimeException(e);
         }
+    }
+
+    /**
+     * 读取文本类型文件内容
+     *
+     * @param path 待读取的文件路径
+     * @return 返回文件内容
+     */
+    public static String readUtf8Str(String path) throws IoRuntimeException {
+        if (Strings.isBlank(path)) {
+            return null;
+        }
+        return readStr(new File(path), Charsets.UTF_8);
+    }
+
+    /**
+     * 读取文本类型文件内容
+     *
+     * @param file 文件对象
+     * @return 返回文件内容
+     */
+    public static String readUtf8Str(File file) throws IoRuntimeException {
+        return readStr(file, Charsets.UTF_8);
+    }
+
+    // endregion
+
+    // region 读二进制文件
+
+    /**
+     * 读取文件的二进制内容
+     *
+     * @param path 待读取的文件路径
+     * @return 文件内容
+     * @throws IoRuntimeException 读取文件异常
+     */
+    public static byte[] readBytes(String path) throws IoRuntimeException {
+        if (Strings.isBlank(path)) {
+            return null;
+        }
+        return readBytes(new File(path));
     }
 
     /**
@@ -739,7 +827,7 @@ public class Files {
      * @return 文件内容
      * @throws IoRuntimeException 读取文件异常
      */
-    public static byte[] readBytes(File file) {
+    public static byte[] readBytes(File file) throws IoRuntimeException {
         try (FileInputStream in = openFileInputStream(file)) {
             FastByteArrayOutputStream output = new FastByteArrayOutputStream();
             IoUtil.copy(in, output);
@@ -749,12 +837,43 @@ public class Files {
         }
     }
 
+    /**
+     * 读取文件内容并转为{@linkplain ByteArrayInputStream}
+     *
+     * @param path 待读取的文件路径
+     * @return {@linkplain ByteArrayInputStream}
+     * @throws IoRuntimeException IO异常
+     */
+    public static ByteArrayInputStream readByteStream(String path) throws IoRuntimeException {
+        if (Strings.isBlank(path)) {
+            return null;
+        }
+        return readByteStream(new File(path));
+    }
+
+    /**
+     * 读取文件内容并转为{@linkplain ByteArrayInputStream}
+     *
+     * @param file 文件对象
+     * @return {@linkplain ByteArrayInputStream}
+     * @throws IoRuntimeException IO异常
+     */
+    public static ByteArrayInputStream readByteStream(File file) throws IoRuntimeException {
+        try (FileInputStream in = openFileInputStream(file)) {
+            return IoUtil.toByteArrayInputStream(in);
+        } catch (IOException e) {
+            throw new IoRuntimeException(e);
+        }
+    }
+
+    // endregion
+
     // endregion
 
 
     // region 写文件
 
-    // region write string
+    // region 写文本文件
 
     /**
      * 将内容写入到文件，原内容被覆盖，默认采用UTF-8字符集
@@ -788,7 +907,7 @@ public class Files {
      * @return 写入的文件
      * @throws IoRuntimeException IO异常
      */
-    public static @NotNull File write(String content, String path, String charset) throws IoRuntimeException {
+    public static File write(String content, String path, String charset) throws IoRuntimeException {
         return write(content, path, Charset.forName(charset));
     }
 
@@ -801,7 +920,7 @@ public class Files {
      * @return 写入的文件
      * @throws IoRuntimeException IO异常
      */
-    public static @NotNull File write(String content, String path, Charset charset) throws IoRuntimeException {
+    public static File write(String content, String path, Charset charset) throws IoRuntimeException {
         File file = touch(path);
         write(content, file, charset);
         return file;
@@ -839,7 +958,7 @@ public class Files {
      * @return 写入的文件
      * @throws IoRuntimeException IO异常
      */
-    public static @NotNull File appendUtf8Str(String content, String path) throws IoRuntimeException {
+    public static File appendUtf8Str(String content, String path) throws IoRuntimeException {
         return append(content, path, Charsets.UTF_8);
     }
 
@@ -863,7 +982,7 @@ public class Files {
      * @return 写入的文件
      * @throws IoRuntimeException IO异常
      */
-    public static @NotNull File append(String content, String path, String charset) throws IoRuntimeException {
+    public static File append(String content, String path, String charset) throws IoRuntimeException {
         return append(content, path, Charset.forName(charset));
     }
 
@@ -876,7 +995,7 @@ public class Files {
      * @return 写入的文件
      * @throws IoRuntimeException IO异常
      */
-    public static @NotNull File append(String content, String path, Charset charset) throws IoRuntimeException {
+    public static File append(String content, String path, Charset charset) throws IoRuntimeException {
         File file = touch(path);
         append(content, file, charset);
         return file;
@@ -946,7 +1065,7 @@ public class Files {
         return new BufferedWriter(osw);
     }
 
-    // region write bytes
+    // region 写二进制文件
 
     /**
      * 将数据写入到文件中，原内容被覆盖
@@ -1055,12 +1174,10 @@ public class Files {
 
     // endregion
 
-//    public static void
-
     // endregion
 
 
-    // region Copy Files
+    // region 复制文件或文件夹
 
     /**
      * 文件内容拷贝指定的输出流中
@@ -1068,132 +1185,35 @@ public class Files {
      * @param srcFile 原文件
      * @param output  输出流
      */
-    public static void copyFile(File srcFile, OutputStream output) {
-        FileInputStream in = openFileInputStream(srcFile);
-        try {
-            IoUtil.copy(new BufferedInputStream(in), output);
-        } finally {
-            IoUtil.closeQuietly(in);
-        }
-    }
-
-    /**
-     * 文件拷贝
-     *
-     * @param srcFile  原文件
-     * @param destFile 目标文件
-     */
-    public static void copyFile(File srcFile, File destFile) {
-        copyFile(srcFile, destFile, true);
-    }
-
-    /**
-     * checks requirements for file copy
-     *
-     * @param src  the source file
-     * @param dest the destination
-     */
-    private static void checkFileRequirements(final File src, final File dest) {
-        if (src == null) {
-            throw new NullPointerException("Source must not be null");
-        }
-        if (dest == null) {
-            throw new NullPointerException("Destination must not be null");
-        }
-        if (!src.exists()) {
-            throw new FileNotFoundRuntimeException("Source '" + src + "' does not exist");
-        }
-    }
-
-    /**
-     * 文件拷贝
-     *
-     * @param srcFile      原文件
-     * @param destFile     目标文件
-     * @param holdFileDate 保持最后修改日期不变
-     */
-    public static void copyFile(File srcFile, File destFile, boolean holdFileDate) {
-        checkFileRequirements(srcFile, destFile);
-        if (srcFile.isDirectory()) {
-            throw new IoRuntimeException("Source [" + srcFile + "] exists but it is a directory");
-        }
-
-        try {
-            if (srcFile.getCanonicalPath().equals(destFile.getCanonicalPath())) {
-                throw new IoRuntimeException("Source [" + srcFile + "] and destination [" + destFile + "] are the same");
-            }
-            File parentFile = destFile.getParentFile();
-            if (parentFile != null) {
-                if (!parentFile.mkdirs() && !parentFile.isDirectory()) {
-                    throw new IoRuntimeException("Destination [" + parentFile + "] directory cannot be created");
-                }
-            }
-            if (destFile.exists() && !destFile.canWrite()) {
-                throw new IoRuntimeException(" ===> Destination [" + parentFile + "] directory cannot be written");
-            }
-            doCopyFile(srcFile, destFile, holdFileDate);
+    public static void copy(File srcFile, OutputStream output) {
+        try (BufferedInputStream in = openBufferedInputStream(srcFile)) {
+            IoUtil.copy(in, output);
         } catch (IOException e) {
             throw new IoRuntimeException(e);
         }
     }
 
     /**
-     * 文件复制内部方法
+     * 文件拷贝
      *
-     * @param srcFile      原文件
-     * @param destFile     目标文件
-     * @param holdFileDate 保持最后修改日期不变
-     * @throws IOException I/O异常
+     * @param source  源路径
+     * @param target 目标路径
      */
-    private static void doCopyFile(File srcFile, File destFile, boolean holdFileDate) throws IOException {
-        if (destFile.exists() && destFile.isDirectory()) {
-            throw new IoRuntimeException("Destination [" + destFile + "] exists but it is a directory");
-        }
-
-        try (FileInputStream in = new FileInputStream(srcFile);
-             FileOutputStream out = new FileOutputStream(destFile);
-             FileChannel inChannel = in.getChannel();
-             FileChannel outChannel = out.getChannel()) {
-            long size = inChannel.size(), pos = 0, count;
-            while (pos < size) {
-                count = Math.min(size - pos, FILE_COPY_BUFFER_SIZE);
-                pos += outChannel.transferFrom(inChannel, pos, count);
-            }
-        }
-        //必须放在try(){}之外，否则该修改无效
-        if (srcFile.length() != destFile.length()) {
-            throw new IOException(String.format("Failed to copy full contents from [%s] to [%s]", srcFile.getPath(), destFile.getPath()));
-        }
-        if (holdFileDate) {
-            destFile.setLastModified(srcFile.lastModified());
-        }
+    public static void copy(File source, File target) {
+        copy(source, target, false);
     }
 
     /**
-     * 将文件拷贝到目录
+     * 文件拷贝
      *
-     * @param srcFile 原文件
-     * @param destDir 目标目录
+     * @param source    源路径
+     * @param target   目标路径
+     * @param isOverride 是否覆盖
      */
-    public static void copyFileToDirectory(File srcFile, File destDir) {
-        copyFileToDirectory(srcFile, destDir, true);
-    }
-
-    /**
-     * 将文件拷贝到目录
-     *
-     * @param srcFile      原文件
-     * @param destDir      目标目录
-     * @param holdFileDate 保持最后修改日期不变
-     */
-    private static void copyFileToDirectory(File srcFile, File destDir, boolean holdFileDate) {
-        checkFileRequirements(srcFile, destDir);
-        if (destDir.exists() && !destDir.isDirectory()) {
-            throw new IoRuntimeException("Destination [" + destDir + "] is not a directory.");
+    public static void copy(File source, File target, boolean isOverride) {
+        if (Objects.isAllNotNull(source, target)) {
+            copy(source.toPath(), target.toPath(), isOverride);
         }
-
-        File destFile = new File(destDir, srcFile.getName());
-        copyFile(srcFile, destFile, holdFileDate);
     }
 
     /**
@@ -1206,41 +1226,23 @@ public class Files {
         if (targetFile == null) {
             return;
         }
-        copyStream(in, targetFile.toPath());
-    }
-
-    /**
-     * 将输入流的数据输出到文件中，会自动关闭输入流
-     *
-     * @param in         输入流,非空
-     * @param targetPath 目标文件,非空
-     */
-    public static void copyStream(InputStream in, Path targetPath) {
-        if (targetPath == null || in == null) {
-            return;
-        }
-        try {
-            java.nio.file.Files.createDirectories(targetPath.getParent());
-            java.nio.file.Files.copy(in, targetPath);
-        } catch (IOException e) {
-            throw new IoRuntimeException(e);
-        } finally {
-            IoUtil.closeQuietly(in);
-        }
+        copy(in, targetFile.toPath());
     }
 
     // endregion
 
 
-    // region Make Directory
+    // region 创建文件夹
 
     /**
      * 创建目录
      *
      * @param directoryPath 目录地址
      */
-    public static void forceMakeDir(String directoryPath) {
-        forceMakeDir(new File(directoryPath));
+    public static void mkdir(String directoryPath) {
+        if (Strings.isNotBlank(directoryPath)) {
+            mkdir(new File(directoryPath));
+        }
     }
 
     /**
@@ -1248,208 +1250,14 @@ public class Files {
      *
      * @param directory 目录地址
      */
-    public static void forceMakeDir(File directory) {
-        if (directory.exists()) {
-            if (!directory.isDirectory()) {
-                throw new IoRuntimeException("The file[" + directory + "] exists and is not a directory.Unable to create directory.");
-            }
-        } else if (!directory.mkdirs() && !directory.isDirectory()) {
-            throw new IoRuntimeException("Unable to create directory[" + directory + "]");
-        }
-    }
-
-    /**
-     * 创建目录
-     *
-     * @param path 目录地址
-     */
-    public static void forceMakeDir(Path path) {
-        path = path.toAbsolutePath();
-        Path parent = path.getParent();
-        if (parent != null) {
-            if (java.nio.file.Files.notExists(parent)) {
-                forceMakeDir(parent);
-            }
-        }
-        try {
-            java.nio.file.Files.createDirectory(path);
-        } catch (IOException e) {
-            throw new IoRuntimeException(e);
-        }
-    }
-
-    // endregion
-
-
-    // region Copy Directory
-
-    /**
-     * 目录复制
-     *
-     * @param srcDir 原目录
-     * @param dstDir 目标目录
-     */
-    public static void copyDirectory(File srcDir, File dstDir) {
-        copyDirectory(srcDir, dstDir, true);
-    }
-
-    /**
-     * 目录复制
-     *
-     * @param srcDir       原目录
-     * @param dstDir       目标目录
-     * @param holdFileDate 保持最后修改日期不变
-     */
-    public static void copyDirectory(File srcDir, File dstDir, boolean holdFileDate) {
-        copyDirectory(srcDir, dstDir, holdFileDate, null);
-    }
-
-    /**
-     * 目录复制
-     *
-     * @param srcDir       原目录
-     * @param dstDir       目标目录
-     * @param holdFileDate 保持最后修改日期不变
-     * @param filter       文件过滤器
-     */
-    public static void copyDirectory(File srcDir, File dstDir, boolean holdFileDate, FileFilter filter) {
-        checkFileRequirements(srcDir, dstDir);
-        if (dstDir.isFile()) {
-            throw new IoRuntimeException("Destination [" + dstDir + "] exists but is not a directory.");
-        }
-
-        try {
-            if (srcDir.getCanonicalPath().equals(dstDir.getCanonicalPath())) {
-                throw new IoRuntimeException(String.format("Source [%s] and destination [%s] are the same.", srcDir, dstDir));
-            }
-            //当目标目录是原目录的子目录时,不支持复制.
-            if (dstDir.getCanonicalPath().startsWith(srcDir.getCanonicalPath() + File.separator)) {
-                throw new IoRuntimeException(String.format("Destination [%s] is child directory of source [%s].", dstDir, srcDir));
-            }
-            doCopyDirectory(srcDir, dstDir, holdFileDate, filter);
-        } catch (IOException e) {
-            throw new IoRuntimeException(e);
-        }
-    }
-
-    /**
-     * 目录复制
-     *
-     * @param srcDir       原目录
-     * @param dstDir       目标目录
-     * @param holdFileDate 保持最后修改日期不变
-     * @param filter       文件过滤器
-     * @throws IOException 拷贝异常
-     */
-    private static void doCopyDirectory(File srcDir, File dstDir, boolean holdFileDate, FileFilter filter) throws IOException {
-        File[] srcFiles = filter == null ? srcDir.listFiles() : srcDir.listFiles(filter);
-        if (srcFiles == null) {
-            throw new IOException("Failed to list contents of [" + srcDir + "]");
-        }
-        if (dstDir.exists() && !dstDir.isDirectory()) {
-            throw new IOException("Destination [" + dstDir + "] exists but is not a directory.");
-        }
-        if (!dstDir.mkdirs() && !dstDir.isDirectory()) {
-            throw new IOException("Destination [" + dstDir + "] directory cannot be created.");
-        }
-        if (!dstDir.canWrite()) {
-            throw new IOException("Destination [" + dstDir + "] cannot be written to.");
-        }
-
-        for (File srcFile : srcFiles) {
-            File destFile = new File(dstDir, srcFile.getName());
-            if (srcFile.isDirectory()) {
-                doCopyDirectory(srcFile, destFile, holdFileDate, filter);
-            } else {
-                doCopyFile(srcFile, destFile, holdFileDate);
-            }
-        }
-
-        if (holdFileDate) {
-            dstDir.setLastModified(srcDir.lastModified());
-        }
-    }
-
-    // endregion
-
-
-    // region Move File
-
-    /**
-     * 移动文件
-     *
-     * @param srcFile  原文件
-     * @param destFile 目标文件
-     * @throws IoRuntimeException 文件处理异常
-     */
-    public static void moveFile(File srcFile, File destFile) throws IoRuntimeException {
-        checkFileRequirements(srcFile, destFile);
-        if (srcFile.isDirectory()) {
-            throw new IoRuntimeException("Source [" + srcFile + "] is a directory.");
-        }
-        if (destFile.isFile() && destFile.exists()) {
-            throw new IoRuntimeException("Destination [" + destFile + "] already exists.");
-        }
-        if (destFile.isDirectory() && !destFile.canWrite()) {
-            throw new IoRuntimeException("Destination [" + destFile + "] cannot be written to.");
-        }
-
-        File targetFile;
-        if (destFile.isDirectory()) {
-            targetFile = new File(destFile, srcFile.getName());
-        } else {
-            targetFile = destFile;
-        }
-        boolean renameTo = srcFile.renameTo(targetFile);
-        if (!renameTo) {
-            //调用系统的重命名失败(移动),可能属于不同FS文件系统
-            copyFile(srcFile, targetFile);
-            if (!srcFile.delete()) {
-                targetFile.delete();
-                throw new IoRuntimeException(String.format("Failed to delete original file [%s], after copy to [%s]", srcFile, destFile));
-            }
-        }
-    }
-
-    /**
-     * 移动目录
-     *
-     * @param source  原文件或目录
-     * @param destDir 目标目录
-     * @throws IoRuntimeException 文件处理异常
-     */
-    public static void moveDirectory(File source, File destDir) throws IoRuntimeException {
-        moveDirectory(source, destDir, false);
-    }
-
-    /**
-     * 移动目录
-     *
-     * @param srcDir  原文件或目录
-     * @param destDir 目标目录
-     * @param toDir   如果目录不存在，是否创建
-     * @throws IoRuntimeException 文件处理异常
-     */
-    public static void moveDirectory(File srcDir, File destDir, boolean toDir) throws IoRuntimeException {
-        checkFileRequirements(srcDir, destDir);
-        if (!srcDir.isDirectory()) {
-            throw new IoRuntimeException("Destination [" + srcDir + "] is not a directory.");
-        }
-        if (destDir.exists() && !destDir.isDirectory()) {
-            throw new IoRuntimeException("Destination [" + destDir + "] is not a directory.");
-        }
-
-        File targetDir = toDir ? new File(destDir, srcDir.getName()) : destDir;
-
-        if (!targetDir.mkdirs()) {
-            throw new IoRuntimeException("Directory [" + targetDir + "] could not be created.");
-        }
-        boolean renameTo = srcDir.renameTo(targetDir);
-        if (!renameTo) {
-            copyDirectory(srcDir, targetDir);
-            delete(srcDir);
-            if (srcDir.exists()) {
-                throw new IoRuntimeException(String.format("Failed to delete original directory '%s' after copy to '%s'", srcDir, destDir));
+    public static void mkdir(@Nullable File directory) {
+        if (Objects.nonNull(directory)) {
+            if (directory.exists()) {
+                if (!directory.isDirectory()) {
+                    throw new IoRuntimeException("The file exists but not a directory,Unable to create directory.");
+                }
+            } else if (!directory.mkdirs() && !directory.isDirectory()) {
+                throw new IoRuntimeException("Unable to create directory[" + directory + "]");
             }
         }
     }
@@ -1457,7 +1265,38 @@ public class Files {
     // endregion
 
 
-    // region Delete File
+    // region 移动文件或文件夹
+
+    /**
+     * 移动文件或目录，默认文件存在
+     *
+     * <p>如果{@code dest}是目录，则{@code src}可以为文件或目录；如果{@code dest}是文件，则{@code src}则必须为文件</p>
+     *
+     * @param src  源文件或源目录
+     * @param dest 目标文件或目录
+     */
+    public static void mv(File src, File dest) {
+        mv(src, dest, false);
+    }
+
+    /**
+     * 移动文件或目录，默认文件存在
+     *
+     * @param src        源文件或源目录
+     * @param dest       目标文件或目录
+     * @param isOverride 是否覆盖
+     */
+    public static void mv(File src, File dest, boolean isOverride) {
+        if (Arrays.isAnyNull(src, dest)) {
+            return;
+        }
+        mv(src.toPath(), dest.toPath(), isOverride);
+    }
+
+    // endregion
+
+
+    // region 删除文件
 
     /**
      * 删除文件或目录
@@ -1466,10 +1305,7 @@ public class Files {
      * @throws IoRuntimeException 文件处理异常
      */
     public static void delete(File file) throws IoRuntimeException {
-        if (file == null) {
-            return;
-        }
-        if (!file.exists()) {
+        if (Objects.isNull(file) || !file.exists()) {
             return;
         }
         if (file.isDirectory()) {
@@ -1481,62 +1317,18 @@ public class Files {
     }
 
     /**
-     * 删除文件或目录
-     *
-     * @param path 带删除的文件对象
-     */
-    public static void delete(Path path) throws IoRuntimeException {
-        if (path == null) {
-            return;
-        }
-        if (java.nio.file.Files.notExists(path)) {
-            return;
-        }
-        try {
-            if (java.nio.file.Files.isDirectory(path)) {
-                java.nio.file.Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
-
-                    @Override
-                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                        java.nio.file.Files.delete(file);
-                        return FileVisitResult.CONTINUE;
-                    }
-
-                    @Override
-                    public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                        if (exc == null) {
-                            java.nio.file.Files.delete(dir);
-                            return FileVisitResult.CONTINUE;
-                        }
-                        throw exc;
-                    }
-                });
-
-            } else {
-                java.nio.file.Files.delete(path);
-            }
-        } catch (IOException e) {
-            throw new IoRuntimeException(e);
-        }
-    }
-
-    /**
      * 清理目录
      *
      * @param directory 目录
      * @throws IoRuntimeException 文件处理异常
      */
     public static void cleanDirectory(File directory) throws IoRuntimeException {
-        Asserts.notNull(directory, "Directory must not be null");
-        if (!directory.exists()) {
-            throw new IoRuntimeException("Directory [" + directory + "] does not exist.");
-        }
-        if (!directory.isDirectory()) {
-            throw new IoRuntimeException("The [" + directory + "] is not a directory.");
+        if (Objects.isNull(directory) || !directory.exists() || !directory.isDirectory()) {
+            return;
         }
         File[] listFiles = directory.listFiles();
-        if (listFiles == null) {
-            throw new IoRuntimeException("Failed to list contents of " + directory);
+        if (Arrays.isEmpty(listFiles)) {
+            return;
         }
         for (File listFile : listFiles) {
             if (listFile.isDirectory()) {
@@ -1551,31 +1343,42 @@ public class Files {
     // endregion
 
 
-    // region Stream
+    // region 打开输入流
 
     /**
      * 打开文件的输入流，提供了比<code>new FileInputStream(file)</code>更好更优雅的方式.
      *
      * @param file 文件
      * @return {@link FileInputStream}
-     * @throws IoRuntimeException 文件处理异常
      */
-    public static FileInputStream openFileInputStream(File file) throws IoRuntimeException {
-        Asserts.notNull(file, "File cannot be null");
-        if (file.exists()) {
-            if (file.isDirectory()) {
-                throw new IoRuntimeException("File '" + file + "' exists but is a directory");
-            }
-            if (!file.canRead()) {
-                throw new IoRuntimeException("File '" + file + "' cannot be read");
-            }
-            try {
-                return new FileInputStream(file);
-            } catch (IOException e) {
-                throw new IoRuntimeException(e);
-            }
+    public static FileInputStream getFileInputStream(@Nullable File file) {
+        return openFileInputStream(file);
+    }
+
+    /**
+     * 打开文件的输入流，提供了比<code>new FileInputStream(file)</code>更好更优雅的方式.
+     *
+     * @param file 文件
+     * @return {@link FileInputStream}
+     */
+    public static FileInputStream openFileInputStream(@Nullable File file) {
+        if (Objects.isNull(file)) {
+            return null;
         }
-        throw new IoRuntimeException("File '" + file + "' does not exist");
+        if (!file.exists()) {
+            throw new IoRuntimeException("The file does not exist");
+        }
+        if (file.isDirectory()) {
+            throw new IoRuntimeException("The file exists but is a directory");
+        }
+        if (!file.canRead()) {
+            throw new IoRuntimeException("The file cannot be read");
+        }
+        try {
+            return new FileInputStream(file);
+        } catch (IOException e) {
+            throw new IoRuntimeException(e);
+        }
     }
 
     /**
@@ -1585,8 +1388,23 @@ public class Files {
      * @return {@linkplain BufferedInputStream}
      */
     public static BufferedInputStream getBufferedInputStream(File file) {
-        return IoUtil.getBufferedInputStream(Files.openFileInputStream(file));
+        return IoUtil.getBufferedInputStream(getFileInputStream(file));
     }
+
+    /**
+     * 通过文件获取缓存输入流
+     *
+     * @param file 文件
+     * @return {@linkplain BufferedInputStream}
+     */
+    public static BufferedInputStream openBufferedInputStream(@Nullable File file) {
+        return getBufferedInputStream(file);
+    }
+
+    // endregion
+
+
+    // region 打开输出流
 
     /**
      * 打开件输出流
@@ -1596,6 +1414,60 @@ public class Files {
      */
     public static FileOutputStream openFileOutputStream(File file) {
         return openFileOutputStream(file, false);
+    }
+
+    /**
+     * 打开件输出流
+     *
+     * @param file     文件
+     * @param isAppend 附加
+     * @return {@link FileOutputStream}
+     */
+    private static FileOutputStream openFileOutputStream(File file, boolean isAppend) {
+        return getFileOutputStream(file, isAppend);
+    }
+
+    /**
+     * 打开件输出流
+     *
+     * @param file 文件
+     * @return {@link FileOutputStream}
+     */
+    public static FileOutputStream getFileOutputStream(File file) {
+        return openFileOutputStream(file);
+    }
+
+    /**
+     * 打开件输出流
+     *
+     * @param file     文件
+     * @param isAppend 附加
+     * @return {@link FileOutputStream}
+     */
+    public static FileOutputStream getFileOutputStream(File file, boolean isAppend) {
+        if (Objects.isNull(file)) {
+            return null;
+        }
+        if (file.exists()) {
+            if (file.isDirectory()) {
+                throw new IoRuntimeException("Destination [" + file + "] exists but is a directory.");
+            }
+            if (!file.canWrite()) {
+                throw new IoRuntimeException(String.format("Destination [%s] exists but cannot write.", file));
+            }
+        } else {
+            File parent = file.getParentFile();
+            if (parent != null) {
+                if (!parent.mkdirs() && !parent.isDirectory()) {
+                    throw new IoRuntimeException("Directory [" + parent + "] could not be created.");
+                }
+            }
+        }
+        try {
+            return new FileOutputStream(file, isAppend);
+        } catch (IOException e) {
+            throw new IoRuntimeException(e);
+        }
     }
 
     /**
@@ -1616,39 +1488,29 @@ public class Files {
      * @return 输出流对象
      */
     public static BufferedOutputStream getBufferedOutputStream(final File file, final boolean isAppend) {
-        FileOutputStream fileOutputStream = openFileOutputStream(file, isAppend);
-        return new BufferedOutputStream(fileOutputStream);
+        return openBufferedOutputStream(file, isAppend);
     }
 
     /**
-     * 打开件输出流
+     * 获得一个输出流对象
      *
-     * @param file   文件
-     * @param append 附加
-     * @return {@link FileOutputStream}
+     * @param file 文件
+     * @return 输出流对象
      */
-    private static FileOutputStream openFileOutputStream(File file, boolean append) throws IoRuntimeException {
-        Asserts.notNull(file, "File cannot be null");
-        if (file.exists()) {
-            if (file.isDirectory()) {
-                throw new IoRuntimeException("Destination [" + file + "] exists but is a directory.");
-            }
-            if (!file.canWrite()) {
-                throw new IoRuntimeException(String.format("Destination [%s] exists but cannot write.", file));
-            }
-        } else {
-            File parent = file.getParentFile();
-            if (parent != null) {
-                if (!parent.mkdirs() && !parent.isDirectory()) {
-                    throw new IoRuntimeException("Directory [" + parent + "] could not be created.");
-                }
-            }
-        }
-        try {
-            return new FileOutputStream(file, append);
-        } catch (IOException e) {
-            throw new IoRuntimeException(e);
-        }
+    public static BufferedOutputStream openBufferedOutputStream(File file) {
+        return getBufferedOutputStream(file);
+    }
+
+    /**
+     * 获得一个输出流对象
+     *
+     * @param file     文件
+     * @param isAppend 追加
+     * @return 输出流对象
+     */
+    public static BufferedOutputStream openBufferedOutputStream(final File file, final boolean isAppend) {
+        FileOutputStream fos = openFileOutputStream(file, isAppend);
+        return IoUtil.toBuffered(fos);
     }
 
     //endregion

@@ -69,6 +69,24 @@ public class Objects {
     }
 
     /**
+     * 判断数组的元素都不为{@code null}
+     *
+     * @param array 数组
+     * @return 是否都不为{@code null}
+     */
+    public static boolean isAllNotNull(Object... array) {
+        if (Arrays.isEmpty(array)) {
+            return false;
+        }
+        for (Object obj : array) {
+            if (isNull(obj)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * 如果对象不为空则返回{@code true},否则返回{@code false}
      *
      * @param obj 被检查的对象

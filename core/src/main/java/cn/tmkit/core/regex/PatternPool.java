@@ -37,7 +37,7 @@ public class PatternPool {
     /**
      * 数值
      */
-    public static final String NUMBERS_STR = "^[-+]?\\d+(.\\d+)$";
+    public static final String NUMBERS_STR = "^[-+]?\\d+(.\\d+)?$";
 
     /**
      * 数值
