@@ -3,7 +3,8 @@ package cn.tmkit.core.regex;
 import cn.tmkit.core.lang.PatternUtil;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tester for {@linkplain RegexPool}
@@ -67,9 +68,25 @@ public class RegexPoolTest {
     @Test
     public void zipCode() {
         String str = "311000";
-        assertTrue(PatternUtil.isMatch(PatternPool.ZIPCODE, str));
+        assertTrue(PatternUtil.isMatch(ExtraPatternConstant.ZIPCODE, str));
         str = "311000:00";
-        assertFalse(PatternUtil.isMatch(PatternPool.ZIPCODE_STR, str));
+        assertFalse(PatternUtil.isMatch(ExtraPatternConstant.ZIPCODE, str));
+    }
+
+    @Test
+    public void longitude() {
+        String str = "39.984154";
+        assertTrue(PatternUtil.isMatch(RegexConstant.LONGITUDE, str));
+        str = "116.307490";
+        assertTrue(PatternUtil.isMatch(RegexConstant.LONGITUDE, str));
+    }
+
+    @Test
+    public void latitude() {
+        String str = "39.984154";
+        assertTrue(PatternUtil.isMatch(RegexConstant.LATITUDE, str));
+        str = "116.307490";
+        assertFalse(PatternUtil.isMatch(RegexConstant.LATITUDE, str));
     }
 
 }

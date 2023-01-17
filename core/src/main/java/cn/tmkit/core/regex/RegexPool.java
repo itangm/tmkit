@@ -5,8 +5,7 @@ package cn.tmkit.core.regex;
  *
  * @author ming.tang
  * @version 0.0.1
- * @date 2023-01-12
- * @see PatternPool
+ * @date 2023-01-17
  */
 public class RegexPool extends RegexConstant {
 
