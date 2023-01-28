@@ -43,4 +43,9 @@ public interface ExtraPatternConstant {
      */
     String ZIPCODE = ("^(0[1-7]|1[0-356]|2[0-7]|3[0-6]|4[0-7]|5[1-7]|6[1-7]|7[0-5]|8[013-6])\\d{4}$");
 
+    /**
+     * 手机号(mobile phone)中国(严谨)，<a href="https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E5%A4%A7%E9%99%86%E7%A7%BB%E5%8A%A8%E7%BB%88%E7%AB%AF%E9%80%9A%E4%BF%A1%E5%8F%B7%E7%A0%81">参考维基百科</a>
+     */
+     String MOBILE_PHONE_STRICT_STR = ("^(?:(?:\\+|00)86)?1(?:(?:3[\\d])|(?:4[5-79])|(?:5[0-35-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\\d])|(?:9[0-35-9]))\\d{8}$");
+
 }
