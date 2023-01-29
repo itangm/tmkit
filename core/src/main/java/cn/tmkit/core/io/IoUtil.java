@@ -602,44 +602,46 @@ public class IoUtil {
      * @param in 输入流
      * @return 文件后缀
      */
-    public static String getRealBinExt(InputStream in) {
+    public static String determineFileFormat(InputStream in) {
         if (Objects.isNull(in)) {
             return null;
         }
-        //https://filesignatures.net/index.php?page=all&order=EXT&alpha=M
-        //https://my.oschina.net/ososchina/blog/1610685?nocache=1541639315254
+        // https://en.wikipedia.org/wiki/List_of_file_signatures
+        // https://my.oschina.net/ososchina/blog/1610685?nocache=1541639315254
+        // https://github.com/neilharvey/FileSignatures
 
-        byte[] topByte = readBytes(in, 8);
-        if (in.markSupported()) {
-            in.mark(0);
-        }
-        if (topByte != null && topByte.length == 10) {
-            if ((topByte[0] & 0xFF) == 0x23 && (topByte[1] & 0xFF) == 0x21 && (topByte[2] & 0xFF) == 0x41 &&
-                    (topByte[3] & 0xFF) == 0x4D && (topByte[4] & 0xFF) == 0x52) {
-                return "amr";
-            } else if ((topByte[0] & 0xFF) == 0x49 && (topByte[1] & 0xFF) == 0x44 && (topByte[2] & 0xFF) == 0x33) {
-                return "mp3";
-            } else if ((topByte[0] & 0xFF) == 0x47 && (topByte[1] & 0xFF) == 0x49 && (topByte[2] & 0xFF) == 0x46 &&
-                    (topByte[3] & 0xFF) == 0x38) {
-                return "gif";
-            } else if ((topByte[0] & 0xFF) == 0x89 && (topByte[1] & 0xFF) == 0x50 && (topByte[2] & 0xFF) == 0x4E &&
-                    (topByte[3] & 0xFF) == 0x47 && (topByte[4] & 0xFF) == 0x0D && (topByte[5] & 0xFF) == 0x0A &&
-                    (topByte[6] & 0xFF) == 0x1A && (topByte[7] & 0xFF) == 0x0A) {
-                return "png";
-            } else if ((topByte[0] & 0xFF) == 0xFF && (topByte[1] & 0xFF) == 0xD8 && (topByte[2] & 0xFF) == 0xFF &&
-                    ((topByte[3] & 0xFF) == 0xE0 || (topByte[3] & 0xFF) == 0xE1 || (topByte[3] & 0xFF) == 0xE8)) {
-                return "jpg";
-            } else if ((topByte[0] & 0xFF) == 0xFF && (topByte[1] & 0xFF) == 0xD8 && (topByte[2] & 0xFF) == 0xFF &&
-                    ((topByte[3] & 0xFF) == 0xE2 || (topByte[3] & 0xFF) == 0xE3)) {
-                return "jpeg";
-            } else if ((topByte[0] & 0xFF) == 0x42 && (topByte[1] & 0xFF) == 0x4D) {
-                return "bmp";
-            } else if ((topByte[0] & 0xFF) == 0x25 && (topByte[1] & 0xFF) == 0x50 && (topByte[2] & 0xFF) == 0x44 &&
-                    (topByte[3] & 0xFF) == 0x46) {
-                return "pdf";
-            }
-        }
-        return null;
+//        byte[] topByte = readBytes(in, 8);
+//        if (in.markSupported()) {
+//            in.mark(0);
+//        }
+//        if (topByte != null && topByte.length == 10) {
+//            if ((topByte[0] & 0xFF) == 0x23 && (topByte[1] & 0xFF) == 0x21 && (topByte[2] & 0xFF) == 0x41 &&
+//                    (topByte[3] & 0xFF) == 0x4D && (topByte[4] & 0xFF) == 0x52) {
+//                return "amr";
+//            } else if ((topByte[0] & 0xFF) == 0x49 && (topByte[1] & 0xFF) == 0x44 && (topByte[2] & 0xFF) == 0x33) {
+//                return "mp3";
+//            } else if ((topByte[0] & 0xFF) == 0x47 && (topByte[1] & 0xFF) == 0x49 && (topByte[2] & 0xFF) == 0x46 &&
+//                    (topByte[3] & 0xFF) == 0x38) {
+//                return "gif";
+//            } else if ((topByte[0] & 0xFF) == 0x89 && (topByte[1] & 0xFF) == 0x50 && (topByte[2] & 0xFF) == 0x4E &&
+//                    (topByte[3] & 0xFF) == 0x47 && (topByte[4] & 0xFF) == 0x0D && (topByte[5] & 0xFF) == 0x0A &&
+//                    (topByte[6] & 0xFF) == 0x1A && (topByte[7] & 0xFF) == 0x0A) {
+//                return "png";
+//            } else if ((topByte[0] & 0xFF) == 0xFF && (topByte[1] & 0xFF) == 0xD8 && (topByte[2] & 0xFF) == 0xFF &&
+//                    ((topByte[3] & 0xFF) == 0xE0 || (topByte[3] & 0xFF) == 0xE1 || (topByte[3] & 0xFF) == 0xE8)) {
+//                return "jpg";
+//            } else if ((topByte[0] & 0xFF) == 0xFF && (topByte[1] & 0xFF) == 0xD8 && (topByte[2] & 0xFF) == 0xFF &&
+//                    ((topByte[3] & 0xFF) == 0xE2 || (topByte[3] & 0xFF) == 0xE3)) {
+//                return "jpeg";
+//            } else if ((topByte[0] & 0xFF) == 0x42 && (topByte[1] & 0xFF) == 0x4D) {
+//                return "bmp";
+//            } else if ((topByte[0] & 0xFF) == 0x25 && (topByte[1] & 0xFF) == 0x50 && (topByte[2] & 0xFF) == 0x44 &&
+//                    (topByte[3] & 0xFF) == 0x46) {
+//                return "pdf";
+//            }
+//        }
+//        return null;
+        throw new UnsupportedOperationException("暂不支持根据流解析");
     }
 
     /**

@@ -66,7 +66,7 @@ public class Files extends Paths {
      * @param pathname 文件的全路径，不能为空
      * @return 返回文件
      */
-    public static File touch(@NotNull String pathname) {
+    public static @NotNull File touch(@NotNull String pathname) {
         Asserts.notNull("pathname muse not be null");
         File file = new File(pathname);
         touch(file);
@@ -83,12 +83,13 @@ public class Files extends Paths {
      *
      * @param file 文件，不能为null
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void touch(@Nullable File file) {
-        if (Objects.nonNull(file)) {
+        if (Objects.isNotNull(file)) {
             if (!file.exists()) {
                 mkdir(file.getParentFile());
                 try {
-                    boolean ignored = file.createNewFile();
+                    file.createNewFile();
                 } catch (IOException e) {
                     throw new IoRuntimeException(e);
                 }
@@ -286,27 +287,49 @@ public class Files extends Paths {
         //byte
         double size = fileSize;
         if (size < 1024) {
-            return size + "Byte";
+            return fileSize + " bytes";
+        }
+        // KB
+        size /= 1024;
+        if (size < 1024) {
+            // 字符串格式化支持float和double，并且支持四舍五入
+            return String.format("%.2f KB", size);
         }
         size /= 1024;
         if (size < 1024) {
-            return Math.round(size * 100) / 100.0 + "KB";
+            return String.format("%.2f MB", size);
         }
         size /= 1024;
         if (size < 1024) {
-            return Math.round(size * 100) / 100.0 + "MB";
+            return String.format("%.2f GB", size);
         }
         size /= 1024;
         if (size < 1024) {
-            return Math.round(size * 100) / 100.0 + "GB";
+            return String.format("%.2f TB", size);
         }
-        return Math.round(size * 100) / 100.0 + "TB";
+        size /= 1024;
+        if (size < 1024) {
+            return String.format("%.2f PB", size);
+        }
+        size /= 1024;
+        if (size < 1024) {
+            return String.format("%.2f EB", size);
+        }
+        size /= 1024;
+        if (size < 1024) {
+            return String.format("%.2f ZB", size);
+        }
+        size /= 1024;
+        if (size < 1024) {
+            return String.format("%.2f YB", size);
+        }
+        return String.format("%.2f BB", size);
     }
 
     /**
      * 将文件大小格式化输出
      *
-     * @param fileSize 文件大小，单位为{@code Byte}
+     * @param fileSize 文件大小，单位为{@code byte}
      * @return 格式化的大小
      */
     public static String formatSize(String fileSize) {
@@ -369,7 +392,9 @@ public class Files extends Paths {
      * @return 主文件名
      */
     public static String mainName(File file) {
-        Asserts.notNull(file, "File cannot be null");
+        if (Objects.isNull(file)) {
+            return null;
+        }
         if (file.isDirectory()) {
             return file.getName();
         }
@@ -453,13 +478,23 @@ public class Files extends Paths {
      * @return 文件后缀
      */
     public static String getRealBinExt(File file) {
+        return determineFileFormat(file);
+    }
+
+    /**
+     * 获取真实文件类型，读取文件头N个字节
+     *
+     * @param file 文件
+     * @return 文件后缀
+     */
+    public static String determineFileFormat(File file) {
         if (file == null) {
             return null;
         }
         FileInputStream in = null;
         try {
             in = openFileInputStream(file);
-            return IoUtil.getRealBinExt(in);
+            return IoUtil.determineFileFormat(in);
         } finally {
             IoUtil.closeQuietly(in);
         }
@@ -883,8 +918,10 @@ public class Files extends Paths {
      * @return 写入的文件
      * @throws IoRuntimeException IO异常
      */
-    public static @NotNull File writeUtf8Str(String content, String path) throws IoRuntimeException {
-        return write(content, path, Charsets.UTF_8);
+    public static File writeUtf8Str(String content, String path) throws IoRuntimeException {
+        File file = file(path);
+        writeUtf8Str(content, file);
+        return file;
     }
 
     /**
@@ -1196,7 +1233,7 @@ public class Files extends Paths {
     /**
      * 文件拷贝
      *
-     * @param source  源路径
+     * @param source 源路径
      * @param target 目标路径
      */
     public static void copy(File source, File target) {
@@ -1206,8 +1243,8 @@ public class Files extends Paths {
     /**
      * 文件拷贝
      *
-     * @param source    源路径
-     * @param target   目标路径
+     * @param source     源路径
+     * @param target     目标路径
      * @param isOverride 是否覆盖
      */
     public static void copy(File source, File target, boolean isOverride) {
@@ -1297,6 +1334,47 @@ public class Files extends Paths {
 
 
     // region 删除文件
+
+    /**
+     * 删除文件或目录
+     *
+     * @param pathname 文件路径
+     * @throws IoRuntimeException 文件处理异常
+     */
+    public static void del(String pathname) {
+        File file = file(pathname);
+        del(file);
+    }
+
+    /**
+     * 删除文件或目录
+     *
+     * @param file 文件
+     * @throws IoRuntimeException 文件处理异常
+     */
+    public static void del(File file) throws IoRuntimeException {
+        delete(file);
+    }
+
+    /**
+     * 删除文件或目录
+     *
+     * @param file 文件
+     * @throws IoRuntimeException 文件处理异常
+     */
+    public static void rm(File file) throws IoRuntimeException {
+        delete(file);
+    }
+
+    /**
+     * 删除文件或目录
+     *
+     * @param pathname 文件路径
+     * @throws IoRuntimeException 文件处理异常
+     */
+    public static void delete(String pathname) {
+        del(pathname);
+    }
 
     /**
      * 删除文件或目录
