@@ -1,9 +1,10 @@
 package cn.tmkit.core.io;
 
+import cn.tmkit.core.lang.ClassLoaderUtil;
+import cn.tmkit.core.lang.ClassLoaders;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -20,23 +21,18 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PathUtilTest {
 
     @Test
-    public void isDirEmpty() throws Exception {
-        ClassLoader classLoader = this.getClass().getClassLoader();
-        URL url = classLoader.getResource("");
-        Path dir = PathUtil.get(url, "empty-folder");
+    public void isDirEmpty() {
+        Path dir = PathUtil.get(ClassLoaders.getFilePath(""), "empty-folder");
         PathUtil.mkdir(dir);
         assertTrue(PathUtil.isDirEmpty(dir));
 
-        url = classLoader.getResource("non-empty-folder");
-        dir = java.nio.file.Paths.get(url.toURI());
+        dir = java.nio.file.Paths.get(ClassLoaderUtil.getFilePath("non-empty-folder"));
         assertFalse(PathUtil.isDirEmpty(dir));
     }
 
     @Test
     public void listFiles() {
-        ClassLoader classLoader = this.getClass().getClassLoader();
-        URL url = classLoader.getResource("list-files");
-        Path dir = PathUtil.get(url);
+        Path dir = PathUtil.get(ClassLoaders.getUrl("list-files"));
         List<File> files = PathUtil.listFiles(dir);
         assertEquals(4, files.size());
 

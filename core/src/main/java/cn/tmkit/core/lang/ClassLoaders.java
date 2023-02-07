@@ -59,7 +59,7 @@ public class ClassLoaders {
     public static String getFilePath(String resourceName) {
         File file = getFile(resourceName);
         try {
-            return file == null? null : file.getCanonicalPath();
+            return file == null ? null : file.getCanonicalPath();
         } catch (IOException e) {
             throw new IoRuntimeException(e);
         }
@@ -87,6 +87,16 @@ public class ClassLoaders {
         } catch (IOException e) {
             throw new IoRuntimeException(e);
         }
+    }
+
+    /**
+     * 根据资源地址获取{@linkplain URL}
+     *
+     * @param resourceName 资源地址
+     * @return {@linkplain URL}
+     */
+    public static URL getUrl(String resourceName) {
+        return getDefaultClassLoader().getResource(resourceName);
     }
 
 }
