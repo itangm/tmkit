@@ -20,7 +20,7 @@ import java.util.Collection;
  * 流式的{@linkplain BigDecimal}，默认精度(7位)，默认舍弃模式为{@linkplain RoundingMode#HALF_UP}
  * <p>Thanks for <a href="https://github.com/HonoluluHenk/fluent-bigdecimals">fluent-bigdecimals</a></p>
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-02-07
  */

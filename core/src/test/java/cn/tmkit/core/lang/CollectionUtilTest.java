@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Tester for {@linkplain CollectionUtil}
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-01-12
  */
@@ -63,26 +63,26 @@ public class CollectionUtilTest {
         List<String> list = new ArrayList<>();
         list.add("hi");
         list.add("world");
-        list.add("ming");
+        list.add("miles");
         list.add("author");
 
         CollectionUtil.sort(list);
         List<String> expected = new ArrayList<>();
         expected.add("author");
         expected.add("hi");
-        expected.add("ming");
+        expected.add("miles");
         expected.add("world");
         assertEquals(expected, list);
 
         list = new ArrayList<>();
         list.add("hi");
         list.add("world");
-        list.add("ming");
+        list.add("miles");
         list.add("author");
         Collections.sort(list, Comparator.comparingInt(String::length));
         expected = new ArrayList<>();
         expected.add("hi");
-        expected.add("ming");
+        expected.add("miles");
         expected.add("world");
         expected.add("author");
         assertEquals(expected, list);

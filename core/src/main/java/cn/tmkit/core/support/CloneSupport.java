@@ -6,7 +6,7 @@ import cn.tmkit.core.exception.CloneRuntimeException;
  * 克隆支持类，提供默认的克隆方法
  *
  * @param <T> 继承类的类型
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-01-12
  */

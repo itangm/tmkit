@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Tester for {@linkplain Arrays}
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-01-12
  */
@@ -40,7 +40,7 @@ public class ArrayUtilTest {
     @Test
     public void testIsEmpty() {
         assertThrows(GenericRuntimeException.class, () -> ArrayUtil.isEmpty(new ArrayList<>()));
-        assertThrows(GenericRuntimeException.class, () -> ArrayUtil.isEmpty("ming.tang"));
+        assertThrows(GenericRuntimeException.class, () -> ArrayUtil.isEmpty("miles.tang"));
         assertThrows(GenericRuntimeException.class, () -> ArrayUtil.isEmpty(1));
         Object array = new int[0];
         assertTrue(ArrayUtil.isEmpty(array));

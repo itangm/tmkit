@@ -8,7 +8,7 @@ package cn.tmkit.core.tuple;
  * @param <T3> 元素类型
  * @param <T4> 元素类型
  * @param <T5> 元素类型
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-01-12
  */

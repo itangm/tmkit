@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 /**
  * 固定大小的{@linkplain LinkedHashMap}
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-01-12
  */

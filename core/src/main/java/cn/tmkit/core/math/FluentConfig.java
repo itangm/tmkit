@@ -11,7 +11,7 @@ import static java.math.RoundingMode.HALF_UP;
 /**
  * 流式的{@linkplain FluentBigDecimal}配置
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-02-07
  */

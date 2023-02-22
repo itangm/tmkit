@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Tester for {@linkplain RegexPool}
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-01-12
  */
@@ -20,7 +20,7 @@ public class RegexPoolTest {
     public void hex() {
         String hexStr = "e98008278401114d6e1ea10afa4abb57";
         assertTrue(PatternUtil.isMatch(PatternPool.HEX_STR, hexStr));
-        hexStr = "ming.tang";
+        hexStr = "miles.tang";
         assertFalse(PatternUtil.isMatch(PatternPool.HEX, hexStr));
     }
 

@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Tester for {@linkplain StringUtil}
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-01-12
  */
@@ -405,7 +405,7 @@ public class StringUtilTest {
         assertTrue(Strings.endsWithIgnoreCase(cse, suffix));
         suffix = "G";
         assertTrue(Strings.endsWithIgnoreCase(cse, suffix));
-        cse = "author: ming.tang\n";
+        cse = "author: miles.tang\n";
         suffix = "\n";
         assertTrue(Strings.endsWithIgnoreCase(cse, suffix));
     }

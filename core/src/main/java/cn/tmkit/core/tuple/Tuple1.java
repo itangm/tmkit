@@ -4,7 +4,7 @@ package cn.tmkit.core.tuple;
  * 只有一个元素的元组
  *
  * @param <T1> 元素类型
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-01-12
  */

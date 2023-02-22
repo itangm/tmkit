@@ -6,7 +6,7 @@ import java.util.Iterator;
  * 提供组合迭代器，提供了{@linkplain Iterator}和{@linkplain Iterable}的功能
  *
  * @param <E> 元素类型
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-01-12
  */

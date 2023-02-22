@@ -3,7 +3,7 @@ package cn.tmkit.core.exception;
 /**
  * 通用的运行时异常
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-01-12
  */

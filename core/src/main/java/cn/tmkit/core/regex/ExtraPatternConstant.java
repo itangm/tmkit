@@ -3,7 +3,7 @@ package cn.tmkit.core.regex;
 /**
  * 额外的正则表达式常量
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-01-17
  */

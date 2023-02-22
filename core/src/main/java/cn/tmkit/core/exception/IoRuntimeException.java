@@ -5,7 +5,7 @@ import java.io.IOException;
 /**
  * IO异常运行时异常包装类
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-01-12
  */

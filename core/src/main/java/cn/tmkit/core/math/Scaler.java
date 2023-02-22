@@ -9,7 +9,7 @@ import java.math.MathContext;
 /**
  * 标度处理定义接口。标度可以理解为小数点有效位数（不完全相等）
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-02-08
  */

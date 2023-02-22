@@ -8,7 +8,7 @@ import java.util.Base64;
  * <p>关于URL传输安全的字符，详见标准规范<a href="https://datatracker.ietf.org/doc/html/rfc4648#section-4">URL and Filename safe Base64 Alphabet</a></p>
  * <p>简单的来说将字符 + 改为 - ，将字符 / 改为 _ </p>
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-01-12
  */

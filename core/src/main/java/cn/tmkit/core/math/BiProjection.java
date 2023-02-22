@@ -8,7 +8,7 @@ import java.math.MathContext;
 /**
  * 函数式接口，接收三个参数，用于{@linkplain java.math.BigDecimal}
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-02-08
  */

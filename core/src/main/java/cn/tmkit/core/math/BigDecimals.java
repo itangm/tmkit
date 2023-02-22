@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  * {@linkplain java.math.BigDecimal}的工具类
  * <p>Tanks for <a href="https://github.com/ReZeroLuoYi/BigDecimalUtil">BigDecimalUtil</a></p>
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-02-09
  */

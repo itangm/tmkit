@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Tester for {@linkplain FileUtil}
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-01-12
  */
@@ -128,7 +128,7 @@ public class FileUtilTest {
                     assertEquals("{", lines.get(i));
                     break;
                 case 1:
-                    assertEquals("  \"author\": \"ming.tang\"", lines.get(i));
+                    assertEquals("  \"author\": \"miles.tang\"", lines.get(i));
                     break;
                 case 2:
                     assertEquals("}", lines.get(i));

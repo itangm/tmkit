@@ -5,7 +5,7 @@ import cn.tmkit.core.exception.CloneRuntimeException;
 /**
  * 标记接口，标记类或接口可以被克隆
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-01-12
  */

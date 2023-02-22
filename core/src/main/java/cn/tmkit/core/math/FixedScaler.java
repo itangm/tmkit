@@ -10,7 +10,7 @@ import java.math.MathContext;
 /**
  * 固定标度处理的实现
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-02-08
  */
