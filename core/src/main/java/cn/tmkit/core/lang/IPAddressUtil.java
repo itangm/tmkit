@@ -12,32 +12,34 @@ public class IPAddressUtil {
     /**
      * 判断是否为IPV4
      *
-     * @param src 待检测的字符串
+     * @param cse 待检测的字符串
      * @return 是否为IPv4
      */
-    public static boolean isIPv4(String src) {
-        if (StrUtil.isBlank(src)) {
+    public static boolean isIPv4(CharSequence cse) {
+        if (StrUtil.isBlank(cse)) {
             return false;
         }
+        String str = cse.toString();
         // 做一层简单的正则校验，不再支持老旧的简化写法，比如1代表的是0.0.0.1
         String regex = "^\\d{1,3}\\.\\d{1,3}.\\d{1,3}.\\d{1,3}$";
-        if (!RegexUtil.isMatch(regex, src)) {
+        if (!RegexUtil.isMatch(regex, cse)) {
             return false;
         }
-        return sun.net.util.IPAddressUtil.isIPv4LiteralAddress(src);
+        return sun.net.util.IPAddressUtil.isIPv4LiteralAddress(str);
     }
 
     /**
      * 判断是否为IPV6
      *
-     * @param src 待检测的字符串
+     * @param cse 待检测的字符串
      * @return 是否为IPv6
      */
-    public static boolean isIPv6(String src) {
-        if (StrUtil.isBlank(src)) {
+    public static boolean isIPv6(CharSequence cse) {
+        if (StrUtil.isBlank(cse)) {
             return false;
         }
-        return sun.net.util.IPAddressUtil.isIPv6LiteralAddress(src);
+        String str = cse.toString();
+        return sun.net.util.IPAddressUtil.isIPv6LiteralAddress(str);
     }
 
 }

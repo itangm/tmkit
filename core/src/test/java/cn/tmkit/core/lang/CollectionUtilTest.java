@@ -82,8 +82,8 @@ public class CollectionUtilTest {
         Collections.sort(list, Comparator.comparingInt(String::length));
         expected = new ArrayList<>();
         expected.add("hi");
-        expected.add("miles");
         expected.add("world");
+        expected.add("miles");
         expected.add("author");
         assertEquals(expected, list);
     }
