@@ -86,7 +86,20 @@ public class Collections {
 
     // endregion
 
+
     // region 创建集合
+
+    /**
+     * 新建一个ArrayList
+     *
+     * @param <E>    集合元素类型
+     * @param values 数组
+     * @return ArrayList对象
+     */
+    @SuppressWarnings("unchecked")
+    public static <E> ArrayList<E> of(E... values) {
+        return newArrayList(values);
+    }
 
     /**
      * 新建一个ArrayList

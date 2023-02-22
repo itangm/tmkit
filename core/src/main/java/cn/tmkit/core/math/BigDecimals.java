@@ -25,7 +25,7 @@ public class BigDecimals {
      * @return 结果
      */
     public static BigDecimal add(@NotNull Object a, @NotNull Object b, Object... numbers) {
-        FluentBigDecimal result = FluentBigDecimal.of(a.toString()).add(b.toString());
+        FluentBigDecimal result = FluentBigDecimal.of(a.toString(), FluentConfig.MONEY).add(b.toString());
         if (Arrays.isNotEmpty(numbers)) {
             for (Object number : numbers) {
                 if (Objects.isNotNull(number)) {
@@ -49,7 +49,7 @@ public class BigDecimals {
      * @return 结果
      */
     public static BigDecimal subtract(@NotNull Object a, @NotNull Object b, Object... numbers) {
-        FluentBigDecimal result = FluentBigDecimal.of(a.toString()).subtract(b.toString());
+        FluentBigDecimal result = FluentBigDecimal.of(a.toString(), FluentConfig.MONEY).subtract(b.toString());
         if (Arrays.isNotEmpty(numbers)) {
             for (Object number : numbers) {
                 if (Objects.isNotNull(number)) {
@@ -73,7 +73,7 @@ public class BigDecimals {
      * @return 结果
      */
     public static BigDecimal multiply(@NotNull Object a, @NotNull Object b, Object... numbers) {
-        FluentBigDecimal result = FluentBigDecimal.of(a.toString()).multiply(b.toString());
+        FluentBigDecimal result = FluentBigDecimal.of(a.toString(), FluentConfig.MONEY).multiply(b.toString());
         if (Arrays.isNotEmpty(numbers)) {
             for (Object number : numbers) {
                 if (Objects.isNotNull(number)) {
@@ -97,7 +97,7 @@ public class BigDecimals {
      * @return 结果
      */
     public static BigDecimal divide(@NotNull Object a, @NotNull Object b, Object... numbers) {
-        FluentBigDecimal result = FluentBigDecimal.of(a.toString()).divide(b.toString());
+        FluentBigDecimal result = FluentBigDecimal.of(a.toString(), FluentConfig.MONEY).divide(b.toString());
         if (Arrays.isNotEmpty(numbers)) {
             for (Object number : numbers) {
                 if (Objects.isNotNull(number)) {

@@ -38,7 +38,7 @@ public class FluentBigDecimal extends Number implements Serializable, Comparable
     private final @NotNull FluentConfig fluentConfig;
 
     FluentBigDecimal(@NotNull BigDecimal value) {
-        this(value, FluentConfig.MONEY);
+        this(value, FluentConfig.DEFAULT);
     }
 
     FluentBigDecimal(@NotNull BigDecimal value, @NotNull FluentConfig fluentConfig) {
