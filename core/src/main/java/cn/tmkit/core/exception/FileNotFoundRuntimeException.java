@@ -9,7 +9,7 @@ package cn.tmkit.core.exception;
  */
 public class FileNotFoundRuntimeException extends IoRuntimeException {
 
-    private static final long serialVersionUID = 2022L;
+    private static final long serialVersionUID = 2023L;
 
     /**
      * File Not Found Exception Constructor

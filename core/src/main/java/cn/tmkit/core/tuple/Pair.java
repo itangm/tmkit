@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class Pair<L, R> extends CloneSupport<Pair<L, R>> implements Map.Entry<L, R>, Comparable<Pair<L, R>>, Serializable {
 
-    private static final long serialVersionUID = 2022L;
+    private static final long serialVersionUID = 2023L;
 
     /**
      * 左侧对象

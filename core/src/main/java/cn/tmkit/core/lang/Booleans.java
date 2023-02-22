@@ -5,7 +5,7 @@ package cn.tmkit.core.lang;
  *
  * @author miles.tang
  * @version 0.0.1
- * @date 2022-02-22
+ * @date 2023-02-22
  */
 public class Booleans {
 

@@ -9,7 +9,7 @@ package cn.tmkit.core.tuple;
  */
 public class TupleN extends BaseTuple {
 
-    private static final long serialVersionUID = 2022L;
+    private static final long serialVersionUID = 2023L;
 
     private final Object[] elements;
 

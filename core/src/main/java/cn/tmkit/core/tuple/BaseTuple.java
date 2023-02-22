@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
  */
 public abstract class BaseTuple implements Tuple {
 
-    private static final long serialVersionUID = 2022L;
+    private static final long serialVersionUID = 2023L;
 
     /**
      * 当前位置

@@ -9,7 +9,7 @@ package cn.tmkit.core.exception;
  */
 public class CloneRuntimeException extends RuntimeException {
 
-    private static final long serialVersionUID = 20223;
+    private static final long serialVersionUID = 2023;
 
     /**
      * Clone Exception Constructor
