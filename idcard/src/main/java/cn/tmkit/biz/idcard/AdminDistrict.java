@@ -15,7 +15,7 @@ import java.io.Serializable;
  * <p>对比了JSON、KV和CSV内存占比和查询性能</p>
  * <p>以上代码在src/test/java/cn/tmkit/biz/idcard/IdCardResolverTest.java
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-02-22
  * @see <a href="http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2021/index.html">全国统计用区划代码和城乡划代码 2021年</a>
