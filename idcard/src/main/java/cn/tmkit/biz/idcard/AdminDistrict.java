@@ -18,6 +18,8 @@ import java.io.Serializable;
  * @author ming.tang
  * @version 0.0.1
  * @date 2023-02-22
+ * @see <a href="http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2021/index.html">全国统计用区划代码和城乡划代码 2021年</a>
+ * @see <a href="https://www.mca.gov.cn/article/sj/xzqh/2020/20201201.html">2020年12月中华人民共和国县以上行政区划代码</a>
  */
 @Getter
 @Setter

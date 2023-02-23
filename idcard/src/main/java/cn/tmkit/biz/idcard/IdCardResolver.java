@@ -14,6 +14,7 @@ import java.util.Map;
 
 /**
  * 身份证解析类
+ * 验证对比工具: https://www.haoshudi.com/shenfenzheng/
  *
  * @author ming.tang
  * @version 0.0.1
