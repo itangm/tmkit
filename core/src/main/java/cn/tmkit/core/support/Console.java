@@ -50,7 +50,7 @@ public class Console {
      */
     public static void println(String format, Object... args) {
         MessageFormatter mf = new MessageFormatter(format);
-        System.out.println(mf.format(format, args));
+        System.out.println(mf.format(args));
     }
 
     /**
@@ -61,7 +61,7 @@ public class Console {
      */
     public static void print(String format, Object... args) {
         MessageFormatter mf = new MessageFormatter(format);
-        System.out.print(mf.format(format, args));
+        System.out.print(mf.format(args));
     }
 
     //endregion
@@ -111,7 +111,7 @@ public class Console {
     public static void error(Throwable e, String format, Object... args) {
         //Formatter
         MessageFormatter mf = new MessageFormatter(format);
-        System.err.println(mf.format(format, args));
+        System.err.println(mf.format(args));
 
         if (e != null) {
             e.printStackTrace(System.err);

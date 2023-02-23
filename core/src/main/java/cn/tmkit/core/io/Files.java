@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -585,7 +586,7 @@ public class Files extends Paths {
             prefix += Strings.SLASH;
             pathTemp = pathTemp.substring(1);
         }
-        String[] pathArray = Strings.split(pathTemp, Chars.SLASH);
+        String[] pathArray = Strings.splitToArr(pathTemp, Chars.SLASH);
         List<String> pathElements = new ArrayList<>(pathArray.length);
         int tops = 0;
         String element;
@@ -911,6 +912,151 @@ public class Files extends Paths {
     // region 写文本文件
 
     /**
+     * 将集合字符串一行行写入文件中，原内容将会呗覆盖
+     *
+     * @param lines 待写入的内容
+     * @param path  文件路径
+     * @return 文件对象
+     */
+    public static File writeUtf8Lines(Collection<? extends CharSequence> lines, String path) throws IoRuntimeException {
+        return writeUtf8Lines(lines, path, false);
+    }
+
+    /**
+     * 将集合字符串一行行写入文件中
+     *
+     * @param lines    待写入的内容
+     * @param path     文件路径
+     * @param isAppend 是否追加内容
+     * @return 文件对象
+     */
+    public static File writeUtf8Lines(Collection<? extends CharSequence> lines, String path, boolean isAppend) throws IoRuntimeException {
+        File file = file(path);
+        writeUtf8Lines(lines, file, isAppend);
+        return file;
+    }
+
+    /**
+     * 将集合字符串一行行写入文件中，原内容将会呗覆盖
+     *
+     * @param lines 待写入的内容
+     * @param file  文件对象
+     */
+    public static void writeUtf8Lines(Collection<? extends CharSequence> lines, File file) throws IoRuntimeException {
+        writeUtf8Lines(lines, file, false);
+    }
+
+    /**
+     * 将集合字符串一行行写入文件中
+     *
+     * @param lines    待写入的内容
+     * @param file     文件对象
+     * @param isAppend 是否追加内容
+     */
+    public static void writeUtf8Lines(Collection<? extends CharSequence> lines, File file, boolean isAppend) throws IoRuntimeException {
+        writeLines(lines, file, Charsets.UTF_8, isAppend);
+    }
+
+    /**
+     * 将集合字符串一行行写入文件中，原内容将会呗覆盖
+     *
+     * @param lines   待写入的内容
+     * @param path    文件路径
+     * @param charset 字符集
+     * @return 文件对象
+     */
+    public static File writeLines(Collection<? extends CharSequence> lines, String path, String charset) throws IoRuntimeException {
+        File file = file(path);
+        writeLines(lines, file, charset, false);
+        return file;
+    }
+
+    /**
+     * 将集合字符串一行行写入文件中，原内容将会呗覆盖
+     *
+     * @param lines   待写入的内容
+     * @param file    文件对象
+     * @param charset 字符集
+     */
+    public static void writeLines(Collection<? extends CharSequence> lines, File file, String charset) throws IoRuntimeException {
+        writeLines(lines, file, charset, false);
+    }
+
+    /**
+     * 将集合字符串一行行写入文件中
+     *
+     * @param lines    待写入的内容
+     * @param path     文件路径
+     * @param charset  字符集
+     * @param isAppend 是否追加内容
+     * @return 文件对象
+     */
+    public static File writeLines(Collection<? extends CharSequence> lines, String path, String charset, boolean isAppend) throws IoRuntimeException {
+        File file = file(path);
+        writeLines(lines, file, CharsetUtil.forName(charset), isAppend);
+        return file;
+    }
+
+    /**
+     * 将集合字符串一行行写入文件中
+     *
+     * @param lines    待写入的内容
+     * @param file     文件对象
+     * @param charset  字符集
+     * @param isAppend 是否追加内容
+     */
+    public static void writeLines(Collection<? extends CharSequence> lines, File file, String charset, boolean isAppend) throws IoRuntimeException {
+        writeLines(lines, file, CharsetUtil.forName(charset), isAppend);
+    }
+
+    /**
+     * 将集合字符串一行行写入文件中，原内容将会呗覆盖
+     *
+     * @param lines   待写入的内容
+     * @param path    文件路径
+     * @param charset 字符集
+     * @return 文件对象
+     */
+    public static File writeLines(Collection<? extends CharSequence> lines, String path, Charset charset) throws IoRuntimeException {
+        File file = file(path);
+        writeLines(lines, file, charset, false);
+        return file;
+    }
+
+    /**
+     * 将集合字符串一行行写入文件中，原内容将会呗覆盖
+     *
+     * @param lines   待写入的内容
+     * @param file    文件对象
+     * @param charset 字符集
+     */
+    public static void writeLines(Collection<? extends CharSequence> lines, File file, Charset charset) throws IoRuntimeException {
+        writeLines(lines, file, charset, false);
+    }
+
+    /**
+     * 将集合字符串一行行写入文件中，原内容将会呗覆盖
+     *
+     * @param lines   待写入的内容
+     * @param file    文件对象
+     * @param charset 字符集
+     */
+    public static void writeLines(Collection<? extends CharSequence> lines, File file, Charset charset, boolean isAppend) throws IoRuntimeException {
+        if (Objects.isAnyNull(lines, file)) {
+            return;
+        }
+        Charset encoding = Charsets.getCharset(charset);
+        try (BufferedWriter bufferedWriter = getWriter(file, encoding, isAppend);
+             PrintWriter printWriter = new PrintWriter(bufferedWriter)) {
+            lines.forEach(line -> printWriter.println(line == null ? "" : line));
+            // 最后刷盘
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            throw new IoRuntimeException(e);
+        }
+    }
+
+    /**
      * 将内容写入到文件，原内容被覆盖，默认采用UTF-8字符集
      *
      * @param content 待写入的内容
@@ -918,7 +1064,7 @@ public class Files extends Paths {
      * @return 写入的文件
      * @throws IoRuntimeException IO异常
      */
-    public static File writeUtf8Str(String content, String path) throws IoRuntimeException {
+    public static File writeUtf8Str(CharSequence content, String path) throws IoRuntimeException {
         File file = file(path);
         writeUtf8Str(content, file);
         return file;
@@ -931,7 +1077,7 @@ public class Files extends Paths {
      * @param file    写入的文件
      * @throws IoRuntimeException IO异常
      */
-    public static void writeUtf8Str(String content, File file) throws IoRuntimeException {
+    public static void writeUtf8Str(CharSequence content, File file) throws IoRuntimeException {
         write(content, file, Charsets.UTF_8);
     }
 
@@ -944,7 +1090,7 @@ public class Files extends Paths {
      * @return 写入的文件
      * @throws IoRuntimeException IO异常
      */
-    public static File write(String content, String path, String charset) throws IoRuntimeException {
+    public static File write(CharSequence content, String path, String charset) throws IoRuntimeException {
         return write(content, path, Charset.forName(charset));
     }
 
@@ -957,7 +1103,7 @@ public class Files extends Paths {
      * @return 写入的文件
      * @throws IoRuntimeException IO异常
      */
-    public static File write(String content, String path, Charset charset) throws IoRuntimeException {
+    public static File write(CharSequence content, String path, Charset charset) throws IoRuntimeException {
         File file = touch(path);
         write(content, file, charset);
         return file;
@@ -971,7 +1117,7 @@ public class Files extends Paths {
      * @param charset 字符集
      * @throws IoRuntimeException IO异常
      */
-    public static void write(String content, File file, String charset) throws IoRuntimeException {
+    public static void write(CharSequence content, File file, String charset) throws IoRuntimeException {
         write(content, file, Charsets.forName(charset));
     }
 
@@ -983,7 +1129,7 @@ public class Files extends Paths {
      * @param charset 字符集
      * @throws IoRuntimeException IO异常
      */
-    public static void write(@Nullable String content, @Nullable File file, Charset charset) throws IoRuntimeException {
+    public static void write(@Nullable CharSequence content, @Nullable File file, Charset charset) throws IoRuntimeException {
         doWrite(content, file, charset, false);
     }
 
@@ -995,7 +1141,7 @@ public class Files extends Paths {
      * @return 写入的文件
      * @throws IoRuntimeException IO异常
      */
-    public static File appendUtf8Str(String content, String path) throws IoRuntimeException {
+    public static File appendUtf8Str(CharSequence content, String path) throws IoRuntimeException {
         return append(content, path, Charsets.UTF_8);
     }
 
@@ -1006,7 +1152,7 @@ public class Files extends Paths {
      * @param file    写入的文件
      * @throws IoRuntimeException IO异常
      */
-    public static void appendUtf8Str(String content, File file) throws IoRuntimeException {
+    public static void appendUtf8Str(CharSequence content, File file) throws IoRuntimeException {
         append(content, file, Charsets.UTF_8);
     }
 
@@ -1019,7 +1165,7 @@ public class Files extends Paths {
      * @return 写入的文件
      * @throws IoRuntimeException IO异常
      */
-    public static File append(String content, String path, String charset) throws IoRuntimeException {
+    public static File append(CharSequence content, String path, String charset) throws IoRuntimeException {
         return append(content, path, Charset.forName(charset));
     }
 
@@ -1032,7 +1178,7 @@ public class Files extends Paths {
      * @return 写入的文件
      * @throws IoRuntimeException IO异常
      */
-    public static File append(String content, String path, Charset charset) throws IoRuntimeException {
+    public static File append(CharSequence content, String path, Charset charset) throws IoRuntimeException {
         File file = touch(path);
         append(content, file, charset);
         return file;
@@ -1046,7 +1192,7 @@ public class Files extends Paths {
      * @param charset 字符集
      * @throws IoRuntimeException IO异常
      */
-    public static void append(String content, File file, String charset) throws IoRuntimeException {
+    public static void append(CharSequence content, File file, String charset) throws IoRuntimeException {
         append(content, file, Charsets.forName(charset));
     }
 
@@ -1058,7 +1204,7 @@ public class Files extends Paths {
      * @param charset 字符集
      * @throws IoRuntimeException IO异常
      */
-    public static void append(@Nullable String content, @Nullable File file, Charset charset) throws IoRuntimeException {
+    public static void append(@Nullable CharSequence content, @Nullable File file, Charset charset) throws IoRuntimeException {
         doWrite(content, file, charset, true);
     }
 
@@ -1072,12 +1218,12 @@ public class Files extends Paths {
      * @throws IoRuntimeException IO异常
      */
     @SuppressWarnings("ConstantConditions")
-    private static void doWrite(@Nullable String content, @Nullable File file, Charset charset, boolean isAppend) throws IoRuntimeException {
+    private static void doWrite(@Nullable CharSequence content, @Nullable File file, Charset charset, boolean isAppend) throws IoRuntimeException {
         if (Objects.isAnyNull(content, file)) {
             return;
         }
         try (BufferedWriter bufferedWriter = getWriter(file, charset, isAppend)) {
-            bufferedWriter.write(content);
+            bufferedWriter.write(content.toString());
             bufferedWriter.flush();
         } catch (IOException e) {
             throw new IoRuntimeException(e);

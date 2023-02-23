@@ -440,7 +440,7 @@ public class Paths {
      * @return 文件列表
      */
     public static @NotNull List<File> listFiles(Path path, int maxDepth, @Nullable FileFilter fileFilter) {
-        List<File> list = Collections.newArrayList();
+        List<File> list = Collections.arrayList();
         if (Objects.isNull(path) || !exists(path)) {
             return list;
         }

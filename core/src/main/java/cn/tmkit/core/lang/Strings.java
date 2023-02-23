@@ -1502,8 +1502,8 @@ public class Strings {
      * @param cse 被分割的字符串
      * @return 分割后的字符串数组
      */
-    public static String[] split(CharSequence cse) {
-        return split(cse, Chars.COMMA);
+    public static String[] splitToArr(CharSequence cse) {
+        return splitToArr(cse, Chars.COMMA);
     }
 
     /**
@@ -1513,8 +1513,8 @@ public class Strings {
      * @param separator 分隔符字符
      * @return 分割后的字符串数组
      */
-    public static String[] split(CharSequence cse, char separator) {
-        return split(cse, separator, false);
+    public static String[] splitToArr(CharSequence cse, char separator) {
+        return splitToArr(cse, separator, false);
     }
 
     /**
@@ -1525,8 +1525,8 @@ public class Strings {
      * @param ignoreEmpty 是否忽略空串
      * @return 分割后的字符串数组
      */
-    public static String[] split(CharSequence cse, char separator, boolean ignoreEmpty) {
-        return split(cse, separator, ignoreEmpty, false);
+    public static String[] splitToArr(CharSequence cse, char separator, boolean ignoreEmpty) {
+        return splitToArr(cse, separator, ignoreEmpty, false);
     }
 
     /**
@@ -1550,12 +1550,12 @@ public class Strings {
      * @return 分割后的字符串数组
      */
     @SuppressWarnings("Duplicates")
-    public static String[] split(CharSequence cse, char separator, boolean ignoreEmpty, boolean isTrim) {
+    public static String[] splitToArr(CharSequence cse, char separator, boolean ignoreEmpty, boolean isTrim) {
         if (cse == null) {
             return null;
         }
 
-        final List<String> list = splitToList(cse, separator, ignoreEmpty, isTrim);
+        final List<String> list = split(cse, separator, ignoreEmpty, isTrim);
 
         return list.toArray(Arrays.EMPTY_STRING_ARRAY);
     }
@@ -1567,8 +1567,8 @@ public class Strings {
      * @param separator 分隔符字符
      * @return 分割后的字符串数组
      */
-    public static String[] split(CharSequence cse, CharSequence separator) {
-        return split(cse, separator, false);
+    public static String[] splitToArr(CharSequence cse, CharSequence separator) {
+        return splitToArr(cse, separator, false);
     }
 
     /**
@@ -1579,8 +1579,8 @@ public class Strings {
      * @param ignoreEmpty 是否忽略空串
      * @return 分割后的字符串数组
      */
-    public static String[] split(CharSequence cse, CharSequence separator, boolean ignoreEmpty) {
-        return split(cse, separator, ignoreEmpty, false);
+    public static String[] splitToArr(CharSequence cse, CharSequence separator, boolean ignoreEmpty) {
+        return splitToArr(cse, separator, ignoreEmpty, false);
     }
 
     /**
@@ -1598,12 +1598,12 @@ public class Strings {
      * @return 分割后的字符串数组
      */
     @SuppressWarnings("Duplicates")
-    public static String[] split(CharSequence cse, CharSequence separator, boolean ignoreEmpty, boolean isTrim) {
+    public static String[] splitToArr(CharSequence cse, CharSequence separator, boolean ignoreEmpty, boolean isTrim) {
         if (cse == null) {
             return null;
         }
 
-        final List<String> list = splitToList(cse, separator, ignoreEmpty, isTrim);
+        final List<String> list = split(cse, separator, ignoreEmpty, isTrim);
 
         return list.toArray(Arrays.EMPTY_STRING_ARRAY);
     }
@@ -1637,8 +1637,8 @@ public class Strings {
      * @param str 被分割的字符串
      * @return 分割后的字符串集合列表
      */
-    public static List<String> splitToList(CharSequence str) {
-        return splitToList(str, Chars.COMMA);
+    public static List<String> split(CharSequence str) {
+        return split(str, Chars.COMMA);
     }
 
     /**
@@ -1648,8 +1648,8 @@ public class Strings {
      * @param separator 分隔符字符
      * @return 分割后的字符串集合列表
      */
-    public static List<String> splitToList(CharSequence str, char separator) {
-        return splitToList(str, separator, false);
+    public static List<String> split(CharSequence str, char separator) {
+        return split(str, separator, false);
     }
 
     /**
@@ -1660,8 +1660,8 @@ public class Strings {
      * @param ignoreEmpty 是否忽略空串
      * @return 分割后的字符串集合列表
      */
-    public static List<String> splitToList(CharSequence str, char separator, boolean ignoreEmpty) {
-        return splitToList(str, separator, ignoreEmpty, false);
+    public static List<String> split(CharSequence str, char separator, boolean ignoreEmpty) {
+        return split(str, separator, ignoreEmpty, false);
     }
 
     /**
@@ -1685,7 +1685,7 @@ public class Strings {
      * @return 分割后的字符串集合列表
      */
     @SuppressWarnings("Duplicates")
-    public static List<String> splitToList(CharSequence cse, char separator, boolean ignoreEmpty, boolean isTrim) {
+    public static List<String> split(CharSequence cse, char separator, boolean ignoreEmpty, boolean isTrim) {
         if (cse == null) {
             return null;
         }
@@ -1716,8 +1716,8 @@ public class Strings {
      * @param separator 分隔符字符
      * @return 分割后的字符串集合列表
      */
-    public static List<String> splitToList(CharSequence str, CharSequence separator) {
-        return splitToList(str, separator, false);
+    public static List<String> split(CharSequence str, CharSequence separator) {
+        return split(str, separator, false);
     }
 
     /**
@@ -1728,8 +1728,8 @@ public class Strings {
      * @param ignoreEmpty 是否忽略空串
      * @return 分割后的字符串集合列表
      */
-    public static List<String> splitToList(CharSequence str, CharSequence separator, boolean ignoreEmpty) {
-        return splitToList(str, separator, ignoreEmpty, false);
+    public static List<String> split(CharSequence str, CharSequence separator, boolean ignoreEmpty) {
+        return split(str, separator, ignoreEmpty, false);
     }
 
     /**
@@ -1747,7 +1747,7 @@ public class Strings {
      * @return 分割后的字符串集合列表
      */
     @SuppressWarnings("Duplicates")
-    public static List<String> splitToList(CharSequence cse, CharSequence separator, boolean ignoreEmpty, boolean isTrim) {
+    public static List<String> split(CharSequence cse, CharSequence separator, boolean ignoreEmpty, boolean isTrim) {
         if (cse == null) {
             return null;
         }
@@ -1769,7 +1769,7 @@ public class Strings {
             }
             addToList(list, str.substring(start, length), ignoreEmpty, isTrim);
         } else if (separator.length() == 1) {
-            return splitToList(str, separator.charAt(0), ignoreEmpty, isTrim);
+            return split(str, separator.charAt(0), ignoreEmpty, isTrim);
         } else {
             index = 0;
             int sepLen = separator.length();
@@ -1812,7 +1812,7 @@ public class Strings {
             return null;
         }
 
-        final List<String> strList = splitToList(str, separator, true, true);
+        final List<String> strList = split(str, separator, true, true);
         if (strList == null || strList.size() == 0) {
             return Collections.emptyList();
         }
@@ -1832,7 +1832,7 @@ public class Strings {
         if (str == null) {
             return null;
         }
-        final List<String> strList = splitToList(str, separator, true, true);
+        final List<String> strList = split(str, separator, true, true);
         if (strList == null || strList.size() == 0) {
             return Collections.emptyList();
         }

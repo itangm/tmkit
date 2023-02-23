@@ -113,7 +113,7 @@ public class Urls {
         if (urlParamStr.length() == 0) {
             return multiValueMap;
         }
-        List<String> urlParamList = Strings.splitToList(urlParamStr, Strings.AMP);
+        List<String> urlParamList = Strings.split(urlParamStr, Strings.AMP);
         if (Collections.isEmpty(urlParamList)) {
             return multiValueMap;
         }
@@ -121,7 +121,7 @@ public class Urls {
         String[] array;
         for (String urlParam : urlParamList) {
             if (Strings.hasText(urlParam)) {
-                array = Strings.split(urlParam, Strings.EQUALS, true, true);
+                array = Strings.splitToArr(urlParam, Strings.EQUALS, true, true);
                 if (array.length == 2) {
                     multiValueMap.add(array[0], decode(array[1]));
                 } else {

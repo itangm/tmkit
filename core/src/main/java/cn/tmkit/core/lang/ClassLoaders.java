@@ -5,6 +5,7 @@ import cn.tmkit.core.exception.UriSyntaxRuntimeException;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -97,6 +98,13 @@ public class ClassLoaders {
      */
     public static URL getUrl(String resourceName) {
         return getDefaultClassLoader().getResource(resourceName);
+    }
+
+    public static InputStream getInputStream(String resourceName) {
+        if (Objects.isNull(resourceName)) {
+            return null;
+        }
+        return getDefaultClassLoader().getResourceAsStream(resourceName);
     }
 
 }

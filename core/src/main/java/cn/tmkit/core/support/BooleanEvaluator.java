@@ -38,7 +38,7 @@ public final class BooleanEvaluator {
      * @param falseFactors  为假的银子
      */
     public BooleanEvaluator(boolean nullValue, boolean strIgnoreCase, Object[] trueFactors, Object[] falseFactors) {
-        this(nullValue, strIgnoreCase, Collections.newArrayList(trueFactors), Collections.newArrayList(falseFactors));
+        this(nullValue, strIgnoreCase, Collections.arrayList(trueFactors), Collections.arrayList(falseFactors));
     }
 
     /**

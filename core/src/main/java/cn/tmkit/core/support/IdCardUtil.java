@@ -30,8 +30,8 @@ public class IdCardUtil {
      * @param value 被校验的字符串
      * @return true / false
      */
-    public static boolean isValid18(String value) {
-        return isValid18(value, true);
+    public static boolean isValid(String value) {
+        return isValid(value, true);
     }
 
     /**
@@ -42,7 +42,7 @@ public class IdCardUtil {
      * @param ignoreCase 是否忽略大小写,{@code true}则忽略
      * @return true / false
      */
-    public static boolean isValid18(String value, boolean ignoreCase) {
+    public static boolean isValid(String value, boolean ignoreCase) {
         if (Strings.isEmpty(value)) {
             return false;
         }

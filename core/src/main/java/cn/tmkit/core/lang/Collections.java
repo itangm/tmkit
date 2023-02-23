@@ -60,7 +60,7 @@ public class Collections {
      * @return 可变的空集合
      */
     public static <E> List<E> mutableList() {
-        return new ArrayList<>(0);
+        return arrayList(0);
     }
 
     /**
@@ -98,7 +98,29 @@ public class Collections {
      */
     @SuppressWarnings("unchecked")
     public static <E> ArrayList<E> of(E... values) {
-        return newArrayList(values);
+        return arrayList(values);
+    }
+
+    /**
+     * 新建一个指定容量大小的{@linkplain ArrayList}
+     *
+     * @param capacity 容量
+     * @param <E>      集合元素类型
+     * @return ArrayList对象
+     */
+    public static <E> ArrayList<E> of(int capacity) {
+        return new ArrayList<>(capacity);
+    }
+
+    /**
+     * 新建一个指定容量大小的{@linkplain ArrayList}
+     *
+     * @param capacity 容量
+     * @param <E>      集合元素类型
+     * @return ArrayList对象
+     */
+    public static <E> ArrayList<E> arrayList(int capacity) {
+        return new ArrayList<>(capacity);
     }
 
     /**
@@ -109,7 +131,7 @@ public class Collections {
      * @return ArrayList对象
      */
     @SafeVarargs
-    public static <E> ArrayList<E> newArrayList(E... values) {
+    public static <E> ArrayList<E> arrayList(E... values) {
         if (Arrays.isEmpty(values)) {
             return new ArrayList<>();
         }
@@ -139,7 +161,7 @@ public class Collections {
      */
     @SafeVarargs
     public static <E> List<E> list(boolean isLinked, E... values) {
-        return isLinked ? newLinkedList(values) : newArrayList(values);
+        return isLinked ? linkedList(values) : arrayList(values);
     }
 
     /**
@@ -150,12 +172,23 @@ public class Collections {
      * @return {@link LinkedList}
      */
     @SafeVarargs
-    public static <E> LinkedList<E> newLinkedList(E... values) {
+    public static <E> LinkedList<E> linkedList(E... values) {
         LinkedList<E> list = new LinkedList<>();
         if (values != null && values.length != 0) {
             addAll(list, values);
         }
         return list;
+    }
+
+    /**
+     * 新建一个指定容量大小的{@linkplain HashSet}
+     *
+     * @param capacity 指定初始容量
+     * @param <E>      元素类型
+     * @return HashSet对象
+     */
+    public static <E> HashSet<E> hashSet(int capacity) {
+        return new HashSet<>((int) (capacity / Maps.DEFAULT_LOAD_FACTOR));
     }
 
     // endregion
