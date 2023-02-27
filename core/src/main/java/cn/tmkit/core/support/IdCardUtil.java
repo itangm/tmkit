@@ -3,7 +3,7 @@ package cn.tmkit.core.support;
 import cn.tmkit.core.lang.Chars;
 import cn.tmkit.core.lang.Strings;
 import cn.tmkit.core.lang.ValidatorUtil;
-import cn.tmkit.core.regex.PatternPool;
+import cn.tmkit.core.lang.regex.PatternPool;
 
 /**
  * 国内身份证工具类，仅支持18位的身份证号码

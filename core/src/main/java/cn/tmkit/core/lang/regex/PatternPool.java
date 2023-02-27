@@ -1,4 +1,4 @@
-package cn.tmkit.core.regex;
+package cn.tmkit.core.lang.regex;
 
 /**
  * @author miles.tang

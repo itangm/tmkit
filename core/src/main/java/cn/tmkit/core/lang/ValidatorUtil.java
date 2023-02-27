@@ -1,8 +1,9 @@
 package cn.tmkit.core.lang;
 
-import cn.tmkit.core.regex.ExtraPatternConstant;
-import cn.tmkit.core.regex.PatternPool;
-import cn.tmkit.core.regex.Regexes;
+import cn.tmkit.core.date.DateUtil;
+import cn.tmkit.core.lang.regex.ExtraPatternConstant;
+import cn.tmkit.core.lang.regex.PatternPool;
+import cn.tmkit.core.lang.regex.Regexes;
 
 import java.util.regex.Matcher;
 
@@ -122,7 +123,7 @@ public class ValidatorUtil {
             return false;
         }
         if (month == 2) {
-            if (Dates.isLeapYear(year)) {
+            if (DateUtil.isLeapYear(year)) {
                 return day <= 29;
             } else {
                 return day <= 28;
@@ -154,14 +155,14 @@ public class ValidatorUtil {
     }
 
     /**
-     * 判断是否是身份证号码
+     * 判断是否是身份证号码，该方法仅支持18位身份证的。
      * <p>需要注意的是：该方法不验证身份证是否满足规则</p>
      *
      * @param value 值
      * @return {@link boolean}
      */
     public static boolean isIdCardNumber(CharSequence value) {
-        return Regexes.isMatch(PatternPool.ID_CARD_NUMBER, value);
+        return Regexes.isMatch(PatternPool.ID_CARD_NUMBER_18, value);
     }
 
     /**

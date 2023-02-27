@@ -1,4 +1,4 @@
-package cn.tmkit.core.regex;
+package cn.tmkit.core.lang.regex;
 
 import cn.tmkit.core.lang.PatternUtil;
 import cn.tmkit.core.lang.RegexUtil;
@@ -133,41 +133,41 @@ public class RegexPoolTest {
     @Test
     public void urlOrHttpOrHttpsOrFtpOrSftp() {
         String str = "";
-        assertFalse(PatternUtil.isMatch(PatternPool.URL_HTTP_OR_FTP, str));
+        assertFalse(PatternUtil.isMatch(PatternPool.URL_HTTP_OR_FTP_STR, str));
         str = "tmkit";
-        assertFalse(PatternUtil.isMatch(PatternPool.URL_HTTP_OR_FTP, str));
+        assertFalse(PatternUtil.isMatch(PatternPool.URL_HTTP_OR_FTP_STR, str));
         str = "tmkit.cn";
-        assertTrue(PatternUtil.isMatch(PatternPool.URL_HTTP_OR_FTP, str));
+        assertTrue(PatternUtil.isMatch(PatternPool.URL_HTTP_OR_FTP_STR, str));
         str = "http://tmkit.cn";
-        assertTrue(PatternUtil.isMatch(PatternPool.URL_HTTP_OR_FTP, str));
+        assertTrue(PatternUtil.isMatch(PatternPool.URL_HTTP_OR_FTP_STR, str));
         str = "https://tmkit.cn";
-        assertTrue(PatternUtil.isMatch(PatternPool.URL_HTTP_OR_FTP, str));
+        assertTrue(PatternUtil.isMatch(PatternPool.URL_HTTP_OR_FTP_STR, str));
         str = "ftp://tmkit.cn";
-        assertTrue(PatternUtil.isMatch(PatternPool.URL_HTTP_OR_FTP, str));
+        assertTrue(PatternUtil.isMatch(PatternPool.URL_HTTP_OR_FTP_STR, str));
         str = "sftp://tmkit.cn";
-        assertTrue(PatternUtil.isMatch(PatternPool.URL_HTTP_OR_FTP, str));
+        assertTrue(PatternUtil.isMatch(PatternPool.URL_HTTP_OR_FTP_STR, str));
     }
 
     @Test
     public void imei() {
         String str = "";
-        assertFalse(PatternUtil.isMatch(RegexPool.IMEI, str));
+        assertFalse(PatternUtil.isMatch(RegexPool.IMEI_STR, str));
         str = "imei";
-        assertFalse(PatternUtil.isMatch(RegexPool.IMEI, str));
+        assertFalse(PatternUtil.isMatch(RegexPool.IMEI_STR, str));
         str = "862807051330749";
-        assertTrue(PatternUtil.isMatch(RegexPool.IMEI, str));
+        assertTrue(PatternUtil.isMatch(RegexPool.IMEI_STR, str));
     }
 
     @Test
     public void mobilePhoneCompatible() {
         String str = "";
-        assertFalse(PatternUtil.isMatch(PatternPool.MOBILE_PHONE_COMPATIBLE, str));
+        assertFalse(PatternUtil.isMatch(PatternPool.MOBILE_PHONE_COMPATIBLE_STR, str));
         str = "13888888888888888888888888";
-        assertFalse(PatternUtil.isMatch(PatternConstant.MOBILE_PHONE_COMPATIBLE, str));
+        assertFalse(PatternUtil.isMatch(PatternConstant.MOBILE_PHONE_COMPATIBLE_STR, str));
         str = "23456789123";
-        assertFalse(PatternUtil.isMatch(PatternConstant.MOBILE_PHONE_COMPATIBLE, str));
+        assertFalse(PatternUtil.isMatch(PatternConstant.MOBILE_PHONE_COMPATIBLE_STR, str));
         str = "11111111111";
-        assertFalse(PatternUtil.isMatch(PatternConstant.MOBILE_PHONE_COMPATIBLE, str));
+        assertFalse(PatternUtil.isMatch(PatternConstant.MOBILE_PHONE_COMPATIBLE_STR, str));
 
     }
 
@@ -202,11 +202,11 @@ public class RegexPoolTest {
     @Test
     public void idCardNumber15() {
         String str = "1";
-        assertFalse(PatternUtil.isMatch(PatternConstant.ID_CARD_NUMBER_15, str));
+        assertFalse(PatternUtil.isMatch(PatternConstant.ID_CARD_NUMBER_15_STR, str));
         str = "123";
-        assertFalse(PatternUtil.isMatch(PatternConstant.ID_CARD_NUMBER_15, str));
+        assertFalse(PatternUtil.isMatch(PatternConstant.ID_CARD_NUMBER_15_STR, str));
         str = "130503670401001";
-        assertTrue(RegexUtil.isMatch(PatternPool.ID_CARD_NUMBER_15, str));
+        assertTrue(RegexUtil.isMatch(PatternPool.ID_CARD_NUMBER_15_STR, str));
     }
 
     @Test
@@ -222,9 +222,9 @@ public class RegexPoolTest {
     @Test
     public void idCardNumber() {
         String str = "1";
-        assertFalse(PatternUtil.isMatch(PatternConstant.ID_CARD_NUMBER, str));
+        assertFalse(PatternUtil.isMatch(PatternConstant.ID_CARD_NUMBER_STR, str));
         str = "123";
-        assertFalse(PatternUtil.isMatch(PatternConstant.ID_CARD_NUMBER, str));
+        assertFalse(PatternUtil.isMatch(PatternConstant.ID_CARD_NUMBER_STR, str));
         str = "110101199003077539";
         assertTrue(RegexUtil.isMatch(PatternPool.ID_CARD_NUMBER_STR, str));
     }

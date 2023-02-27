@@ -1,7 +1,8 @@
 package cn.tmkit.core.lang;
 
 import cn.tmkit.core.math.BigDecimals;
-import cn.tmkit.core.regex.Regexes;
+import cn.tmkit.core.math.FluentBigDecimal;
+import cn.tmkit.core.lang.regex.Regexes;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -688,6 +689,8 @@ public class Numbers {
     public static BigDecimal createBigDecimal(Number value) {
         if (value == null) {
             return null;
+        } else if (value instanceof FluentBigDecimal) {
+            return ((FluentBigDecimal) value).getValue();
         } else if (value instanceof BigDecimal) {
             return (BigDecimal) value;
         } else if (value instanceof Long) {

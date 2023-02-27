@@ -1,4 +1,4 @@
-package cn.tmkit.core.regex;
+package cn.tmkit.core.lang.regex;
 
 /**
  * 额外的正则表达式常量
@@ -8,6 +8,17 @@ package cn.tmkit.core.regex;
  * @date 2023-01-17
  */
 public interface ExtraPatternConstant {
+
+    /**
+     * 标准日期时间正则，每个字段支持单个数字或2个数字，包括：
+     * <pre>
+     *     yyyy-MM-dd HH:mm:ss.SSS
+     *     yyyy-MM-dd HH:mm:ss
+     *     yyyy-MM-dd HH:mm
+     *     yyyy-MM-dd
+     * </pre>
+     */
+    String REGEX_NORM = "\\d{4}-\\d{1,2}-\\d{1,2}(\\s\\d{1,2}:\\d{1,2}(:\\d{1,2})?)?(.\\d{1,3})?";
 
     /**
      * 火车车次
@@ -46,6 +57,6 @@ public interface ExtraPatternConstant {
     /**
      * 手机号(mobile phone)中国(严谨)，<a href="https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E5%A4%A7%E9%99%86%E7%A7%BB%E5%8A%A8%E7%BB%88%E7%AB%AF%E9%80%9A%E4%BF%A1%E5%8F%B7%E7%A0%81">参考维基百科</a>
      */
-     String MOBILE_PHONE_STRICT_STR = ("^(?:(?:\\+|00)86)?1(?:(?:3[\\d])|(?:4[5-79])|(?:5[0-35-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\\d])|(?:9[0-35-9]))\\d{8}$");
+    String MOBILE_PHONE_STRICT_STR = ("^(?:(?:\\+|00)86)?1(?:(?:3[\\d])|(?:4[5-79])|(?:5[0-35-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\\d])|(?:9[0-35-9]))\\d{8}$");
 
 }

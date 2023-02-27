@@ -1,6 +1,6 @@
 package cn.tmkit.core.lang;
 
-import cn.tmkit.core.regex.Regexes;
+import cn.tmkit.core.lang.regex.Regexes;
 
 /**
  * 正则表达式工具类

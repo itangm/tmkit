@@ -1,4 +1,4 @@
-package cn.tmkit.core.regex;
+package cn.tmkit.core.lang.regex;
 
 import cn.tmkit.core.support.SimpleCache;
 
@@ -91,29 +91,14 @@ public class PatternConstant {
     public final static String URL_HTTP_OR_FTP_STR = ("^((http|https|s?ftp)://)?[\\w-]+(\\.[\\w-]+)+([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])?$");
 
     /**
-     * http(s) or (s)ftp
-     */
-    public final static Pattern URL_HTTP_OR_FTP = Pattern.compile(URL_HTTP_OR_FTP_STR);
-
-    /**
      * 手机机身码(IMEI)
      */
     public static final String IMEI_STR = ("^\\d{15,17}$");
 
     /**
-     * 手机机身码(IMEI)
-     */
-    public static final Pattern IMEI = Pattern.compile(IMEI_STR);
-
-    /**
      * 手机号(mobile phone)中国(宽松), 只要是13,14,15,16,17,18,19开头即可
      */
     public static final String MOBILE_PHONE_COMPATIBLE_STR = ("^(?:(?:\\+|00)86)?1[3-9]\\d{9}$");
-
-    /**
-     * 手机号(mobile phone)中国(宽松), 只要是13,14,15,16,17,18,19开头即可
-     */
-    public static final Pattern MOBILE_PHONE_COMPATIBLE = Pattern.compile(MOBILE_PHONE_COMPATIBLE_STR);
 
     /**
      * 手机号(mobile phone)中国(最宽松), 只要是1开头即可, 如果你的手机号是用来接收短信, 优先建议选择这一条
@@ -150,7 +135,7 @@ public class PatternConstant {
     /**
      * 身份证号(1代,15位数字)
      */
-    public static final Pattern ID_CARD_NUMBER_15 = Pattern.compile("^[1-9]\\d{7}(?:0\\d|10|11|12)(?:0[1-9]|[1-2][\\d]|30|31)\\d{3}$");
+    public static final String ID_CARD_NUMBER_15_STR = "^[1-9]\\d{7}(?:0\\d|10|11|12)(?:0[1-9]|[1-2][\\d]|30|31)\\d{3}$";
 
     /**
      * 身份证号(2代,18位数字),最后一位是校验位,可能为数字或字符X
@@ -166,11 +151,6 @@ public class PatternConstant {
      * 身份证号, 支持1/2代(15位/18位数字)
      */
     public static final String ID_CARD_NUMBER_STR = ("(^\\d{8}(0\\d|10|11|12)([0-2]\\d|30|31)\\d{3}$)|(^\\d{6}(18|19|20)\\d{2}(0[1-9]|10|11|12)([0-2]\\d|30|31)\\d{3}(\\d|X|x)$)");
-
-    /**
-     * 身份证号, 支持1/2代(15位/18位数字)
-     */
-    public static final Pattern ID_CARD_NUMBER = Pattern.compile(ID_CARD_NUMBER_STR);
 
     /**
      * 时间正则，如

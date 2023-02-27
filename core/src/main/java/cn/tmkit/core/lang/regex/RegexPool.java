@@ -1,4 +1,4 @@
-package cn.tmkit.core.regex;
+package cn.tmkit.core.lang.regex;
 
 /**
  * 常见的正则表达式

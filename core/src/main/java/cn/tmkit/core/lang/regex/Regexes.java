@@ -1,4 +1,4 @@
-package cn.tmkit.core.regex;
+package cn.tmkit.core.lang.regex;
 
 import cn.tmkit.core.lang.Objects;
 import cn.tmkit.core.lang.Strings;
