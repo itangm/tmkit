@@ -7,7 +7,9 @@ import java.nio.charset.Charset;
 /**
  * Hex Utilities
  *
- * @author miles.tang at 2022-01-27
+ * @author miles.tang
+ * @version $Revision
+ * @date 2023-02-27
  */
 public class Hexes {
 

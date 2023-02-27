@@ -359,6 +359,16 @@ public class LocalDateTimes {
      * @param formatter 格式化器，为空默认采用 yyyy-MM-dd HH:mm:ss
      * @return 格式化后的字符串
      */
+    public static String format(@NotNull CustomFormatter formatter) {
+        return format(LocalDateTime.now(), formatter);
+    }
+
+    /**
+     * 对当前日期时间采用指定格式化器格式化
+     *
+     * @param formatter 格式化器，为空默认采用 yyyy-MM-dd HH:mm:ss
+     * @return 格式化后的字符串
+     */
     public static String format(DateTimeFormatter formatter) {
         return format(LocalDateTime.now(), formatter);
     }

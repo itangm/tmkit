@@ -1,5 +1,6 @@
 package cn.tmkit.core.lang;
 
+import cn.tmkit.core.support.MessageFormatter;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.Charset;
@@ -1992,6 +1993,35 @@ public class Strings {
     }
 
     // endregion
+
+
+    // region 格式化字符串
+
+    /**
+     * 格式化文本,使用{@code {}}作为占位符
+     *
+     * @param messagePattern 文本模式
+     * @param arg            单个参数
+     * @return 格式化后的文本
+     */
+    public static String format(String messagePattern, Object arg) {
+        return format(messagePattern, new Object[]{arg});
+    }
+
+    /**
+     * 格式化文本,使用{@code {}}作为占位符，按照顺序替换为对应的参数
+     *
+     * @param messagePattern 文本模式
+     * @param args           参数列表
+     * @return 格式化后的文本
+     */
+    public static String format(String messagePattern, Object... args) {
+        MessageFormatter formatter = new MessageFormatter(messagePattern);
+        return formatter.format(args);
+    }
+
+    // endregion
+
 
 
 }
