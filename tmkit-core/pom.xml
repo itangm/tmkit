@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>tmkit-core</artifactId>
-    <name>core</name>
+    <name>tmkit-core</name>
 
     <packaging>jar</packaging>
 
