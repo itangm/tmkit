@@ -24,6 +24,7 @@
         <module>shf4j-api</module>
         <module>shf4j-okhttp</module>
         <module>shf4j-httpclient</module>
+        <module>tmkit-servlet3</module>
     </modules>
 
     <properties>

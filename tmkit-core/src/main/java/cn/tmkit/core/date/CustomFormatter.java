@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * 时间格式化定义
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-02-24
  */

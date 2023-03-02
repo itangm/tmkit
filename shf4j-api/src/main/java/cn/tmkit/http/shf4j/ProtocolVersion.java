@@ -3,7 +3,7 @@ package cn.tmkit.http.shf4j;
 /**
  * HTTP协议版本
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-03-02
  */
