@@ -6,8 +6,8 @@ import cn.tmkit.json.sjf4j.JsonRuntimeException;
 import cn.tmkit.json.sjf4j.annotation.JsonProviderName;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
 
