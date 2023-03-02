@@ -1,5 +1,6 @@
 package cn.tmkit.core.lang;
 
+import cn.tmkit.core.convert.Converts;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -282,6 +283,244 @@ public class Maps {
 
     // endregion
 
+
+    // region 获取值
+
+    /**
+     * 获取Map指定key的值，并转换为字符串
+     *
+     * @param map map
+     * @param key 键
+     * @return 值
+     */
+    public static String getStr(Map<?, ?> map, Object key) {
+        return getStr(map, key, null);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为字符串
+     *
+     * @param map          map
+     * @param key          键
+     * @param defaultValue 默认值
+     * @return 值
+     */
+    public static String getStr(Map<?, ?> map, Object key, String defaultValue) {
+        return get(map, key, String.class, defaultValue);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为Integer
+     *
+     * @param map map
+     * @param key 键
+     * @return 值
+     */
+    public static Integer getInt(Map<?, ?> map, Object key) {
+        return getInt(map, key, null);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为Integer
+     *
+     * @param map          map
+     * @param key          键
+     * @param defaultValue 默认值
+     * @return 值
+     */
+    public static Integer getInt(Map<?, ?> map, Object key, Integer defaultValue) {
+        return get(map, key, Integer.class, defaultValue);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为Double
+     *
+     * @param map Map
+     * @param key 键
+     * @return 值
+     */
+    public static Double getDouble(Map<?, ?> map, Object key) {
+        return getDouble(map, key, null);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为Double
+     *
+     * @param map          Map
+     * @param key          键
+     * @param defaultValue 默认值
+     * @return 值
+     */
+    public static Double getDouble(Map<?, ?> map, Object key, Double defaultValue) {
+        return get(map, key, Double.class, defaultValue);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为Float
+     *
+     * @param map Map
+     * @param key 键
+     * @return 值
+     */
+    public static Float getFloat(Map<?, ?> map, Object key) {
+        return getFloat(map, key, null);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为Float
+     *
+     * @param map          Map
+     * @param key          键
+     * @param defaultValue 默认值
+     * @return 值
+     */
+    public static Float getFloat(Map<?, ?> map, Object key, Float defaultValue) {
+        return get(map, key, Float.class, defaultValue);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为Short
+     *
+     * @param map Map
+     * @param key 键
+     * @return 值
+     */
+    public static Short getShort(Map<?, ?> map, Object key) {
+        return getShort(map, key, null);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为Short
+     *
+     * @param map          Map
+     * @param key          键
+     * @param defaultValue 默认值
+     * @return 值
+     */
+    public static Short getShort(Map<?, ?> map, Object key, Short defaultValue) {
+        return get(map, key, Short.class, defaultValue);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为Bool
+     *
+     * @param map Map
+     * @param key 键
+     * @return 值
+     */
+    public static Boolean getBool(Map<?, ?> map, Object key) {
+        return getBool(map, key, null);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为Bool
+     *
+     * @param map          Map
+     * @param key          键
+     * @param defaultValue 默认值
+     * @return 值
+     */
+    public static Boolean getBool(Map<?, ?> map, Object key, Boolean defaultValue) {
+        return get(map, key, Boolean.class, defaultValue);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为Character
+     *
+     * @param map Map
+     * @param key 键
+     * @return 值
+     */
+    public static Character getChar(Map<?, ?> map, Object key) {
+        return getChar(map, key, null);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为Character
+     *
+     * @param map          Map
+     * @param key          键
+     * @param defaultValue 默认值
+     * @return 值
+     */
+    public static Character getChar(Map<?, ?> map, Object key, Character defaultValue) {
+        return get(map, key, Character.class, defaultValue);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为Byte
+     *
+     * @param map Map
+     * @param key 键
+     * @return 值
+     */
+    public static Byte getByte(Map<?, ?> map, Object key) {
+        return getByte(map, key, null);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为Byte
+     *
+     * @param map          Map
+     * @param key          键
+     * @param defaultValue 默认值
+     * @return 值
+     */
+    public static Byte getByte(Map<?, ?> map, Object key, Byte defaultValue) {
+        return get(map, key, Byte.class, defaultValue);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为Long
+     *
+     * @param map Map
+     * @param key 键
+     * @return 值
+     */
+    public static Long getLong(Map<?, ?> map, Object key) {
+        return getLong(map, key, null);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为Long
+     *
+     * @param map          Map
+     * @param key          键
+     * @param defaultValue 默认值
+     * @return 值
+     */
+    public static Long getLong(Map<?, ?> map, Object key, Long defaultValue) {
+        return get(map, key, Long.class, defaultValue);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为指定类型
+     *
+     * @param map  map
+     * @param key  键
+     * @param type 值类型
+     * @param <T>  目标值类型
+     * @return 值
+     */
+    public static <T> T get(Map<?, ?> map, Object key, Class<T> type) {
+        return get(map, key, type, null);
+    }
+
+    /**
+     * 获取Map指定key的值，并转换为指定类型
+     *
+     * @param map          map
+     * @param key          键
+     * @param type         值类型
+     * @param <T>          目标值类型
+     * @param defaultValue 默认值
+     * @return 值
+     */
+    public static <T> T get(Map<?, ?> map, Object key, Class<T> type, T defaultValue) {
+        return (null == map) ? null : Converts.convert(type, map.get(key), defaultValue);
+    }
+
+    // endregion
 
     // region
     // endregion
