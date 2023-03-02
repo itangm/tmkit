@@ -11,7 +11,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class NoSuchAlgorithmRuntimeException extends GenericRuntimeException {
 
-    private static final long serialVersionUID = 2022L;
+    private static final long serialVersionUID = 2023L;
 
     /**
      * Constructor

@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class BeanConverter<R> extends AbstractConverter<R> {
 
-    private static final long serialVersionUID = 2022L;
+    private static final long serialVersionUID = 2023L;
 
     private final Class<R> beanClass;
 

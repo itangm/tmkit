@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ByteConverter extends AbstractConverter<Byte> {
 
-    private static final long serialVersionUID = 2022L;
+    private static final long serialVersionUID = 2023L;
 
     /**
      * 返回{@linkplain  ByteConverter}实例对象

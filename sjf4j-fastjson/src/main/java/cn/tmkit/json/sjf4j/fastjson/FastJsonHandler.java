@@ -16,7 +16,7 @@ import java.lang.reflect.Type;
  *
  * @author miles.tang
  * @version 0.0.1
- * @date 2022-06-06
+ * @date 2023-03-02
  */
 @JsonProviderName(value = "fastjson", index = 50)
 public class FastJsonHandler extends BaseJsonHandler {

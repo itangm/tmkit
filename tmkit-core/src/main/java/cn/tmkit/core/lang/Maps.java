@@ -1,5 +1,8 @@
 package cn.tmkit.core.lang;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -105,6 +108,19 @@ public class Maps {
      */
     public static boolean isNotEmpty(Map<?, ?> map) {
         return !isEmpty(map);
+    }
+
+    /**
+     * 如果{@code map}为{@code null}则返回一个空{@code Map}，否则返回本身
+     *
+     * @param map Map对象
+     * @param <K> 键的类型
+     * @param <V> 值的类型
+     * @return 非空的Map对象
+     */
+    @NotNull
+    public static <K, V> Map<K, V> wrapper(Map<K, V> map) {
+        return (map == null) ? Collections.emptyMap() : map;
     }
 
     // endregion
@@ -235,6 +251,20 @@ public class Maps {
 
 
     // region general
+
+    /**
+     * 将{@code kvs}添加到{@code map}
+     *
+     * @param map 原Map对象
+     * @param kvs 需要加入的Map对象
+     * @param <K> 键类型
+     * @param <V> 值类型
+     */
+    public static <K, V> void putAll(Map<K, V> map, Map<K, V> kvs) {
+        if (isNotEmpty(map) && isNotEmpty(kvs)) {
+            map.putAll(kvs);
+        }
+    }
 
     /**
      * 键值对反转

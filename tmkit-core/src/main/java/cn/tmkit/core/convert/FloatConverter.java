@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class FloatConverter extends AbstractConverter<Float> {
 
-    private static final long serialVersionUID = 2022L;
+    private static final long serialVersionUID = 2023L;
 
     public static FloatConverter getInstance() {
         return Singletons.get(FloatConverter.class);

@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class DoubleConverter extends AbstractConverter<Double> {
 
-    private static final long serialVersionUID = 2022L;
+    private static final long serialVersionUID = 2023L;
 
     public static DoubleConverter getInstance() {
         return Singletons.get(DoubleConverter.class);

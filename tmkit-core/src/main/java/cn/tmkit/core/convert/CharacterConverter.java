@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class CharacterConverter extends AbstractConverter<Character> {
 
-    private static final long serialVersionUID = 2022L;
+    private static final long serialVersionUID = 2023L;
 
     @Override
     protected Character handleInternal(@NotNull Object value) {

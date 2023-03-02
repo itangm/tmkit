@@ -9,7 +9,7 @@ package cn.tmkit.core.exception;
  */
 public class DecoderRuntimeException extends GenericRuntimeException {
 
-    private static final long serialVersionUID = 2022L;
+    private static final long serialVersionUID = 2023L;
 
     /**
      * Decoder Exception Constructor

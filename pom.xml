@@ -21,6 +21,9 @@
         <module>sjf4j-gson</module>
         <module>sjf4j-jackson</module>
         <module>sjf4j-fastjson</module>
+        <module>shf4j-api</module>
+        <module>shf4j-okhttp</module>
+        <module>shf4j-httpclient</module>
     </modules>
 
     <properties>
@@ -157,11 +160,6 @@
                 <artifactId>httpmime</artifactId>
                 <version>${apache-httpclient4.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpcore</artifactId>
-                <version>${apache-httpclient4.version}</version>
-            </dependency>
             <!-- endregion -->
 
             <!-- servlet -->
@@ -213,6 +211,22 @@
             <dependency>
                 <groupId>cn.tmkit.json</groupId>
                 <artifactId>sjf4j-fastjson</artifactId>
+                <version>${tmkit.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.tmkit.http</groupId>
+                <artifactId>shf4j-api</artifactId>
+                <version>${tmkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.tmkit.http</groupId>
+                <artifactId>shf4j-okhttp</artifactId>
+                <version>${tmkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.tmkit.http</groupId>
+                <artifactId>shf4j-htpclient</artifactId>
                 <version>${tmkit.version}</version>
             </dependency>
 

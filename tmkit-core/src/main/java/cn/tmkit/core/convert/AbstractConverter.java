@@ -20,7 +20,7 @@ public abstract class AbstractConverter<R> implements Converter<R>, Serializable
     /**
      * use serialVersionUID from JDK 1.0.2 for interoperability
      */
-    private static final long serialVersionUID = 2022L;
+    private static final long serialVersionUID = 2023L;
 
     /**
      * {@inheritDoc}

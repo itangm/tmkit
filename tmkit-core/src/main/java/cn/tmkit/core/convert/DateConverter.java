@@ -18,7 +18,7 @@ public class DateConverter extends AbstractConverter< Date> {
     /**
      * use serialVersionUID from JDK 1.0.2 for interoperability
      */
-    private static final long serialVersionUID = 2022L;
+    private static final long serialVersionUID = 2023L;
 
     /**
      * 目标类型

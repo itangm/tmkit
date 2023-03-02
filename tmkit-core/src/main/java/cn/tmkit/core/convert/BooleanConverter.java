@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class BooleanConverter extends AbstractConverter<Boolean> {
 
-    private static final long serialVersionUID = 2022L;
+    private static final long serialVersionUID = 2023L;
 
     /**
      * 返回{@linkplain  BooleanConverter}实例对象

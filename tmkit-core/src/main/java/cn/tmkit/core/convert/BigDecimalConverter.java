@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  */
 public class BigDecimalConverter extends AbstractConverter<BigDecimal> {
 
-    private static final long serialVersionUID = 2022L;
+    private static final long serialVersionUID = 2023L;
 
     @Override
     protected BigDecimal handleInternal(@NotNull Object value) {
