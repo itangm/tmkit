@@ -3,7 +3,7 @@ package cn.tmkit.http.shf4j.httpclient;
 import cn.tmkit.http.shf4j.Client;
 import cn.tmkit.http.shf4j.ClientBuilder;
 import cn.tmkit.http.shf4j.Options;
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * HttpClient构造
