@@ -17,6 +17,10 @@
     <modules>
         <module>tmkit-core</module>
         <module>tmkit-idcard</module>
+        <module>sjf4j-api</module>
+        <module>sjf4j-gson</module>
+        <module>sjf4j-jackson</module>
+        <module>sjf4j-fastjson</module>
     </modules>
 
     <properties>
@@ -110,6 +114,11 @@
                 <artifactId>gson</artifactId>
                 <version>${gson.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson1.version}</version>
+            </dependency>
             <!-- fastjson2 -->
             <dependency>
                 <groupId>com.alibaba.fastjson2</groupId>
@@ -179,6 +188,31 @@
             <dependency>
                 <groupId>cn.tmkit</groupId>
                 <artifactId>tmkit-core</artifactId>
+                <version>${tmkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.tmkit.biz</groupId>
+                <artifactId>tmkit-idcard</artifactId>
+                <version>${tmkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.tmkit.json</groupId>
+                <artifactId>sjf4j-api</artifactId>
+                <version>${tmkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.tmkit.json</groupId>
+                <artifactId>sjf4j-gson</artifactId>
+                <version>${tmkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.tmkit.json</groupId>
+                <artifactId>sjf4j-jackson</artifactId>
+                <version>${tmkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.tmkit.json</groupId>
+                <artifactId>sjf4j-fastjson</artifactId>
                 <version>${tmkit.version}</version>
             </dependency>
 

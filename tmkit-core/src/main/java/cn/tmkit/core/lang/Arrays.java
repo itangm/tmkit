@@ -5,6 +5,7 @@ import cn.tmkit.core.exception.GenericRuntimeException;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Array;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -2149,6 +2150,23 @@ public class Arrays {
      */
     public static <T> Stream<T> stream(T[] array) {
         return java.util.Arrays.stream(array);
+    }
+
+    /**
+     * 数组转为{@linkplain List}，本方法实际调用的是{@linkplain java.util.Arrays#asList(Object[]) }
+     *
+     * @param array 数组
+     * @param <T>   元素的类型
+     * @return 集合对象，该集合是不可以更改的
+     * @see java.util.Arrays#asList(Object[])
+     * @see Collections#arrayList(Object[])
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> List<T> asList(T... array) {
+        if (isEmpty(array)) {
+            return Collections.emptyList();
+        }
+        return java.util.Arrays.asList(array);
     }
 
     // endregion

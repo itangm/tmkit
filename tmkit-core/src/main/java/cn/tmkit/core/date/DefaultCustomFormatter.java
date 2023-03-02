@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 
 /**
  * 常见的日期格式化常量
@@ -101,6 +102,13 @@ public enum DefaultCustomFormatter implements CustomFormatter {
      * UTC时间：yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
      */
     UTC_MS(UTC_MS_PATTERN, DateTimeFormatter.ofPattern(UTC_MS_PATTERN)),
+
+    /**
+     * UTC时间：yyyy-MM-dd'T'HH:mm:ss.SSSZ
+     */
+    UTC_MS_WITH_ZONE_OFFSET(UTC_MS_WITH_ZONE_OFFSET_PATTERN, new DateTimeFormatterBuilder()
+            .appendPattern(UTC_MS_WITH_ZONE_OFFSET_PATTERN)
+            .appendZoneId().toFormatter()),
 
     /**
      * 智能时间格式 H:m[:s]
