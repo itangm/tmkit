@@ -404,7 +404,6 @@ public class Beans {
      * @param <E>泛型标记
      * @return 目标集合
      */
-    @Nullable
     public static <E> List<E> copyProperties(@Nullable Collection<?> src, Class<E> targetClass) {
         return copyProperties(src, targetClass, Arrays.EMPTY_STRING_ARRAY);
     }
@@ -418,7 +417,6 @@ public class Beans {
      * @return 目标集合
      */
     @SuppressWarnings("all")
-    @Nullable
     public static <E> List<E> copyProperties(@Nullable Collection<?> src, Class<E> targetClass,
                                              @Nullable String... ignoreProperties) {
         if (Objects.isAnyNull(src, targetClass)) {
@@ -429,6 +427,18 @@ public class Beans {
             list.add(copyProperties(obj, targetClass, ignoreProperties));
         }
         return list;
+    }
+
+    /**
+     * 拷贝对象
+     *
+     * @param src         源bean对象
+     * @param targetClass 目标bean类型
+     * @param <E>         泛型标记
+     * @return 目标bean对象
+     */
+    public static <E> E copyProperties(@Nullable Object src, Class<E> targetClass) {
+        return copyProperties(src, targetClass, Arrays.EMPTY_STRING_ARRAY);
     }
 
     /**
