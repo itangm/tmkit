@@ -17,13 +17,13 @@ public class MapUtilTest {
 
     @Test
     public void newHashMap() {
-        HashMap<Object, Object> hashMap = Maps.newHashMap(8);
+        HashMap<Object, Object> hashMap = Maps.hashMap(8);
         assertNotNull(hashMap);
     }
 
     @Test
     public void newLinkedHashMap() {
-        LinkedHashMap<Object, Object> hashMap = Maps.newLinkedHashMap(8);
+        LinkedHashMap<Object, Object> hashMap = Maps.linkedHashMap(8);
         assertNotNull(hashMap);
     }
 

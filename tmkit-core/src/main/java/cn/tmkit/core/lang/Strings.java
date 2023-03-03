@@ -4,7 +4,11 @@ import cn.tmkit.core.support.MessageFormatter;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -2020,8 +2024,21 @@ public class Strings {
         return formatter.format(args);
     }
 
-    // endregion
+    /**
+     * 格式化文本,使用{@code {}}作为占位符，按照顺序替换为对应的参数
+     *
+     * @param messagePattern 文本模式
+     * @param suppliers      参数列表
+     * @return 格式化后的文本
+     */
+    @SuppressWarnings("unchecked")
+    public static String format(String messagePattern, Supplier<String>... suppliers) {
+        MessageFormatter formatter = new MessageFormatter(messagePattern);
+        String[] args = Arrays.stream(suppliers).map(Supplier::get).toArray(String[]::new);
+        return formatter.format(messagePattern, args);
+    }
 
+    // endregion
 
 
 }

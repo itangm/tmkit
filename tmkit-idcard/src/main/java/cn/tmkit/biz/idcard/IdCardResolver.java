@@ -29,7 +29,7 @@ public class IdCardResolver {
      */
     public static synchronized void loadAds() {
         if (allAds == null) {
-            allAds = Maps.newHashMap(3600);
+            allAds = Maps.hashMap(3600);
             IoUtil.readLines(ClassLoaderUtil.getInputStream("admin-districts.min.csv")).forEach(line -> {
                 if (Strings.isNotBlank(line)) {
                     List<String> items = Strings.split(line);

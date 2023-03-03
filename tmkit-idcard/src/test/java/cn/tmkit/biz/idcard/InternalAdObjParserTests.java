@@ -170,7 +170,7 @@ public class InternalAdObjParserTests {
     }
 
     public Map<String, InternalAdObj> toMap() {
-        Map<String, InternalAdObj> roots = Maps.newHashMap(10240);
+        Map<String, InternalAdObj> roots = Maps.hashMap(10240);
         int start = 1;
         while (start < lines.size()) {
             String line = lines.get(start++);
