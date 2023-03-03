@@ -4,9 +4,6 @@ import cn.tmkit.core.exception.IoRuntimeException;
 import cn.tmkit.core.io.IoUtil;
 import cn.tmkit.core.lang.*;
 import cn.tmkit.http.shf4j.*;
-import cn.tmkit.http.shf4j.ContentType;
-import cn.tmkit.http.shf4j.HeaderNames;
-import cn.tmkit.http.shf4j.HttpMethod;
 import okhttp3.Credentials;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
@@ -117,10 +114,10 @@ public class OkClient implements Client {
         }
 
         // header
-        boolean hasAcceptHeader = input.headers().keySet().stream().anyMatch(HeaderNames.ACCEPT::matchesIgnoreCase);
+        boolean hasAcceptHeader = input.headers().keySet().stream().anyMatch(HeaderName.ACCEPT::matchesIgnoreCase);
         input.headers().forEach((name, values) -> values.forEach(value -> requestBuilder.addHeader(name, value)));
         for (Map.Entry<String, List<String>> entry : input.headers().entrySet()) {
-            if (HeaderNames.CONTENT_TYPE.matchesIgnoreCase(entry.getKey())) {
+            if (HeaderName.CONTENT_TYPE.matchesIgnoreCase(entry.getKey())) {
                 for (String value : entry.getValue()) {
                     contentType = ContentType.parse(value);
                     break;
@@ -130,7 +127,7 @@ public class OkClient implements Client {
         }
         // Some servers choke on the default accept string.
         if (!hasAcceptHeader) {
-            requestBuilder.addHeader(HeaderNames.ACCEPT.getValue(), "*/*");
+            requestBuilder.addHeader(HeaderName.ACCEPT.getValue(), "*/*");
         }
 
         MediaType okhttp3MediaType = contentType == null ? null : MediaType.parse(contentType.toString());
@@ -139,7 +136,7 @@ public class OkClient implements Client {
         boolean isMethodWithBody = HttpMethod.POST == input.method() || HttpMethod.PUT == input.method() ||
                 HttpMethod.PATCH == input.method();
         if (isMethodWithBody) {
-            requestBuilder.removeHeader(HeaderNames.CONTENT_TYPE.getValue());
+            requestBuilder.removeHeader(HeaderName.CONTENT_TYPE.getValue());
         }
         if (input.body() == null) {
             if (isMethodWithBody) {

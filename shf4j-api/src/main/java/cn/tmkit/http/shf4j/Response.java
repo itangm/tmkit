@@ -133,7 +133,7 @@ public class Response implements Closeable, AutoCloseable {
      * @return 字符集
      */
     public Charset charset() {
-        List<String> contentTypeStrs = headers.get(HeaderNames.CONTENT_TYPE);
+        List<String> contentTypeStrs = headers.get(HeaderName.CONTENT_TYPE);
         if (Collections.isNotEmpty(contentTypeStrs)) {
             for (String contentTypeStr : contentTypeStrs) {
                 ContentType contentType = ContentType.parse(contentTypeStr);

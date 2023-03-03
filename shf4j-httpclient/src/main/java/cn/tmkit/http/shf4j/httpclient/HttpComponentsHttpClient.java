@@ -8,7 +8,6 @@ import cn.tmkit.core.lang.Objects;
 import cn.tmkit.core.lang.Strings;
 import cn.tmkit.http.shf4j.HttpHeaders;
 import cn.tmkit.http.shf4j.*;
-import cn.tmkit.http.shf4j.HeaderNames;
 import org.apache.http.*;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -130,11 +129,11 @@ public class HttpComponentsHttpClient implements Client {
         String headerName;
         for (Map.Entry<String, List<String>> entry : request.headers().entrySet()) {
             headerName = entry.getKey();
-            if (headerName.equalsIgnoreCase(HeaderNames.ACCEPT.toString())) {
+            if (headerName.equalsIgnoreCase(HeaderName.ACCEPT.toString())) {
                 hasAcceptHeader = true;
             }
 
-            if (Strings.equalsIgnoreCase(headerName, HeaderNames.CONTENT_LENGTH.toString())) {
+            if (Strings.equalsIgnoreCase(headerName, HeaderName.CONTENT_LENGTH.toString())) {
                 // The 'Content-Length' header is always set by the Apache client
                 // doesn't like us to set it as well.
                 continue;
@@ -145,7 +144,7 @@ public class HttpComponentsHttpClient implements Client {
             }
         }
         if (!hasAcceptHeader) {
-            requestBuilder.addHeader(HeaderNames.ACCEPT.toString(), "*/*");
+            requestBuilder.addHeader(HeaderName.ACCEPT.toString(), "*/*");
         }
 
         // request body
@@ -205,7 +204,7 @@ public class HttpComponentsHttpClient implements Client {
             return ContentType.create(body.contentType().getMimeType(), body.contentType().getCharset());
         }
         for (Map.Entry<String, List<String>> entry : request.headers().entrySet()) {
-            if (HeaderNames.CONTENT_TYPE.matchesIgnoreCase(entry.getKey())) {
+            if (HeaderName.CONTENT_TYPE.matchesIgnoreCase(entry.getKey())) {
                 List<String> values = entry.getValue();
                 if (Collections.isNotEmpty(values)) {
                     return ContentType.parse(values.get(0));
