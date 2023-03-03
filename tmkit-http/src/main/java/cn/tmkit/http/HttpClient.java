@@ -14,6 +14,9 @@ import org.jetbrains.annotations.NotNull;
  */
 public class HttpClient {
 
+    /**
+     * 通用的Client
+     */
     protected static Client client;
 
     static {
@@ -138,6 +141,15 @@ public class HttpClient {
      */
     public static PutRequest put(@NotNull String urlPattern, Object... args) {
         return new PutRequest(Strings.format(urlPattern, args));
+    }
+
+    /**
+     * 配置全局Client
+     *
+     * @param client 自定义的client
+     */
+    public static void globalClient(@NotNull Client client) {
+        HttpClient.client = client;
     }
 
 }
