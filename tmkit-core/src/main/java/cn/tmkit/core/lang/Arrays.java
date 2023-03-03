@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
@@ -1534,6 +1535,15 @@ public class Arrays {
             }
         }
         return obj.toString();
+    }
+
+    public static <E> void forEach(E[] array, Consumer<E> consumer) {
+        if (isEmpty(array) || Objects.isNull(consumer)) {
+            return;
+        }
+        for (E element : array) {
+            consumer.accept(element);
+        }
     }
 
     // endregion
