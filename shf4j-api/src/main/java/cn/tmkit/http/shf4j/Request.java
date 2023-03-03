@@ -238,11 +238,11 @@ public final class Request {
             return this;
         }
 
-        public Builder body(@Nullable RequestBody body) {
+        public Builder body( RequestBody body) {
             return method(this.method, body);
         }
 
-        public Builder method(HttpMethod method, @Nullable RequestBody body) {
+        public Builder method(HttpMethod method,  RequestBody body) {
             method(method);
             if (method == HttpMethod.GET || method == HttpMethod.HEAD) {
                 // 不能有body

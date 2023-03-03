@@ -6,7 +6,6 @@ import cn.tmkit.core.lang.Collections;
 import cn.tmkit.core.lang.Objects;
 import cn.tmkit.core.lang.*;
 import cn.tmkit.core.lang.reflect.Reflects;
-import org.jetbrains.annotations.Nullable;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
@@ -404,7 +403,7 @@ public class Beans {
      * @param <E>泛型标记
      * @return 目标集合
      */
-    public static <E> List<E> copyProperties(@Nullable Collection<?> src, Class<E> targetClass) {
+    public static <E> List<E> copyProperties(Collection<?> src, Class<E> targetClass) {
         return copyProperties(src, targetClass, Arrays.EMPTY_STRING_ARRAY);
     }
 
@@ -417,8 +416,7 @@ public class Beans {
      * @return 目标集合
      */
     @SuppressWarnings("all")
-    public static <E> List<E> copyProperties(@Nullable Collection<?> src, Class<E> targetClass,
-                                             @Nullable String... ignoreProperties) {
+    public static <E> List<E> copyProperties(Collection<?> src, Class<E> targetClass, String... ignoreProperties) {
         if (Objects.isAnyNull(src, targetClass)) {
             return null;
         }
@@ -437,7 +435,7 @@ public class Beans {
      * @param <E>         泛型标记
      * @return 目标bean对象
      */
-    public static <E> E copyProperties(@Nullable Object src, Class<E> targetClass) {
+    public static <E> E copyProperties(Object src, Class<E> targetClass) {
         return copyProperties(src, targetClass, Arrays.EMPTY_STRING_ARRAY);
     }
 
@@ -450,9 +448,8 @@ public class Beans {
      * @param <E>              泛型标记
      * @return 目标bean对象
      */
-    @Nullable
-    public static <E> E copyProperties(@Nullable Object src, Class<E> targetClass,
-                                       @Nullable String... ignoreProperties) {
+
+    public static <E> E copyProperties(Object src, Class<E> targetClass, String... ignoreProperties) {
         if (Objects.isAnyNull(src, targetClass)) {
             return null;
         }

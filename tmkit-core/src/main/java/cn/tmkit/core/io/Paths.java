@@ -7,7 +7,6 @@ import cn.tmkit.core.lang.Collections;
 import cn.tmkit.core.lang.Objects;
 import cn.tmkit.core.lang.Strings;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
 import java.net.URI;
@@ -35,7 +34,7 @@ public class Paths {
      * @param path {@link Path}
      * @return 文件名
      */
-    public static String getName(@Nullable Path path) {
+    public static String getName(Path path) {
         if (Objects.isNull(path)) {
             return null;
         }
@@ -54,7 +53,7 @@ public class Paths {
      * @return 是否存在
      * @see java.nio.file.Files#exists(Path, LinkOption...)
      */
-    public static boolean exists(@Nullable Path path) {
+    public static boolean exists(Path path) {
         if (Objects.isNull(path)) {
             return false;
         }
@@ -70,7 +69,7 @@ public class Paths {
      * @return 是否不存在
      * @see java.nio.file.Files#notExists(Path, LinkOption...)
      */
-    public static boolean notExists(@Nullable Path path) {
+    public static boolean notExists(Path path) {
         if (Objects.isNull(path)) {
             return true;
         }
@@ -107,7 +106,7 @@ public class Paths {
      * @param path 文件
      * @return 是否为文件
      */
-    public static boolean isFile(@Nullable Path path) {
+    public static boolean isFile(Path path) {
         return isFile(path, false);
     }
 
@@ -118,7 +117,7 @@ public class Paths {
      * @param isFollowLinks 是否追踪快捷方式（软链接），即真实文件地址
      * @return 是否为文件
      */
-    public static boolean isFile(@Nullable Path path, boolean isFollowLinks) {
+    public static boolean isFile(Path path, boolean isFollowLinks) {
         if (Objects.isNull(path)) {
             return false;
         }
@@ -134,7 +133,7 @@ public class Paths {
      * @param path 文件对象
      * @return 如果是目录返回{@code true}
      */
-    public static boolean isDir(@Nullable Path path) {
+    public static boolean isDir(Path path) {
         return isDir(path, false);
     }
 
@@ -145,7 +144,7 @@ public class Paths {
      * @param isFollowLinks 是否追踪快捷方式（软链接），即真实文件地址
      * @return 如果是目录返回{@code true}
      */
-    public static boolean isDir(@Nullable Path path, boolean isFollowLinks) {
+    public static boolean isDir(Path path, boolean isFollowLinks) {
         return isDirectory(path, isFollowLinks);
     }
 
@@ -157,7 +156,7 @@ public class Paths {
      * @param path 文件对象
      * @return 如果是目录返回{@code true}
      */
-    public static boolean isDirectory(@Nullable Path path) {
+    public static boolean isDirectory(Path path) {
         return isDirectory(path, false);
     }
 
@@ -169,7 +168,7 @@ public class Paths {
      * @return 如果是目录返回{@code true}
      * @see java.nio.file.Files#isDirectory(Path, LinkOption...)
      */
-    public static boolean isDirectory(@Nullable Path path, boolean isFollowLinks) {
+    public static boolean isDirectory(Path path, boolean isFollowLinks) {
         if (Objects.isNull(path)) {
             return false;
         }
@@ -334,7 +333,7 @@ public class Paths {
      *
      * @param dir 文件目录
      */
-    public static void mkdir(@Nullable Path dir) {
+    public static void mkdir(Path dir) {
         if (Objects.isNull(dir) || exists(dir)) {
             return;
         }
@@ -355,7 +354,7 @@ public class Paths {
      * @param path 文件路径
      * @return 输出流
      */
-    public static BufferedOutputStream getBufferedOutputStream(@Nullable Path path) {
+    public static BufferedOutputStream getBufferedOutputStream(Path path) {
         if (Objects.isNull(path)) {
             return null;
         }
@@ -372,7 +371,7 @@ public class Paths {
      * @param path 文件路径
      * @return 输出流
      */
-    public static BufferedOutputStream newBufferedOutputStream(@Nullable Path path) {
+    public static BufferedOutputStream newBufferedOutputStream(Path path) {
         return getBufferedOutputStream(path);
     }
 
@@ -382,7 +381,7 @@ public class Paths {
      * @param path 文件路径
      * @return 输入流
      */
-    public static BufferedInputStream getBufferedInputStream(@Nullable Path path) {
+    public static BufferedInputStream getBufferedInputStream(Path path) {
         if (Objects.isNull(path)) {
             return null;
         }
@@ -399,7 +398,7 @@ public class Paths {
      * @param path 文件路径
      * @return 输入流
      */
-    public static BufferedInputStream newBufferedInputStream(@Nullable Path path) {
+    public static BufferedInputStream newBufferedInputStream(Path path) {
         return getBufferedInputStream(path);
     }
 
@@ -427,7 +426,7 @@ public class Paths {
      * @param fileFilter 文件过滤规则对象，选择要保留的文件，只对文件有效，不过滤目录，null表示接收全部文件
      * @return 文件列表
      */
-    public static List<File> listFiles(Path path, @Nullable FileFilter fileFilter) {
+    public static List<File> listFiles(Path path, FileFilter fileFilter) {
         return listFiles(path, -1, fileFilter);
     }
 
@@ -439,7 +438,7 @@ public class Paths {
      * @param fileFilter 文件过滤规则对象，选择要保留的文件，只对文件有效，不过滤目录，null表示接收全部文件
      * @return 文件列表
      */
-    public static @NotNull List<File> listFiles(Path path, int maxDepth, @Nullable FileFilter fileFilter) {
+    public static @NotNull List<File> listFiles(Path path, int maxDepth, FileFilter fileFilter) {
         List<File> list = Collections.arrayList();
         if (Objects.isNull(path) || !exists(path)) {
             return list;
@@ -669,7 +668,7 @@ public class Paths {
      * @return 删除结果
      */
     @SuppressWarnings("ConstantConditions")
-    public static boolean delete(@Nullable Path path) {
+    public static boolean delete(Path path) {
         if (notExists(path)) {
             return true;
         }

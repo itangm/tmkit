@@ -7,7 +7,6 @@ import cn.tmkit.json.sjf4j.annotation.JsonProviderName;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
 
@@ -30,7 +29,7 @@ public class FastJsonHandler extends BaseJsonHandler {
      * @throws JsonRuntimeException 序列化出现异常
      */
     @Override
-    public String doSerialize(@NotNull Object src, @Nullable String[] ignorePropertyNames) throws JsonRuntimeException {
+    public String doSerialize(@NotNull Object src, String[] ignorePropertyNames) throws JsonRuntimeException {
         SimplePropertyPreFilter filter = new SimplePropertyPreFilter();
         if (Arrays.isNotEmpty(ignorePropertyNames)) {
             for (String ignorePropertyName : ignorePropertyNames) {
@@ -49,7 +48,7 @@ public class FastJsonHandler extends BaseJsonHandler {
      * @throws JsonRuntimeException 序列化出现异常
      */
     @Override
-    public String doSerialize(@Nullable @org.jetbrains.annotations.NotNull Object src, @Nullable Type typeOfT) throws JsonRuntimeException {
+    public String doSerialize(@NotNull Object src, Type typeOfT) throws JsonRuntimeException {
         return JSON.toJSONString(src);
     }
 

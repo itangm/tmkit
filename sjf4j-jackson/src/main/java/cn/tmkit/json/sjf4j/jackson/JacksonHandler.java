@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -46,7 +45,7 @@ public class JacksonHandler extends BaseJsonHandler {
      * @throws JsonRuntimeException 序列化出现异常
      */
     @Override
-    public String doSerialize(@NotNull Object src, @Nullable String[] ignorePropertyNames) throws JsonRuntimeException {
+    public String doSerialize(@NotNull Object src,  String[] ignorePropertyNames) throws JsonRuntimeException {
         if (Arrays.isNotEmpty(ignorePropertyNames)) {
             SimpleFilterProvider sfp = new SimpleFilterProvider();
             sfp.addFilter("fieldFilter", SimpleBeanPropertyFilter.serializeAllExcept(ignorePropertyNames));
@@ -56,7 +55,7 @@ public class JacksonHandler extends BaseJsonHandler {
                 throw new JsonRuntimeException(e);
             }
         } else {
-            return serialize(src, (Type) null);
+            return serialize(src, src.getClass());
         }
     }
 
@@ -69,7 +68,7 @@ public class JacksonHandler extends BaseJsonHandler {
      * @throws JsonRuntimeException 序列化出现异常
      */
     @Override
-    public String doSerialize(@NotNull Object src, @Nullable Type typeOfT) throws JsonRuntimeException {
+    public String doSerialize(@NotNull Object src,  Type typeOfT) throws JsonRuntimeException {
         try {
             return objectMapper.writeValueAsString(src);
         } catch (JsonProcessingException e) {

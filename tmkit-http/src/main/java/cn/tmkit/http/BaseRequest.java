@@ -3,7 +3,6 @@ package cn.tmkit.http;
 import cn.tmkit.http.shf4j.*;
 import cn.tmkit.http.shf4j.exceptions.HttpClientException;
 import cn.tmkit.json.sjf4j.BaseTypeRef;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.OutputStream;
@@ -35,7 +34,7 @@ public interface BaseRequest<Req extends BaseRequest<Req>> {
      * @param value 参数值
      * @return 返回当前类{@linkplain Req}的对象自己
      */
-    Req queryParam(String name, @Nullable Number value);
+    Req queryParam(String name,  Number value);
 
     /**
      * 为url地址设置请求参数，即url?username=admin&nbsp;pwd=123
@@ -44,7 +43,7 @@ public interface BaseRequest<Req extends BaseRequest<Req>> {
      * @param value 参数值
      * @return 返回当前类{@linkplain Req}的对象自己
      */
-    Req queryParam(String name, @Nullable String value);
+    Req queryParam(String name, String value);
 
     /**
      * 为url地址设置请求参数，即url?username=admin&nbsp;pwd=123
@@ -52,7 +51,7 @@ public interface BaseRequest<Req extends BaseRequest<Req>> {
      * @param parameters 参数对
      * @return 返回当前类{@linkplain Req}的对象自己
      */
-    Req queryParam(@Nullable Map<String, ?> parameters);
+    Req queryParam( Map<String, ?> parameters);
 
     /**
      * 添加请求头信息

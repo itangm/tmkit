@@ -12,7 +12,6 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
 import java.time.*;
@@ -46,7 +45,7 @@ public class GsonJsonHandler extends BaseJsonHandler {
      * @throws JsonRuntimeException 序列化出现异常
      */
     @Override
-    public String doSerialize(@NotNull Object src, @Nullable String[] ignorePropertyNames) throws JsonRuntimeException {
+    public String doSerialize(@NotNull Object src, String[] ignorePropertyNames) throws JsonRuntimeException {
         if (Arrays.isNotEmpty(ignorePropertyNames)) {
             Gson customGson = this.gson.newBuilder()
                     .addSerializationExclusionStrategy(new ExclusionStrategy() {
@@ -63,7 +62,7 @@ public class GsonJsonHandler extends BaseJsonHandler {
                     .create();
             return customGson.toJson(src);
         } else {
-            return serialize(src, (Type) null);
+            return serialize(src, src.getClass());
         }
     }
 
@@ -76,7 +75,7 @@ public class GsonJsonHandler extends BaseJsonHandler {
      * @throws JsonRuntimeException 序列化出现异常
      */
     @Override
-    public String doSerialize(@NotNull Object src, @Nullable Type typeOfT) throws JsonRuntimeException {
+    public String doSerialize(@NotNull Object src, Type typeOfT) throws JsonRuntimeException {
         return (typeOfT == null) ? gson.toJson(src) : gson.toJson(src, typeOfT);
     }
 

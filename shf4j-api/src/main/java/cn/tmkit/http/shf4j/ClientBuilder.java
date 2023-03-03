@@ -1,7 +1,6 @@
 package cn.tmkit.http.shf4j;
 
 import cn.tmkit.core.support.CloneSupport;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Client构造器
@@ -12,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public abstract class ClientBuilder extends CloneSupport<ClientBuilder> {
 
-    public abstract Client build(@Nullable Options options);
+    public abstract Client build(Options options);
 
     static class Default extends ClientBuilder {
 

@@ -1,7 +1,6 @@
 package cn.tmkit.json.sjf4j;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.Reader;
 import java.lang.reflect.Type;
@@ -23,7 +22,7 @@ public interface JsonHandler {
      * @return JSON字符串
      * @throws JsonRuntimeException 序列化出现异常
      */
-    String serialize(@NotNull Object src, @Nullable String... ignorePropertyNames) throws JsonRuntimeException;
+    String serialize(@NotNull Object src, String... ignorePropertyNames) throws JsonRuntimeException;
 
     /**
      * 将Java对象序列化为JSON字符串

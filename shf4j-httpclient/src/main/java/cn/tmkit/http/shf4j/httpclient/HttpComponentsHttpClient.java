@@ -28,7 +28,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -56,16 +55,16 @@ public class HttpComponentsHttpClient implements Client {
         this.delegate = closeableHttpClient;
     }
 
-    public HttpComponentsHttpClient(@Nullable Options options) {
+    public HttpComponentsHttpClient(Options options) {
         this(null, options);
     }
 
-    public HttpComponentsHttpClient(@Nullable CloseableHttpClient closeableHttpClient, @Nullable Options options) {
+    public HttpComponentsHttpClient(CloseableHttpClient closeableHttpClient, Options options) {
         this.delegate = buildHttpClient(closeableHttpClient, options);
     }
 
 
-    private RequestConfig buildRequestConfig(@Nullable CloseableHttpClient chc, @Nullable Options options) {
+    private RequestConfig buildRequestConfig(CloseableHttpClient chc, Options options) {
         Options opts = Objects.getIfNull(options, Options.DEFAULT_OPTIONS);
         ProxyInfo proxyInfo = opts.proxyInfo();
         RequestConfig requestConfig;
@@ -82,7 +81,7 @@ public class HttpComponentsHttpClient implements Client {
                 .build();
     }
 
-    private CloseableHttpClient buildHttpClient(@Nullable CloseableHttpClient chc, @Nullable Options options) {
+    private CloseableHttpClient buildHttpClient(CloseableHttpClient chc, Options options) {
         HttpClientBuilder builder = HttpClientBuilder.create()
                 .setDefaultRequestConfig(buildRequestConfig(chc, options));
         Options opts = Objects.getIfNull(options, Options.DEFAULT_OPTIONS);

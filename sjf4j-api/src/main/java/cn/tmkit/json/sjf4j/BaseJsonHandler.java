@@ -1,7 +1,6 @@
 package cn.tmkit.json.sjf4j;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.Reader;
 import java.lang.reflect.Type;
@@ -24,7 +23,7 @@ public abstract class BaseJsonHandler implements JsonHandler {
      * @throws JsonRuntimeException 序列化出现异常
      */
     @Override
-    public String serialize(@NotNull Object src, @Nullable String... ignorePropertyNames) throws JsonRuntimeException {
+    public String serialize(@NotNull Object src, String... ignorePropertyNames) throws JsonRuntimeException {
         return doSerialize(src, ignorePropertyNames);
     }
 
@@ -47,7 +46,7 @@ public abstract class BaseJsonHandler implements JsonHandler {
      * @throws JsonRuntimeException 序列化出现异常
      */
     @Override
-    public String serialize(@NotNull Object src, @Nullable Type typeOfT) throws JsonRuntimeException {
+    public String serialize(@NotNull Object src, @NotNull Type typeOfT) throws JsonRuntimeException {
         return doSerialize(src, typeOfT);
     }
 
@@ -59,7 +58,7 @@ public abstract class BaseJsonHandler implements JsonHandler {
      * @return JSON字符串
      * @throws JsonRuntimeException 序列化出现异常
      */
-    public abstract String doSerialize(@NotNull Object src, @Nullable Type typeOfT);
+    public abstract String doSerialize(@NotNull Object src, Type typeOfT);
 
     /**
      * 将JSON字符串放序列化为Java对象
@@ -93,7 +92,7 @@ public abstract class BaseJsonHandler implements JsonHandler {
      * @throws JsonRuntimeException 反序列化异常
      */
     @Override
-    public <T> T deserialize(@Nullable Reader reader, @Nullable Type typeOfT) throws JsonRuntimeException {
+    public <T> T deserialize(@NotNull Reader reader, @NotNull Type typeOfT) throws JsonRuntimeException {
         throw new UnsupportedOperationException();
     }
 

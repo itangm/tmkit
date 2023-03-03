@@ -1,9 +1,9 @@
 package cn.tmkit.core.lang;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -260,7 +260,7 @@ public class Collections {
      * @see java.util.Collections#sort(List, Comparator)
      */
     @SuppressWarnings("Java8ListSort")
-    public static <E> void sort(List<E> list, @Nullable Comparator<? super E> comparator) {
+    public static <E> void sort(List<E> list, Comparator<? super E> comparator) {
         if (isNotEmpty(list)) {
             java.util.Collections.sort(list, comparator);
         }
@@ -466,6 +466,20 @@ public class Collections {
         results.addAll(coll);
         addAll(results, elements);
         return results;
+    }
+
+    /**
+     * 遍历集合元素，并执行动作{@code action}
+     *
+     * @param coll   集合列表
+     * @param action 执行动作
+     * @param <E>    集合的元素类型
+     */
+    public static <E> void forEach(Collection<E> coll, Consumer<E> action) {
+        if (isEmpty(coll) || Objects.isNull(action)) {
+            return;
+        }
+        coll.forEach(action);
     }
 
     // endregion

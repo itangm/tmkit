@@ -2,7 +2,6 @@ package cn.tmkit.http.shf4j;
 
 import cn.tmkit.core.lang.Asserts;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -169,7 +168,7 @@ public class Options {
          * @param connectTimeoutMillis 连接超时毫秒数
          * @return {@code Builder}
          */
-        public Builder connectTimeoutMillis(@Nullable Integer connectTimeoutMillis) {
+        public Builder connectTimeoutMillis( Integer connectTimeoutMillis) {
             if (connectTimeoutMillis != null) {
                 return connectTimeoutMillis(connectTimeoutMillis.intValue());
             }
@@ -196,7 +195,7 @@ public class Options {
          * @param timeUnit       超时单位
          * @return {@code Builder}
          */
-        public Builder connectTimeout(@Nullable Integer connectTimeout, @Nullable TimeUnit timeUnit) {
+        public Builder connectTimeout( Integer connectTimeout,  TimeUnit timeUnit) {
             if (connectTimeout != null) {
                 return connectTimeout(connectTimeout.intValue(), timeUnit);
             }
@@ -248,8 +247,9 @@ public class Options {
          * @param timeUnit    时间单位
          * @return {@code Builder}
          */
-        public Builder readTimeout(@Nullable Integer readTimeout, @Nullable TimeUnit timeUnit) {
+        public Builder readTimeout( Integer readTimeout,  TimeUnit timeUnit) {
             if (readTimeout != null) {
+                Asserts.notNull(timeUnit);
                 return readTimeout(readTimeout.intValue(), timeUnit);
             }
             return this;

@@ -4,7 +4,6 @@ import cn.tmkit.json.sjf4j.BaseTypeRef;
 import cn.tmkit.json.sjf4j.JSON;
 import cn.tmkit.json.sjf4j.JsonFactory;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
 import java.util.Objects;
@@ -32,8 +31,7 @@ public class JSONs {
      * @return JSON字符串或空字符串
      * @see #toJson(Object, Type)
      */
-    @Nullable
-    public static String toJson(@Nullable Object src) {
+    public static String toJson(Object src) {
         if (src == null) {
             return null;
         }
@@ -47,8 +45,7 @@ public class JSONs {
      * @param typeOfSrc 对象的某个类型
      * @return JSON字符串或空字符串
      */
-    @Nullable
-    public static String toJson(@Nullable Object src, @Nullable Type typeOfSrc) {
+    public static String toJson(Object src, Type typeOfSrc) {
         if (src == null) {
             return null;
         }
@@ -62,7 +59,6 @@ public class JSONs {
      * @param ignorePropertyNames 忽略的属性
      * @return JSON字符串
      */
-    @Nullable
     public static String toJson(Object src, String... ignorePropertyNames) {
         if (src == null) {
             return null;
@@ -78,7 +74,7 @@ public class JSONs {
      * @param <T>   泛型
      * @return 对象
      */
-    public static <T> T fromJson(@Nullable String json, Class<T> clazz) {
+    public static <T> T fromJson(String json, Class<T> clazz) {
         return DEFAULT_JSON.fromJson(json, clazz);
     }
 
@@ -90,7 +86,7 @@ public class JSONs {
      * @param <T>     泛型
      * @return 对象
      */
-    public static <T> T fromJson(@Nullable String json, Type typeOfT) {
+    public static <T> T fromJson(String json, Type typeOfT) {
         return DEFAULT_JSON.fromJson(json, typeOfT);
     }
 
@@ -105,6 +101,5 @@ public class JSONs {
     public static <T> T fromJson(String text, @NotNull BaseTypeRef<T> typeRef) {
         return DEFAULT_JSON.fromJson(text, Objects.requireNonNull(typeRef).getType());
     }
-
 
 }
