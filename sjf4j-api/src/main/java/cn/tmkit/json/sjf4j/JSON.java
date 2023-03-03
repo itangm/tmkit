@@ -1,7 +1,6 @@
 package cn.tmkit.json.sjf4j;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
 
@@ -37,7 +36,6 @@ public class JSON {
      * @param ignorePropertyNames 忽略的属性
      * @return JSON字符串
      */
-    @Nullable
     public String toJson(Object src, String... ignorePropertyNames) {
         return jsonHandler.serialize(src, ignorePropertyNames);
     }

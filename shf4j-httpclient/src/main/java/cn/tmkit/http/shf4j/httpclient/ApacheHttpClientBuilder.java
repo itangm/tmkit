@@ -3,7 +3,6 @@ package cn.tmkit.http.shf4j.httpclient;
 import cn.tmkit.http.shf4j.Client;
 import cn.tmkit.http.shf4j.ClientBuilder;
 import cn.tmkit.http.shf4j.Options;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * HttpClient构造
@@ -15,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 public class ApacheHttpClientBuilder extends ClientBuilder {
 
     @Override
-    public Client build(@Nullable Options options) {
+    public Client build(Options options) {
         return new HttpComponentsHttpClient(options);
     }
 

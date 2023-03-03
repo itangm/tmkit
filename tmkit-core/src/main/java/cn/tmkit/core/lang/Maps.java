@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 /**
@@ -279,6 +280,21 @@ public class Maps {
         Map<V, K> resultMap = new HashMap<>(map.size());
         map.forEach((k, v) -> resultMap.put(v, k));
         return resultMap;
+    }
+
+    /**
+     * 遍历集合元素，并执行动作{@code action}
+     *
+     * @param map    集合列表
+     * @param action 执行动作
+     * @param <K>    键的类型
+     * @param <V>    值的类型
+     */
+    public static <K, V> void forEach(Map<K, V> map, BiConsumer<? super K, ? super V> action) {
+        if (isEmpty(map) || Objects.isNull(action)) {
+            return;
+        }
+        map.forEach(action);
     }
 
     // endregion

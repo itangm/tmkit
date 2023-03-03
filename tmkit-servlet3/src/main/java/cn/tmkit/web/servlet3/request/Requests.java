@@ -7,7 +7,6 @@ import cn.tmkit.core.lang.Charsets;
 import cn.tmkit.core.lang.Strings;
 import cn.tmkit.json.sjf4j.BaseTypeRef;
 import cn.tmkit.json.sjf4j.util.JSONs;
-import org.jetbrains.annotations.Nullable;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -41,7 +40,7 @@ public class Requests {
      * @param <T>     泛型类型
      * @return 目标对象
      */
-    public static <T> T read2Bean(@Nullable HttpServletRequest request, Class<T> clazz) {
+    public static <T> T read2Bean(HttpServletRequest request, Class<T> clazz) {
         String body = read2Bean(request);
         if (Strings.isBlank(body)) {
             return null;
@@ -58,7 +57,7 @@ public class Requests {
      * @param <T>     泛型类型
      * @return 目标对象
      */
-    public static <T> T read2Bean(@Nullable HttpServletRequest request, BaseTypeRef<T> typeRef) {
+    public static <T> T read2Bean(HttpServletRequest request, BaseTypeRef<T> typeRef) {
         String body = read2Bean(request);
         return (Strings.isEmpty(body) ? null : JSONs.fromJson(body, typeRef.getType()));
     }
@@ -69,8 +68,7 @@ public class Requests {
      * @param request HTTP请求对象
      * @return body的内容
      */
-    @Nullable
-    public static String read2Bean(@Nullable HttpServletRequest request) {
+    public static String read2Bean(HttpServletRequest request) {
         if (Objects.isNull(request)) {
             return null;
         }

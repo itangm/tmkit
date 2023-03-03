@@ -9,7 +9,6 @@ import cn.tmkit.core.lang.Strings;
 import cn.tmkit.core.lang.regex.Regexes;
 import cn.tmkit.http.shf4j.ContentType;
 import cn.tmkit.json.sjf4j.util.JSONs;
-import org.jetbrains.annotations.Nullable;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +36,7 @@ public class Responses {
      * @param obj      对象
      * @param response HTTP响应对象
      */
-    public static void writeJson(@Nullable Object obj, @Nullable HttpServletResponse response) {
+    public static void writeJson(Object obj, HttpServletResponse response) {
         writeJson(JSONs.toJson(obj), response);
     }
 
@@ -47,11 +46,11 @@ public class Responses {
      * @param json     json字符串
      * @param response HTTP响应对象
      */
-    public static void writeJson(@Nullable String json, @Nullable HttpServletResponse response) {
+    public static void writeJson(String json, HttpServletResponse response) {
         writeJson(json, null, response);
     }
 
-    public static void writeJson(@Nullable Object obj, @Nullable Charset encoding, @Nullable HttpServletResponse response) {
+    public static void writeJson(Object obj, Charset encoding, HttpServletResponse response) {
         writeJson(JSONs.toJson(obj), encoding, response);
     }
 
@@ -62,7 +61,7 @@ public class Responses {
      * @param encoding 指定编码,如果为空则使用{@code UTF-8}
      * @param response HTTP响应对象
      */
-    public static void writeJson(@Nullable String json, @Nullable Charset encoding, @Nullable HttpServletResponse response) {
+    public static void writeJson(String json, Charset encoding, HttpServletResponse response) {
         if (Objects.isAnyNull(json, response)) {
             return;
         }
@@ -88,7 +87,7 @@ public class Responses {
      * @param html     待输出的内容
      * @param response {@linkplain HttpServletResponse}
      */
-    public static void writeHtml(@Nullable String html, @Nullable HttpServletResponse response) {
+    public static void writeHtml(String html, HttpServletResponse response) {
         writeHtml(html, response, null);
     }
 
@@ -99,7 +98,7 @@ public class Responses {
      * @param response {@linkplain HttpServletResponse}
      * @param encoding 字符集编码
      */
-    public static void writeHtml(@Nullable String html, @Nullable HttpServletResponse response, @Nullable Charset encoding) {
+    public static void writeHtml(String html, HttpServletResponse response, Charset encoding) {
         if (Objects.isAnyNull(html, response)) {
             return;
         }
@@ -114,7 +113,7 @@ public class Responses {
      * @param data     待输出的字符串
      * @param response {@linkplain HttpServletResponse}
      */
-    public static void writePlainText(@Nullable String data, @Nullable HttpServletResponse response) {
+    public static void writePlainText(String data, HttpServletResponse response) {
         writePlainText(data, response, null);
     }
 
@@ -125,7 +124,7 @@ public class Responses {
      * @param response {@linkplain HttpServletResponse}
      * @param encoding 编码
      */
-    public static void writePlainText(@Nullable String data, @Nullable HttpServletResponse response, @Nullable Charset encoding) {
+    public static void writePlainText(String data, HttpServletResponse response, Charset encoding) {
         if (Objects.isAnyNull(data, response)) {
             return;
         }
@@ -139,7 +138,7 @@ public class Responses {
      * @param data     待输出的对象，最终会转为JSON字符串
      * @param response {@linkplain HttpServletResponse}
      */
-    public static void writePlainText(@Nullable Object data, @Nullable HttpServletResponse response) {
+    public static void writePlainText(Object data, HttpServletResponse response) {
         writePlainText(JSONs.toJson(data), response);
     }
 
@@ -150,7 +149,7 @@ public class Responses {
      * @param response     HTTP响应对象
      * @param downloadFile 下载文件对象
      */
-    public static void writeFile(@Nullable File downloadFile, @Nullable HttpServletRequest request, @Nullable HttpServletResponse response) {
+    public static void writeFile(File downloadFile, HttpServletRequest request, HttpServletResponse response) {
         writeFile(downloadFile, false, request, response);
     }
 

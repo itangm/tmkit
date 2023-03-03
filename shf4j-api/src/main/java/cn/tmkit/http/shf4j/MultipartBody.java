@@ -106,7 +106,7 @@ public class MultipartBody extends RequestBody {
             return create(name, value, (ContentType) null);
         }
 
-        public static Part create(String name, String value, @Nullable ContentType contentType) {
+        public static Part create(String name, String value, ContentType contentType) {
             return new Part(name, value, contentType == null ? ContentType.DEFAULT_TEXT : contentType);
         }
 
@@ -125,8 +125,7 @@ public class MultipartBody extends RequestBody {
             return create(name, filename, in, null);
         }
 
-        public static Part create(String name, String filename, @NotNull InputStream in,
-                                  @Nullable ContentType contentType) {
+        public static Part create(String name, String filename, @NotNull InputStream in, ContentType contentType) {
             Part part = new Part(name, filename, contentType == null ? ContentType.DEFAULT_BINARY : contentType);
             part.in = in;
             return part;
@@ -136,7 +135,7 @@ public class MultipartBody extends RequestBody {
             return create(name, filename, body, null);
         }
 
-        public static Part create(String name, String filename, RequestBody body, @Nullable ContentType contentType) {
+        public static Part create(String name, String filename, RequestBody body, ContentType contentType) {
             Part part = new Part(name, filename, contentType == null ? ContentType.DEFAULT_BINARY : contentType);
             part.body = body;
             return part;
@@ -167,25 +166,25 @@ public class MultipartBody extends RequestBody {
             return this;
         }
 
-        public Builder add(@Nullable String name, @Nullable String value) {
+        public Builder add(String name, String value) {
             return add(name, value, (ContentType) null);
         }
 
-        public Builder add(@Nullable String name, @Nullable String value, @Nullable ContentType contentType) {
+        public Builder add(String name, String value, ContentType contentType) {
             if (Strings.hasLength(name)) {
                 parts.add(Part.create(name, value, contentType));
             }
             return this;
         }
 
-        public Builder add(@Nullable String name, @Nullable File file) {
+        public Builder add(String name, File file) {
             if (Strings.hasLength(name) && file != null) {
                 parts.add(Part.create(name, file));
             }
             return this;
         }
 
-        public Builder add(@Nullable String name, @Nullable String filename, @Nullable RequestBody body) {
+        public Builder add(String name, String filename, RequestBody body) {
             if (Strings.isAllNotBlank(name, filename) && body != null) {
                 parts.add(Part.create(name, filename, body));
             }

@@ -3,7 +3,6 @@ package cn.tmkit.core.io;
 import cn.tmkit.core.exception.IoRuntimeException;
 import cn.tmkit.core.lang.*;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -85,7 +84,7 @@ public class Files extends Paths {
      * @param file 文件，不能为null
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static void touch(@Nullable File file) {
+    public static void touch(File file) {
         if (Objects.isNotNull(file)) {
             if (!file.exists()) {
                 mkdir(file.getParentFile());
@@ -131,7 +130,7 @@ public class Files extends Paths {
      * @return 临时文件
      * @throws IoRuntimeException IO异常
      */
-    public static File createTmpFile(@Nullable String prefix) throws IoRuntimeException {
+    public static File createTmpFile(String prefix) throws IoRuntimeException {
         return createTmpFile(prefix, null);
     }
 
@@ -148,7 +147,7 @@ public class Files extends Paths {
      * @return 临时文件
      * @throws IoRuntimeException IO异常
      */
-    public static File createTmpFile(@Nullable String prefix, @Nullable String suffix) throws IoRuntimeException {
+    public static File createTmpFile(String prefix, String suffix) throws IoRuntimeException {
         return createTmpFile(prefix, suffix, true);
     }
 
@@ -689,7 +688,7 @@ public class Files extends Paths {
      * @param charset 字符集，如果为空则为系统默认编码
      * @return 文件内容
      */
-    public static List<String> readLines(String path, @Nullable String charset) throws IoRuntimeException {
+    public static List<String> readLines(String path, String charset) throws IoRuntimeException {
         return readLines(path, Charsets.forName(charset));
     }
 
@@ -700,7 +699,7 @@ public class Files extends Paths {
      * @param charset 字符集，如果为空则为系统默认编码
      * @return 文件内容
      */
-    public static List<String> readLines(String path, @Nullable Charset charset) throws IoRuntimeException {
+    public static List<String> readLines(String path, Charset charset) throws IoRuntimeException {
         if (Strings.isBlank(path)) {
             return null;
         }
@@ -734,7 +733,7 @@ public class Files extends Paths {
      * @param charset 字符编码，如果为空则为系统编码编码
      * @return 文件内容
      */
-    public static List<String> readLines(File file, @Nullable Charset charset) throws IoRuntimeException {
+    public static List<String> readLines(File file, Charset charset) throws IoRuntimeException {
         FileInputStream fis = null;
         try {
             fis = openFileInputStream(file);
@@ -796,7 +795,7 @@ public class Files extends Paths {
      * @param charset 字符集，如果为空则为系统编码编码
      * @return 返回文件内容
      */
-    public static String readStr(File file, @Nullable String charset) throws IoRuntimeException {
+    public static String readStr(File file, String charset) throws IoRuntimeException {
         return readStr(file, Charsets.forName(charset));
     }
 
@@ -1129,7 +1128,7 @@ public class Files extends Paths {
      * @param charset 字符集
      * @throws IoRuntimeException IO异常
      */
-    public static void write(@Nullable CharSequence content, @Nullable File file, Charset charset) throws IoRuntimeException {
+    public static void write(CharSequence content, File file, Charset charset) throws IoRuntimeException {
         doWrite(content, file, charset, false);
     }
 
@@ -1204,7 +1203,7 @@ public class Files extends Paths {
      * @param charset 字符集
      * @throws IoRuntimeException IO异常
      */
-    public static void append(@Nullable CharSequence content, @Nullable File file, Charset charset) throws IoRuntimeException {
+    public static void append(CharSequence content, File file, Charset charset) throws IoRuntimeException {
         doWrite(content, file, charset, true);
     }
 
@@ -1217,8 +1216,7 @@ public class Files extends Paths {
      * @param isAppend 是否追加
      * @throws IoRuntimeException IO异常
      */
-    @SuppressWarnings("ConstantConditions")
-    private static void doWrite(@Nullable CharSequence content, @Nullable File file, Charset charset, boolean isAppend) throws IoRuntimeException {
+    private static void doWrite(CharSequence content, File file, Charset charset, boolean isAppend) throws IoRuntimeException {
         if (Objects.isAnyNull(content, file)) {
             return;
         }
@@ -1405,7 +1403,7 @@ public class Files extends Paths {
      * @param in         输入流,非空
      * @param targetFile 目标文件,非空
      */
-    public static void copyStream(@Nullable InputStream in, @Nullable File targetFile) {
+    public static void copyStream(InputStream in, File targetFile) {
         if (targetFile == null) {
             return;
         }
@@ -1433,7 +1431,7 @@ public class Files extends Paths {
      *
      * @param directory 目录地址
      */
-    public static void mkdir(@Nullable File directory) {
+    public static void mkdir(File directory) {
         if (Objects.nonNull(directory)) {
             if (directory.exists()) {
                 if (!directory.isDirectory()) {
@@ -1575,7 +1573,7 @@ public class Files extends Paths {
      * @param file 文件
      * @return {@link FileInputStream}
      */
-    public static FileInputStream getFileInputStream(@Nullable File file) {
+    public static FileInputStream getFileInputStream(File file) {
         return openFileInputStream(file);
     }
 
@@ -1585,7 +1583,7 @@ public class Files extends Paths {
      * @param file 文件
      * @return {@link FileInputStream}
      */
-    public static FileInputStream openFileInputStream(@Nullable File file) {
+    public static FileInputStream openFileInputStream(File file) {
         if (Objects.isNull(file)) {
             return null;
         }
@@ -1621,7 +1619,7 @@ public class Files extends Paths {
      * @param file 文件
      * @return {@linkplain BufferedInputStream}
      */
-    public static BufferedInputStream openBufferedInputStream(@Nullable File file) {
+    public static BufferedInputStream openBufferedInputStream(File file) {
         return getBufferedInputStream(file);
     }
 

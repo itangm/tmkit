@@ -7,7 +7,6 @@ import cn.tmkit.core.lang.Strings;
 import cn.tmkit.core.lang.Urls;
 import cn.tmkit.core.map.MultiValueMap;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
@@ -30,12 +29,12 @@ public interface Client {
     /**
      * 执行HTTP请求
      *
-     * @param request     请求对象
+     * @param request 请求对象
      * @param options 请求选项
      * @return 执行结果
      * @throws IoRuntimeException HTTP请求异常
      */
-    Response execute(@NotNull Request request, @Nullable Options options) throws IoRuntimeException;
+    Response execute(@NotNull Request request, Options options) throws IoRuntimeException;
 
     /**
      * 实现一个简单的HTTP客户端
@@ -45,7 +44,7 @@ public interface Client {
         /**
          * 执行HTTP请求
          *
-         * @param request     请求对象
+         * @param request 请求对象
          * @param options 请求选项
          * @return 执行结果
          * @throws IoRuntimeException HTTP请求异常

@@ -83,7 +83,7 @@ public class RequestBody {
      * @param content     请求体的内容
      * @return {@linkplain RequestBody}对象
      */
-    public static RequestBody create(@Nullable ContentType contentType, @NotNull String content) {
+    public static RequestBody create(ContentType contentType, @NotNull String content) {
         Charset charset = Charsets.UTF_8;
         if (contentType != null) {
             charset = contentType.getCharset();
@@ -103,7 +103,7 @@ public class RequestBody {
      * @param data        请求体的内容
      * @return {@linkplain RequestBody}对象
      */
-    public static RequestBody create(@Nullable ContentType contentType, byte[] data) {
+    public static RequestBody create(ContentType contentType, byte[] data) {
         return new RequestBody(contentType, data);
     }
 
@@ -114,7 +114,7 @@ public class RequestBody {
      * @param file        文件内容
      * @return {@linkplain RequestBody}对象
      */
-    public static RequestBody create(@Nullable ContentType contentType, @NotNull File file) {
+    public static RequestBody create(ContentType contentType, @NotNull File file) {
         return new RequestBody(contentType, Files.readBytes(file));
     }
 
@@ -125,7 +125,7 @@ public class RequestBody {
      * @param in          文件内容
      * @return {@linkplain RequestBody}对象
      */
-    public static RequestBody create(@Nullable ContentType contentType, @NotNull InputStream in) {
+    public static RequestBody create(ContentType contentType, @NotNull InputStream in) {
         return new RequestBody(contentType, IoUtil.readBytes(in));
     }
 

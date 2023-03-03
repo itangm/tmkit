@@ -2,7 +2,6 @@ package cn.tmkit.core.lang;
 
 import cn.tmkit.core.exception.ArrayEmptyException;
 import cn.tmkit.core.exception.GenericRuntimeException;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Array;
 import java.util.List;
@@ -1537,12 +1536,19 @@ public class Arrays {
         return obj.toString();
     }
 
-    public static <E> void forEach(E[] array, Consumer<E> consumer) {
-        if (isEmpty(array) || Objects.isNull(consumer)) {
+    /**
+     * 遍历集合元素，并执行动作{@code action}
+     *
+     * @param array  数组
+     * @param action 执行动作
+     * @param <E>    元素类型
+     */
+    public static <E> void forEach(E[] array, Consumer<E> action) {
+        if (isEmpty(array) || Objects.isNull(action)) {
             return;
         }
         for (E element : array) {
-            consumer.accept(element);
+            action.accept(element);
         }
     }
 
@@ -1647,7 +1653,7 @@ public class Arrays {
      * @return 哈希值
      * @see java.util.Arrays#hashCode(Object[])
      */
-    public static <E> int hashCode(@Nullable E[] values) {
+    public static <E> int hashCode(E[] values) {
         return java.util.Arrays.hashCode(values);
     }
 

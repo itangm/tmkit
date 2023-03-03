@@ -7,7 +7,6 @@ import cn.tmkit.core.lang.Strings;
 import lombok.Getter;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -64,7 +63,7 @@ public class FluentBigDecimal extends Number implements Serializable, Comparable
      * @param input 字符串内容
      * @return {@linkplain FluentBigDecimal}
      */
-    public static FluentBigDecimal of(@NotNull Number input, @Nullable FluentConfig config) {
+    public static FluentBigDecimal of(@NotNull Number input, FluentConfig config) {
         return of(input.toString(), config);
     }
 
@@ -84,7 +83,7 @@ public class FluentBigDecimal extends Number implements Serializable, Comparable
      * @param input 字符串内容
      * @return {@linkplain FluentBigDecimal}
      */
-    public static FluentBigDecimal of(@NotNull String input, @Nullable FluentConfig config) {
+    public static FluentBigDecimal of(@NotNull String input, FluentConfig config) {
         return of(new BigDecimal(input), config);
     }
 
@@ -104,7 +103,7 @@ public class FluentBigDecimal extends Number implements Serializable, Comparable
      * @param input BigDecimal
      * @return {@linkplain FluentBigDecimal}
      */
-    public static FluentBigDecimal of(@NotNull BigDecimal input, @Nullable FluentConfig config) {
+    public static FluentBigDecimal of(@NotNull BigDecimal input, FluentConfig config) {
         return (config == null) ? new FluentBigDecimal(input) : new FluentBigDecimal(input, config);
     }
 
@@ -124,7 +123,7 @@ public class FluentBigDecimal extends Number implements Serializable, Comparable
      * @param input 字符数组内容
      * @return {@linkplain FluentBigDecimal}
      */
-    public static FluentBigDecimal of(char @NotNull [] input, @Nullable FluentConfig config) {
+    public static FluentBigDecimal of(char @NotNull [] input, FluentConfig config) {
         return of(new BigDecimal(input), config);
     }
 
@@ -148,7 +147,7 @@ public class FluentBigDecimal extends Number implements Serializable, Comparable
      * @param len    包含几个字符
      * @return {@linkplain FluentBigDecimal}
      */
-    public static FluentBigDecimal of(char @NotNull [] input, int offset, int len, @Nullable FluentConfig config) {
+    public static FluentBigDecimal of(char @NotNull [] input, int offset, int len, FluentConfig config) {
         return of(new BigDecimal(input, offset, len), config);
     }
 
@@ -168,7 +167,7 @@ public class FluentBigDecimal extends Number implements Serializable, Comparable
      * @param input BigInteger
      * @return {@linkplain FluentBigDecimal}
      */
-    public static FluentBigDecimal of(@NotNull BigInteger input, @Nullable FluentConfig config) {
+    public static FluentBigDecimal of(@NotNull BigInteger input, FluentConfig config) {
         return of(new BigDecimal(input), config);
     }
 
@@ -188,7 +187,7 @@ public class FluentBigDecimal extends Number implements Serializable, Comparable
      * @param input 整数
      * @return {@linkplain FluentBigDecimal}
      */
-    public static FluentBigDecimal valueOf(int input, @Nullable FluentConfig config) {
+    public static FluentBigDecimal valueOf(int input, FluentConfig config) {
         return of(BigDecimal.valueOf(input), config);
     }
 
@@ -208,7 +207,7 @@ public class FluentBigDecimal extends Number implements Serializable, Comparable
      * @param input long
      * @return {@linkplain FluentBigDecimal}
      */
-    public static FluentBigDecimal valueOf(long input, @Nullable FluentConfig config) {
+    public static FluentBigDecimal valueOf(long input, FluentConfig config) {
         return of(BigDecimal.valueOf(input), config);
     }
 
@@ -228,7 +227,7 @@ public class FluentBigDecimal extends Number implements Serializable, Comparable
      * @param input double
      * @return {@linkplain FluentBigDecimal}
      */
-    public static FluentBigDecimal valueOf(double input, @Nullable FluentConfig config) {
+    public static FluentBigDecimal valueOf(double input, FluentConfig config) {
         return of(BigDecimal.valueOf(input), config);
     }
 
@@ -706,7 +705,7 @@ public class FluentBigDecimal extends Number implements Serializable, Comparable
      * @param other 被加数
      * @return {@linkplain FluentBigDecimal}
      */
-    public FluentBigDecimal add(@Nullable FluentBigDecimal other) {
+    public FluentBigDecimal add(FluentBigDecimal other) {
         if (other != null) {
             return add(other.getValue());
         }
@@ -1177,7 +1176,7 @@ public class FluentBigDecimal extends Number implements Serializable, Comparable
      * @param other 被减数
      * @return {@linkplain FluentBigDecimal}
      */
-    public FluentBigDecimal subtract(@Nullable FluentBigDecimal other) {
+    public FluentBigDecimal subtract(FluentBigDecimal other) {
         return (other == null) ? this : subtract(other.getValue());
     }
 
@@ -1671,7 +1670,7 @@ public class FluentBigDecimal extends Number implements Serializable, Comparable
      * @param other 被乘数
      * @return {@linkplain FluentBigDecimal}
      */
-    public FluentBigDecimal multiply(@Nullable FluentBigDecimal other) {
+    public FluentBigDecimal multiply(FluentBigDecimal other) {
         return (other == null) ? this : this.multiply(other.getValue());
     }
 
@@ -1681,7 +1680,7 @@ public class FluentBigDecimal extends Number implements Serializable, Comparable
      * @param others 被乘数
      * @return {@linkplain FluentBigDecimal}
      */
-    public FluentBigDecimal multiply(@Nullable FluentBigDecimal... others) {
+    public FluentBigDecimal multiply(FluentBigDecimal... others) {
         if (Arrays.isEmpty(others)) {
             return this;
         }
@@ -1694,7 +1693,7 @@ public class FluentBigDecimal extends Number implements Serializable, Comparable
      * @param others 被乘数
      * @return {@linkplain FluentBigDecimal}
      */
-    public FluentBigDecimal multiply(@Nullable Collection<FluentBigDecimal> others) {
+    public FluentBigDecimal multiply(Collection<FluentBigDecimal> others) {
         if (Collections.isEmpty(others)) {
             return this;
         }

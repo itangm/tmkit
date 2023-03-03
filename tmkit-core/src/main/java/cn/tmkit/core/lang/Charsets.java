@@ -1,7 +1,6 @@
 package cn.tmkit.core.lang;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -95,7 +94,7 @@ public class Charsets {
      * @param encoding 编码
      * @return 编码
      */
-    public static Charset getCharset(@Nullable Charset encoding) {
+    public static Charset getCharset(Charset encoding) {
         return getCharset(encoding, defaultCharset());
     }
 
@@ -106,7 +105,7 @@ public class Charsets {
      * @param defaultEncoding 当{@code encoding}为空时
      * @return 编码
      */
-    public static Charset getCharset(@Nullable Charset encoding, Charset defaultEncoding) {
+    public static Charset getCharset(Charset encoding, Charset defaultEncoding) {
         return encoding == null ? defaultEncoding : encoding;
     }
 
