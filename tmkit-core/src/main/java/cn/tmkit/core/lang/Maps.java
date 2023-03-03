@@ -24,8 +24,8 @@ public class Maps {
     /**
      * Default load factor for {@link HashMap}/{@link LinkedHashMap} variants.
      *
-     * @see #newHashMap(int)
-     * @see #newLinkedHashMap(int)
+     * @see #hashMap(int)
+     * @see #linkedHashMap(int)
      */
     public static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
@@ -39,7 +39,7 @@ public class Maps {
      * @param <V>          值
      * @return HashMap实例
      */
-    public static <K, V> HashMap<K, V> newHashMap(int expectedSize) {
+    public static <K, V> HashMap<K, V> hashMap(int expectedSize) {
         return new HashMap<>((int) (expectedSize / DEFAULT_LOAD_FACTOR), DEFAULT_LOAD_FACTOR);
     }
 
@@ -51,7 +51,7 @@ public class Maps {
      * @param <V>          值
      * @return LinkedHashMap实例
      */
-    public static <K, V> LinkedHashMap<K, V> newLinkedHashMap(int expectedSize) {
+    public static <K, V> LinkedHashMap<K, V> linkedHashMap(int expectedSize) {
         return new LinkedHashMap<>((int) (expectedSize / DEFAULT_LOAD_FACTOR), DEFAULT_LOAD_FACTOR);
     }
 
@@ -64,7 +64,7 @@ public class Maps {
      * @param comparator Key比较器
      * @return TreeMap
      */
-    public static <K, V> TreeMap<K, V> newTreeMap(Map<K, V> map, Comparator<? super K> comparator) {
+    public static <K, V> TreeMap<K, V> treeMap(Map<K, V> map, Comparator<? super K> comparator) {
         final TreeMap<K, V> treeMap = new TreeMap<>(comparator);
         if (isNotEmpty(map)) {
             treeMap.putAll(map);
@@ -80,7 +80,7 @@ public class Maps {
      * @param comparator Key比较器
      * @return TreeMap
      */
-    public static <K, V> TreeMap<K, V> newTreeMap(Comparator<? super K> comparator) {
+    public static <K, V> TreeMap<K, V> treeMap(Comparator<? super K> comparator) {
         return new TreeMap<>(comparator);
     }
 
@@ -233,7 +233,7 @@ public class Maps {
      * @param map        Map，为null返回null
      * @param comparator Key比较器
      * @return TreeMap，map为null返回null
-     * @see #newTreeMap(Map, Comparator)
+     * @see #treeMap(Map, Comparator)
      */
     public static <K, V> TreeMap<K, V> sort(Map<K, V> map, Comparator<? super K> comparator) {
         if (map == null) {
@@ -245,7 +245,7 @@ public class Maps {
                 return result;
             }
         }
-        return newTreeMap(map, comparator);
+        return treeMap(map, comparator);
     }
 
     // endregion
