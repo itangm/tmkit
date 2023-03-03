@@ -25,6 +25,7 @@
         <module>shf4j-okhttp</module>
         <module>shf4j-httpclient</module>
         <module>tmkit-servlet3</module>
+        <module>tmkit-http</module>
     </modules>
 
     <properties>
@@ -227,7 +228,12 @@
             </dependency>
             <dependency>
                 <groupId>cn.tmkit.http</groupId>
-                <artifactId>shf4j-htpclient</artifactId>
+                <artifactId>shf4j-httpclient</artifactId>
+                <version>${tmkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.tmkit</groupId>
+                <artifactId>tmkit-http</artifactId>
                 <version>${tmkit.version}</version>
             </dependency>
 

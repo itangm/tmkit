@@ -45,7 +45,7 @@ public class HttpHeaders extends LinkedMultiValueMap<String, String> {
         return this;
     }
 
-    public HttpHeaders append(@Nullable HeaderNames key, Object value) {
+    public HttpHeaders append(@Nullable HeaderName key, Object value) {
         if (Objects.isAllNotNull(key, value)) {
             add(key.toString(), value.toString());
         }
@@ -53,7 +53,7 @@ public class HttpHeaders extends LinkedMultiValueMap<String, String> {
         return this;
     }
 
-    public List<String> get(HeaderNames headerName) {
+    public List<String> get(HeaderName headerName) {
         if (Objects.isNull(headerName)) {
             return Collections.emptyList();
         }

@@ -80,7 +80,7 @@ public interface Client {
                 connection.setInstanceFollowRedirects(options.followRedirects());
             }
             connection.setRequestMethod(request.method().name());
-            List<String> contentEncodingValues = request.headers().get(HeaderNames.CONTENT_ENCODING.toString());
+            List<String> contentEncodingValues = request.headers().get(HeaderName.CONTENT_ENCODING.toString());
             boolean gzipEncodedRequest =
                     contentEncodingValues != null && contentEncodingValues.contains(ENCODING_GZIP);
             boolean deflateEncodedRequest =
@@ -92,7 +92,7 @@ public interface Client {
                     hasAcceptHeader = true;
                 }
                 for (String value : request.headers().get(field)) {
-                    if (field.equals(HeaderNames.CONTENT_LENGTH.toString())) {
+                    if (field.equals(HeaderName.CONTENT_LENGTH.toString())) {
                         if (!gzipEncodedRequest && !deflateEncodedRequest) {
                             contentLength = Integer.valueOf(value);
                             connection.addRequestProperty(field, value);

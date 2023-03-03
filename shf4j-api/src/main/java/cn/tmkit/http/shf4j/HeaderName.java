@@ -7,7 +7,7 @@ package cn.tmkit.http.shf4j;
  * @version 0.0.1
  * @date 2023-03-02
  */
-public enum HeaderNames {
+public enum HeaderName {
 
     /**
      * 提供日期和时间标志,说明报文是什么时间创建的
@@ -150,7 +150,7 @@ public enum HeaderNames {
 
     private final String value;
 
-    HeaderNames(String value) {
+    HeaderName(String value) {
         this.value = value;
     }
 
