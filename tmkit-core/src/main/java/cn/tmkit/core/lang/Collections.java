@@ -142,6 +142,20 @@ public class Collections {
     }
 
     /**
+     * 新建一个ArrayList
+     *
+     * @param <E>    集合元素类型
+     * @param values 数组
+     * @return ArrayList对象
+     */
+    public static <E> ArrayList<E> arrayList(Collection<E> values) {
+        if (Arrays.isEmpty(values)) {
+            return new ArrayList<>();
+        }
+        return new ArrayList<>(values);
+    }
+
+    /**
      * 新建一个空List
      *
      * @param <E>      集合元素类型
@@ -190,6 +204,35 @@ public class Collections {
      */
     public static <E> HashSet<E> hashSet(int capacity) {
         return new HashSet<>((int) (capacity / Maps.DEFAULT_LOAD_FACTOR));
+    }
+
+    /**
+     * 新建{@linkplain HashSet}
+     *
+     * @param values 初始元素列表
+     * @param <E>    元素类型
+     * @return HashSet对象
+     */
+    @SafeVarargs
+    public static <E> HashSet<E> hashSet(E... values) {
+        int capacity = Arrays.isEmpty(values) ? Maps.DEFAULT_INITIAL_CAPACITY : values.length;
+        HashSet<E> hashSet = hashSet(capacity);
+        Arrays.forEach(values, hashSet::add);
+        return hashSet;
+    }
+
+    /**
+     * 新建{@linkplain HashSet}
+     *
+     * @param values 初始元素列表
+     * @param <E>    元素类型
+     * @return HashSet对象
+     */
+    public static <E> HashSet<E> hashSet(Collection<E> values) {
+        int capacity = Arrays.isEmpty(values) ? Maps.DEFAULT_INITIAL_CAPACITY : values.size();
+        HashSet<E> hashSet = hashSet(capacity);
+        hashSet.addAll(values);
+        return hashSet;
     }
 
     // endregion
