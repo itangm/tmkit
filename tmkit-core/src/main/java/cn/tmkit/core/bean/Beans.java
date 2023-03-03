@@ -1,9 +1,12 @@
 package cn.tmkit.core.bean;
 
 import cn.tmkit.core.exception.BeanException;
-import cn.tmkit.core.lang.Classes;
-import cn.tmkit.core.lang.Strings;
+import cn.tmkit.core.lang.Arrays;
+import cn.tmkit.core.lang.Collections;
+import cn.tmkit.core.lang.Objects;
+import cn.tmkit.core.lang.*;
 import cn.tmkit.core.lang.reflect.Reflects;
+import org.jetbrains.annotations.Nullable;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
@@ -61,7 +64,7 @@ public class Beans {
      * @throws BeanException 获取属性异常
      */
     public static List<PropertyDescriptor> getPropertyDescriptorList(Class<?> beanClass) throws BeanException {
-        Objects.requireNonNull(beanClass, "beanClass == null");
+        Asserts.notNull(beanClass, "beanClass == null");
         return BeanIntrospectCache.getInstance().getPropertyDescriptors(beanClass);
     }
 
@@ -105,7 +108,7 @@ public class Beans {
      */
     @SuppressWarnings("unchecked")
     public static <T> T getPropertyValue(Object bean, String propertyName) {
-        Objects.requireNonNull(bean, "bean == null");
+        Asserts.notNull(bean, "bean == null");
         PropertyDescriptor pd = getPropertyDescriptor(bean.getClass(), propertyName);
         if (pd == null) {
             return null;
@@ -393,6 +396,60 @@ public class Beans {
         }
     }
 
+    /**
+     * 拷贝集合中的对象
+     *
+     * @param src         源集合
+     * @param targetClass 模板bean类型
+     * @param <E>泛型标记
+     * @return 目标集合
+     */
+    @Nullable
+    public static <E> List<E> copyProperties(@Nullable Collection<?> src, Class<E> targetClass) {
+        return copyProperties(src, targetClass, Arrays.EMPTY_STRING_ARRAY);
+    }
+
+    /**
+     * 拷贝集合中的对象
+     *
+     * @param src         源集合
+     * @param targetClass 模板bean类型
+     * @param <E>泛型标记
+     * @return 目标集合
+     */
+    @SuppressWarnings("all")
+    @Nullable
+    public static <E> List<E> copyProperties(@Nullable Collection<?> src, Class<E> targetClass,
+                                             @Nullable String... ignoreProperties) {
+        if (Objects.isAnyNull(src, targetClass)) {
+            return null;
+        }
+        List<E> list = Collections.arrayList();
+        for (Object obj : src) {
+            list.add(copyProperties(obj, targetClass, ignoreProperties));
+        }
+        return list;
+    }
+
+    /**
+     * 拷贝对象
+     *
+     * @param src              源bean对象
+     * @param targetClass      目标bean类型
+     * @param ignoreProperties 忽略的属性
+     * @param <E>              泛型标记
+     * @return 目标bean对象
+     */
+    @Nullable
+    public static <E> E copyProperties(@Nullable Object src, Class<E> targetClass,
+                                       @Nullable String... ignoreProperties) {
+        if (Objects.isAnyNull(src, targetClass)) {
+            return null;
+        }
+        E target = Reflects.newInstance(targetClass);
+        Beans.copyProperties(src, target, ignoreProperties);
+        return target;
+    }
 
     /**
      * 将属性和其值复制到目标对象中
