@@ -1,9 +1,6 @@
 package cn.tmkit.core.digest;
 
-import cn.tmkit.core.lang.Asserts;
-import cn.tmkit.core.lang.Base64s;
-import cn.tmkit.core.lang.Charsets;
-import cn.tmkit.core.lang.HexUtil;
+import cn.tmkit.core.lang.*;
 import cn.tmkit.core.lang.reflect.Singletons;
 
 import java.io.InputStream;
@@ -70,7 +67,9 @@ public class MD5s {
      * @return 16进制的字符串
      */
     public static String digestHex(final String data, final Charset inputEncoding) {
-        Asserts.notNull(data);
+        if (Objects.isNull(data)) {
+            return null;
+        }
         byte[] input = data.getBytes(Charsets.getCharset(inputEncoding));
         return HexUtil.encodeToStr(digest(input));
     }

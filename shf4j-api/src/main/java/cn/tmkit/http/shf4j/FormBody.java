@@ -73,6 +73,14 @@ public final class FormBody extends RequestBody {
             return this;
         }
 
+        public Builder add(@NotNull String name, @NotNull List<String> values) {
+            Asserts.notNull(name, "name must not be null");
+            if (Collections.isNotEmpty(values)) {
+                values.forEach(value -> add(name, value));
+            }
+            return this;
+        }
+
         public FormBody build() {
             return new FormBody(nameValuePairs, charset);
         }

@@ -1,6 +1,7 @@
 package cn.tmkit.http.shf4j;
 
 import cn.tmkit.core.io.Files;
+import cn.tmkit.core.lang.CollectionUtils;
 import cn.tmkit.core.lang.Strings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -168,6 +169,13 @@ public class MultipartBody extends RequestBody {
 
         public Builder add(String name, String value) {
             return add(name, value, (ContentType) null);
+        }
+
+        public Builder add(String name, List<String> values) {
+            if (CollectionUtils.isNotEmpty(values)) {
+                values.forEach(value -> add(name, value));
+            }
+            return this;
         }
 
         public Builder add(String name, String value, ContentType contentType) {

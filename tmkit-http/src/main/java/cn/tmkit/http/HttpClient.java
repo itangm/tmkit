@@ -1,6 +1,5 @@
 package cn.tmkit.http;
 
-import cn.tmkit.core.lang.Strings;
 import cn.tmkit.http.shf4j.Client;
 import cn.tmkit.http.shf4j.Factory;
 import org.jetbrains.annotations.NotNull;
@@ -33,15 +32,15 @@ public class HttpClient {
         return new GetRequest(url);
     }
 
-    /**
-     * Get请求
-     *
-     * @param urlPattern 请求地址
-     * @return {@link GetRequest}
-     */
-    public static GetRequest get(@NotNull String urlPattern, Object... args) {
-        return new GetRequest(Strings.format(urlPattern, args));
-    }
+//    /**
+//     * Get请求
+//     *
+//     * @param urlPattern 请求地址
+//     * @return {@link GetRequest}
+//     */
+//    public static GetRequest get(@NotNull String urlPattern, Object... args) {
+//        return new GetRequest(Strings.format(urlPattern, args));
+//    }
 
     /**
      * FORM/POST表单提交
@@ -53,15 +52,15 @@ public class HttpClient {
         return new PostRequest(url);
     }
 
-    /**
-     * FORM/POST表单提交
-     *
-     * @param urlPattern 提交地址
-     * @return {@link PostRequest}
-     */
-    public static PostRequest post(String urlPattern, Object... args) {
-        return new PostRequest(Strings.format(urlPattern, args));
-    }
+//    /**
+//     * FORM/POST表单提交
+//     *
+//     * @param urlPattern 提交地址
+//     * @return {@link PostRequest}
+//     */
+//    public static PostRequest post(String urlPattern, Object... args) {
+//        return new PostRequest(Strings.format(urlPattern, args));
+//    }
 
     /**
      * DELETE 请求
@@ -73,15 +72,15 @@ public class HttpClient {
         return new DeleteRequest(url);
     }
 
-    /**
-     * DELETE 请求
-     *
-     * @param urlPattern 请求地址
-     * @return {@linkplain DeleteRequest}
-     */
-    public static DeleteRequest delete(@NotNull String urlPattern, Object... args) {
-        return new DeleteRequest(Strings.format(urlPattern, args));
-    }
+//    /**
+//     * DELETE 请求
+//     *
+//     * @param urlPattern 请求地址
+//     * @return {@linkplain DeleteRequest}
+//     */
+//    public static DeleteRequest delete(@NotNull String urlPattern, Object... args) {
+//        return new DeleteRequest(Strings.format(urlPattern, args));
+//    }
 
     /**
      * HEAD 请求
@@ -92,16 +91,16 @@ public class HttpClient {
     public static HeadRequest head(@NotNull String url) {
         return new HeadRequest(url);
     }
-
-    /**
-     * HEAD 请求
-     *
-     * @param urlPattern 请求地址
-     * @return {@linkplain HeadRequest}
-     */
-    public static HeadRequest head(@NotNull String urlPattern, Object... args) {
-        return new HeadRequest(Strings.format(urlPattern, args));
-    }
+//
+//    /**
+//     * HEAD 请求
+//     *
+//     * @param urlPattern 请求地址
+//     * @return {@linkplain HeadRequest}
+//     */
+//    public static HeadRequest head(@NotNull String urlPattern, Object... args) {
+//        return new HeadRequest(Strings.format(urlPattern, args));
+//    }
 
     /**
      * PATCH 请求
@@ -113,15 +112,15 @@ public class HttpClient {
         return new PatchRequest(url);
     }
 
-    /**
-     * PATCH 请求
-     *
-     * @param urlPattern 请求地址
-     * @return {@linkplain PatchRequest}
-     */
-    public static PatchRequest patch(@NotNull String urlPattern, Object... args) {
-        return new PatchRequest(Strings.format(urlPattern, args));
-    }
+//    /**
+//     * PATCH 请求
+//     *
+//     * @param urlPattern 请求地址
+//     * @return {@linkplain PatchRequest}
+//     */
+//    public static PatchRequest patch(@NotNull String urlPattern, Object... args) {
+//        return new PatchRequest(Strings.format(urlPattern, args));
+//    }
 
     /**
      * PUT 请求
@@ -133,15 +132,15 @@ public class HttpClient {
         return new PutRequest(url);
     }
 
-    /**
-     * PUT 请求
-     *
-     * @param urlPattern 请求地址
-     * @return {@linkplain PutRequest}
-     */
-    public static PutRequest put(@NotNull String urlPattern, Object... args) {
-        return new PutRequest(Strings.format(urlPattern, args));
-    }
+//    /**
+//     * PUT 请求
+//     *
+//     * @param urlPattern 请求地址
+//     * @return {@linkplain PutRequest}
+//     */
+//    public static PutRequest put(@NotNull String urlPattern, Object... args) {
+//        return new PutRequest(Strings.format(urlPattern, args));
+//    }
 
     /**
      * 配置全局Client
