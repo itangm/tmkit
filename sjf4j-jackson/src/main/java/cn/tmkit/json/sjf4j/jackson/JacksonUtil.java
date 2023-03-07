@@ -3,6 +3,7 @@ package cn.tmkit.json.sjf4j.jackson;
 import cn.tmkit.core.date.DefaultCustomFormatter;
 import cn.tmkit.json.sjf4j.jackson.deser.OffsetDateTimeDeserializer;
 import cn.tmkit.json.sjf4j.jackson.deser.ZonedDateTimeDeserializer;
+import cn.tmkit.json.sjf4j.jackson.ser.OffsetDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
@@ -61,15 +62,18 @@ public class JacksonUtil {
         javaTimeModule.addSerializer(MonthDay.class, new MonthDaySerializer(formatter));
         javaTimeModule.addDeserializer(MonthDay.class, new MonthDayDeserializer(formatter));
 
-        javaTimeModule.addSerializer(OffsetDateTime.class, new OffsetDateTimeSerializer(
-                OffsetDateTimeSerializer.INSTANCE,
-                false,
-                DefaultCustomFormatter.UTC_MS_WITH_ZONE_OFFSET.getFormatter(),
-                null));
+        // 2.14.1支持创建对象
+//        javaTimeModule.addSerializer(OffsetDateTime.class, new OffsetDateTimeSerializer(
+//                OffsetDateTimeSerializer.INSTANCE,
+//                false,
+//                DefaultCustomFormatter.UTC_MS_WITH_ZONE_OFFSET.getFormatter(),
+//                null));
 
+        // 2.13.4 不支持创建对象
+        javaTimeModule.addSerializer(OffsetDateTime.class, new OffsetDateTimeSerializer(DefaultCustomFormatter.UTC_MS_WITH_ZONE_OFFSET));
 //        javaTimeModule.addDeserializer(OffsetDateTime.class, new InstantDeserializer<OffsetDateTime>(
 //                InstantDeserializer.OFFSET_DATE_TIME, DefaultCustomFormatter.UTC_MS_WITH_ZONE_OFFSET.getFormatter()) {
-//        });
+////        });
         javaTimeModule.addDeserializer(OffsetDateTime.class, new OffsetDateTimeDeserializer());
 
         javaTimeModule.addSerializer(ZonedDateTime.class, new ZonedDateTimeSerializer(DefaultCustomFormatter.UTC_MS_WITH_ZONE_OFFSET.getFormatter()));

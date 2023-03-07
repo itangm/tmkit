@@ -138,7 +138,7 @@ public class Options {
         private List<HttpStatus> decodeStatusCodes;
 
         Builder() {
-            this(DEFAULT_OPTIONS);
+            super();
         }
 
         Builder(@NotNull Options source) {
