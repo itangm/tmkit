@@ -83,7 +83,7 @@ public class Classes {
             return EMPTY_CLASS_ARRAY;
         }
         return Arrays.stream(values)
-                .map(value -> Objects.isNull(value) ? Objects.class : values.getClass())
+                .map(val -> Objects.isNull(val) ? Objects.class : val.getClass())
                 .toArray(Class<?>[]::new);
     }
 
@@ -211,13 +211,14 @@ public class Classes {
      * 7. 非Java综合类(合成类)
      * </pre>
      *
-     * @param tClass 类
+     * @param clazz 类
      * @return 是否为标准类
      */
     public static boolean isNormalClass(Class<?> clazz) {
         return clazz != null && (!ReflectUtil.isInterface(clazz) && !Reflects.isAbstract(clazz) && !clazz.isEnum() &&
                 !clazz.isArray() && !clazz.isAnnotation() && !clazz.isPrimitive() && !clazz.isSynthetic());
     }
+
     /**
      * 获得给定类的第一个泛型参数
      *
