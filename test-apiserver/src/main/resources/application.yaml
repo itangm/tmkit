@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: test-apiserver
+
+app:
+  config:
+    ip-api: http://ip-api.com/json/{}?lang=zh-CN
