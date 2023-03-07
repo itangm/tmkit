@@ -15,7 +15,7 @@ import java.util.*;
  */
 public class LinkedMultiValueMap<K, V> extends CloneSupport<LinkedMultiValueMap<K, V>> implements MultiValueMap<K, V>, Serializable {
 
-    private final Map<K, List<V>> storeMap;
+    protected final Map<K, List<V>> storeMap;
 
     public LinkedMultiValueMap() {
         this.storeMap = new LinkedHashMap<>();

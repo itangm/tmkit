@@ -1,6 +1,8 @@
 package cn.tmkit.core.lang;
 
 import cn.tmkit.core.convert.Converts;
+import cn.tmkit.core.map.LinkedMultiValueMap;
+import cn.tmkit.core.map.MultiValueMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -32,35 +34,94 @@ public class Maps {
 
     // region 创建
 
+    private static int ensureSize(int expectedSize) {
+        return (int) (expectedSize / DEFAULT_LOAD_FACTOR);
+    }
+
+    /**
+     * 创建{@linkplain HashMap}
+     *
+     * @param <K> 键的类型
+     * @param <V> 值的类型
+     * @return HashMap实例
+     */
+    public static <K, V> HashMap<K, V> hashMap() {
+        return hashMap(DEFAULT_INITIAL_CAPACITY);
+    }
+
     /**
      * 创建{@linkplain HashMap}
      *
      * @param expectedSize 期望的大小
-     * @param <K>          键
-     * @param <V>          值
+     * @param <K>          键的类型
+     * @param <V>          值的类型
      * @return HashMap实例
      */
     public static <K, V> HashMap<K, V> hashMap(int expectedSize) {
-        return new HashMap<>((int) (expectedSize / DEFAULT_LOAD_FACTOR), DEFAULT_LOAD_FACTOR);
+        return new HashMap<>(ensureSize(expectedSize), DEFAULT_LOAD_FACTOR);
+    }
+
+    /**
+     * 创建{@linkplain HashMap}
+     *
+     * @param <K> 键的类型
+     * @param <V> 值的类型
+     * @param m   map数据
+     * @return HashMap实例
+     */
+    public static <K, V> HashMap<K, V> hashMap(Map<? extends K, ? extends V> m) {
+        if (isEmpty(m)) {
+            return hashMap();
+        }
+        HashMap<K, V> r = hashMap(m.size() << 1);
+        r.putAll(m);
+        return r;
+    }
+
+    /**
+     * 创建{@linkplain LinkedHashMap}
+     *
+     * @param <K> 键的类型
+     * @param <V> 值的类型
+     * @return LinkedHashMap实例
+     */
+    public static <K, V> LinkedHashMap<K, V> linkedHashMap() {
+        return linkedHashMap(DEFAULT_INITIAL_CAPACITY);
     }
 
     /**
      * 创建{@linkplain LinkedHashMap}
      *
      * @param expectedSize 期望的大小
-     * @param <K>          键
-     * @param <V>          值
+     * @param <K>          键的类型
+     * @param <V>          值的类型
      * @return LinkedHashMap实例
      */
     public static <K, V> LinkedHashMap<K, V> linkedHashMap(int expectedSize) {
-        return new LinkedHashMap<>((int) (expectedSize / DEFAULT_LOAD_FACTOR), DEFAULT_LOAD_FACTOR);
+        return new LinkedHashMap<>(ensureSize(expectedSize), DEFAULT_LOAD_FACTOR);
+    }
+
+    /**
+     * 创建{@linkplain LinkedHashMap}
+     *
+     * @param <K> 键的类型
+     * @param <V> 值的类型
+     * @return LinkedHashMap实例
+     */
+    public static <K, V> LinkedHashMap<K, V> linkedHashMap(Map<? extends K, ? extends V> m) {
+        if (isEmpty(m)) {
+            return linkedHashMap();
+        }
+        LinkedHashMap<K, V> r = linkedHashMap(m.size() << 1);
+        r.putAll(m);
+        return r;
     }
 
     /**
      * 新建TreeMap，Key有序的Map
      *
-     * @param <K>        key的类型
-     * @param <V>        value的类型
+     * @param <K>        键的类型
+     * @param <V>        值的类型
      * @param map        Map
      * @param comparator Key比较器
      * @return TreeMap
@@ -76,13 +137,76 @@ public class Maps {
     /**
      * 新建TreeMap，Key有序的Map
      *
-     * @param <K>        key的类型
-     * @param <V>        value的类型
+     * @param <K>        键的类型
+     * @param <V>        值的类型
      * @param comparator Key比较器
      * @return TreeMap
      */
     public static <K, V> TreeMap<K, V> treeMap(Comparator<? super K> comparator) {
         return new TreeMap<>(comparator);
+    }
+
+    /**
+     * 新建{@linkplain IdentityHashMap}
+     *
+     * @param expectedSize 期望的大小
+     * @param <K>          键的类型
+     * @param <V>          值的类型
+     * @return {@link IdentityHashMap}
+     */
+    public static <K, V> IdentityHashMap<K, V> identityHashMap(int expectedSize) {
+        return new IdentityHashMap<>(ensureSize(expectedSize));
+    }
+
+    /**
+     * 新建{@linkplain IdentityHashMap}
+     *
+     * @param <K> 键的类型
+     * @param <V> 值的类型
+     * @return {@link IdentityHashMap}
+     */
+    public static <K, V> IdentityHashMap<K, V> identityHashMap() {
+        return identityHashMap(DEFAULT_INITIAL_CAPACITY);
+    }
+
+    /**
+     * 新建{@linkplain IdentityHashMap}
+     *
+     * @param m   原Map数据
+     * @param <K> 键的类型
+     * @param <V> 值的类型
+     * @return {@link IdentityHashMap}
+     */
+    public static <K, V> IdentityHashMap<K, V> identityHashMap(Map<? extends K, ? extends V> m) {
+        if (isEmpty(m)) {
+            return identityHashMap();
+        }
+        IdentityHashMap<K, V> r = identityHashMap(m.size() << 1);
+        r.putAll(m);
+        return r;
+    }
+
+    /**
+     * 创建{@linkplain MultiValueMap}
+     *
+     * @param <K> 键的类型
+     * @param <V> 值的类型
+     * @return 值可以为多个的Map对象
+     */
+    public static <K, V> MultiValueMap<K, V> multiValueMap() {
+        return new LinkedMultiValueMap<>();
+    }
+
+    /**
+     * 创建{@linkplain MultiValueMap}
+     *
+     * @param expectedSize 期望的容量
+     * @param <K>          键的类型
+     * @param <V>          值的类型
+     * @return 值可以为多个的Map对象
+     */
+    public static <K, V> MultiValueMap<K, V> multiValueMap(int expectedSize) {
+        return new LinkedMultiValueMap<>(ensureSize(expectedSize));
     }
 
     // endregion

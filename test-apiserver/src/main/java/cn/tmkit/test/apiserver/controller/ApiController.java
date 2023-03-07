@@ -1,16 +1,18 @@
 package cn.tmkit.test.apiserver.controller;
 
 import cn.tmkit.core.io.FileUtil;
-import cn.tmkit.core.lang.Arrays;
+import cn.tmkit.core.lang.Collections;
 import cn.tmkit.core.lang.*;
 import cn.tmkit.http.HttpClient;
 import cn.tmkit.http.shf4j.HeaderName;
+import cn.tmkit.http.shf4j.HttpHeaders;
 import cn.tmkit.json.sjf4j.util.JSONUtil;
 import cn.tmkit.test.apiserver.QueryReq;
 import cn.tmkit.test.apiserver.properties.AppConfigProperties;
 import cn.tmkit.test.apiserver.vo.ApiResult;
 import cn.tmkit.test.apiserver.vo.FileData;
 import cn.tmkit.test.apiserver.vo.IpApiInfo;
+import cn.tmkit.test.apiserver.vo.SimplePostVO;
 import cn.tmkit.web.servlet3.request.IPUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -97,6 +99,8 @@ public class ApiController {
      */
     @GetMapping("/query")
     public ApiResult<QueryReq> query(@Validated QueryReq req) {
+        // 兴趣爱好应该是一个数组
+        log.info("Query request {}", req);
         return ApiResult.success(req);
     }
 
@@ -107,23 +111,16 @@ public class ApiController {
      * @return 处理结果
      */
     @PostMapping("/post/simple")
-    public ApiResult<Map<String, Object>> simplePost(HttpServletRequest request) {
+    public ApiResult<SimplePostVO> simplePost(HttpServletRequest request) {
         log.info(" <=== 接收普通的表单提交请求");
-        ApiResult<Map<String, Object>> apiResult = new ApiResult<>();
+        SimplePostVO simplePostVO = new SimplePostVO();
 
-        CommonsMultipartResolver resolver = new CommonsMultipartResolver(request.getServletContext());
-        if (resolver.isMultipart(request)) {
-            apiResult.setCode(-1);
-            apiResult.setMessage("本接口不支持文件上传`");
-            log.error(" ===> 接收普通的表单提交请求处理完毕->{}", apiResult);
-            return apiResult;
-        }
-        this.handleRequestParams(request, apiResult);
+        simplePostVO.setQueryString(request.getQueryString());
+        simplePostVO.setParameterMap(handleRequestParams(request));
+        simplePostVO.setHttpHeaders(handleRequestHeaders(request));
 
-        this.handleRequestHeaders(request, apiResult);
-
-        log.info(" ===> 接收普通的表单提交请求处理完毕->{}", apiResult);
-        return apiResult;
+        log.info(" ===> Simple Post Parse success {}", simplePostVO);
+        return ApiResult.success(simplePostVO);
     }
 
     /**
@@ -137,7 +134,7 @@ public class ApiController {
         log.info(" <=== 接收含文件的表单提交请求");
         ApiResult<Map<String, Object>> apiResult = new ApiResult<>();
 
-        this.handleRequestParams(request, apiResult);
+        //this.handleRequestParams(request, apiResult);
 
         CommonsMultipartResolver resolver = new CommonsMultipartResolver(request.getServletContext());
         if (resolver.isMultipart(request)) {
@@ -201,38 +198,23 @@ public class ApiController {
         return apiResult;
     }
 
-    private void handleRequestParams(HttpServletRequest request, ApiResult<Map<String, Object>> apiResult) {
-        Map<String, Object> data = new LinkedHashMap<>();
+    private Map<String, List<String>> handleRequestParams(HttpServletRequest request) {
+        Map<String, List<String>> result = new LinkedHashMap<>();
         for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
-            String[] valueList = entry.getValue();
-            if (valueList != null) {
-                if (valueList.length == 1) {
-                    data.put(entry.getKey(), valueList[0]);
-                } else {
-                    data.put(entry.getKey(), valueList);
-                }
-            }
+            result.put(entry.getKey(), Collections.of(entry.getValue()));
         }
-        apiResult.setData(data);
+        return result;
     }
 
-    private void handleRequestHeaders(HttpServletRequest request, ApiResult<?> apiResult) {
-        List<String> ignoreHeaderList = Arrays.asList(
-                HeaderName.USER_AGENT.getValue().toLowerCase(), HeaderName.ACCEPT_LANGUAGE.getValue().toLowerCase(),
-                HeaderName.CONTENT_TYPE.getValue().toLowerCase(), HeaderName.CONTENT_LENGTH.getValue().toLowerCase(),
-                "host", HeaderName.CONNECTION.getValue().toLowerCase(), HeaderName.ACCEPT_ENCODING.getValue().toLowerCase());
+    private HttpHeaders handleRequestHeaders(HttpServletRequest request) {
+        HttpHeaders httpHeaders = new HttpHeaders();
 
         Enumeration<String> enumeration = request.getHeaderNames();
-        Map<String, String> headers = new LinkedHashMap<>();
         while (enumeration.hasMoreElements()) {
             String headerKey = enumeration.nextElement();
-            if (!ignoreHeaderList.contains(headerKey.toLowerCase()))
-                headers.put(headerKey, request.getHeader(headerKey));
+            httpHeaders.append(HeaderName.parse(headerKey), request.getHeaders(headerKey));
         }
-
-        if (MapUtil.isNotEmpty(headers)) {
-            //apiResult.setHeaders(headers);
-        }
+        return httpHeaders;
     }
 
 }

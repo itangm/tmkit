@@ -2,12 +2,14 @@ package cn.tmkit.test.apiserver.controller;
 
 import cn.tmkit.core.lang.CollectionUtils;
 import cn.tmkit.core.lang.MapUtil;
+import cn.tmkit.core.map.MultiValueMap;
 import cn.tmkit.core.support.Console;
 import cn.tmkit.http.HttpClient;
 import cn.tmkit.json.sjf4j.BaseTypeRef;
 import cn.tmkit.test.apiserver.QueryReq;
 import cn.tmkit.test.apiserver.vo.ApiResult;
 import cn.tmkit.test.apiserver.vo.IpApiInfo;
+import cn.tmkit.test.apiserver.vo.SimplePostVO;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -67,6 +69,20 @@ public class ApiControllerAutoTest {
 
     @Test
     public void simplePost() {
+        String url = serviceUrl + "/post/simple?username=admin&password=111";
+        MultiValueMap<String, Object> data = MapUtil.multiValueMap();
+        data.add("status", 1);
+        data.add("hobbies", "睡觉");
+        data.add("hobbies", "动漫");
+        data.add("hobbies", "写代码");
+
+        ApiResult<SimplePostVO> apiResult = HttpClient.post(url).param(data).bean(new BaseTypeRef<ApiResult<SimplePostVO>>() {
+        });
+        assertNotNull(apiResult);
+        assertEquals(ApiResult.SUCCESS_CODE, apiResult.getCode());
+        SimplePostVO simplePostVO = apiResult.getData();
+        assertNotNull(simplePostVO);
+        Console.log(simplePostVO);
     }
 
     @Test

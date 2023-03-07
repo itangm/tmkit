@@ -2,9 +2,8 @@ package cn.tmkit.http;
 
 import cn.tmkit.core.convert.Converts;
 import cn.tmkit.core.io.Files;
-import cn.tmkit.core.lang.Arrays;
-import cn.tmkit.core.lang.Collections;
 import cn.tmkit.core.lang.*;
+import cn.tmkit.core.map.MultiValueMap;
 import cn.tmkit.http.shf4j.ContentType;
 import cn.tmkit.http.shf4j.FormBody;
 import cn.tmkit.http.shf4j.MultipartBody;
@@ -17,8 +16,9 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Path;
-import java.util.Objects;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -34,7 +34,7 @@ public class BaseBodyRequest<Req extends BaseBodyRequest<Req>> extends AbstractB
 
     protected boolean isMultipart;
 
-    protected Map<String, String> params;
+    protected MultiValueMap<String, String> params;
 
     protected List<MultipartBody.Part> parts;
 
@@ -42,8 +42,8 @@ public class BaseBodyRequest<Req extends BaseBodyRequest<Req>> extends AbstractB
 
     public BaseBodyRequest() {
         super();
-        this.params = new LinkedHashMap<>();
-        this.parts = new LinkedList<>();
+        this.params = Maps.multiValueMap();
+        this.parts = Collections.linkedList();
     }
 
 
@@ -158,7 +158,7 @@ public class BaseBodyRequest<Req extends BaseBodyRequest<Req>> extends AbstractB
      * @return {@link Req}
      */
     public Req json(Object value) {
-        Objects.requireNonNull(value, "value == null");
+        Asserts.notNull(value, "value == null");
         return this.json(JSONs.toJson(value));
     }
 
@@ -169,7 +169,7 @@ public class BaseBodyRequest<Req extends BaseBodyRequest<Req>> extends AbstractB
      * @return {@link Req}
      */
     public Req json(String json) {
-        Objects.requireNonNull(json, "json == null");
+        Asserts.notNull(json, "json == null");
         this.httpRequestBody = RequestBody.create(ContentType.APPLICATION_JSON, json);
         return (Req) this;
     }
@@ -181,7 +181,7 @@ public class BaseBodyRequest<Req extends BaseBodyRequest<Req>> extends AbstractB
      * @return {@link Req}
      */
     public Req text(String text) {
-        Objects.requireNonNull(text, "text == null");
+        Asserts.notNull(text, "text == null");
         this.httpRequestBody = RequestBody.create(ContentType.TEXT_PLAIN, text);
         return (Req) this;
     }
@@ -193,7 +193,7 @@ public class BaseBodyRequest<Req extends BaseBodyRequest<Req>> extends AbstractB
      * @return {@link Req}
      */
     public Req xml(String xml) {
-        Objects.requireNonNull(xml, "xml == null");
+        Asserts.notNull(xml, "xml == null");
         this.httpRequestBody = RequestBody.create(ContentType.APPLICATION_XML, xml);
         return (Req) this;
     }
@@ -205,7 +205,7 @@ public class BaseBodyRequest<Req extends BaseBodyRequest<Req>> extends AbstractB
      * @return {@link Req}
      */
     public Req html(String html) {
-        Objects.requireNonNull(html, "html == null");
+        Asserts.notNull(html, "html == null");
         this.httpRequestBody = RequestBody.create(ContentType.APPLICATION_HTML, html);
         return (Req) this;
     }
@@ -217,7 +217,7 @@ public class BaseBodyRequest<Req extends BaseBodyRequest<Req>> extends AbstractB
      * @return {@link Req}
      */
     public Req javascript(String javascript) {
-        Objects.requireNonNull(javascript, "javascriptc == null");
+        Asserts.notNull(javascript, "javascriptc == null");
         this.httpRequestBody = RequestBody.create(ContentType.APPLICATION_JAVASCRIPT, javascript);
         return (Req) this;
     }
@@ -268,7 +268,7 @@ public class BaseBodyRequest<Req extends BaseBodyRequest<Req>> extends AbstractB
                 this.parts.add((MultipartBody.Part) value);
                 this.isMultipart = true;
             } else {
-                this.params.put(name, Converts.toStr(value));
+                this.params.add(name, Converts.toStr(value));
             }
         }
     }

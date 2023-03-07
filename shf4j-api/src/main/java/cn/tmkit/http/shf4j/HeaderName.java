@@ -1,5 +1,7 @@
 package cn.tmkit.http.shf4j;
 
+import cn.tmkit.core.lang.Strings;
+
 /**
  * HTTP头域
  *
@@ -176,6 +178,23 @@ public enum HeaderName {
     @Override
     public String toString() {
         return value;
+    }
+
+    /**
+     * 解析Header名
+     *
+     * @param name header name
+     * @return 枚举对象
+     */
+    public static HeaderName parse(String name) {
+        if (Strings.isNotBlank(name)) {
+            for (HeaderName hn : HeaderName.values()) {
+                if (hn.matchesIgnoreCase(name)) {
+                    return hn;
+                }
+            }
+        }
+        throw new IllegalArgumentException("Invalid header name: " + name);
     }
 
 }
