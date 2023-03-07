@@ -1,4 +1,4 @@
-package cn.tmkit.test.apiserver.controller;
+package cn.tmkit.http;
 
 import cn.tmkit.core.id.Ids;
 import cn.tmkit.core.lang.ClassLoaderUtil;
@@ -6,19 +6,20 @@ import cn.tmkit.core.lang.CollectionUtils;
 import cn.tmkit.core.lang.MapUtil;
 import cn.tmkit.core.map.MultiValueMap;
 import cn.tmkit.core.support.Console;
-import cn.tmkit.http.HttpClient;
+import cn.tmkit.http.req.QueryReq;
+import cn.tmkit.http.req.UserReq;
+import cn.tmkit.http.vo.ApiResult;
+import cn.tmkit.http.vo.FormPostVO;
+import cn.tmkit.http.vo.IpApiInfo;
+import cn.tmkit.http.vo.SimplePostVO;
 import cn.tmkit.json.sjf4j.BaseTypeRef;
-import cn.tmkit.test.apiserver.req.QueryReq;
-import cn.tmkit.test.apiserver.req.UserReq;
-import cn.tmkit.test.apiserver.vo.ApiResult;
-import cn.tmkit.test.apiserver.vo.FormPostVO;
-import cn.tmkit.test.apiserver.vo.IpApiInfo;
-import cn.tmkit.test.apiserver.vo.SimplePostVO;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author miles.tang
@@ -34,10 +35,10 @@ public class ApiControllerAutoTest {
         String url = serviceUrl + "/ip-info";
         ApiResult<IpApiInfo> apiResult = HttpClient.get(url).bean(new BaseTypeRef<ApiResult<IpApiInfo>>() {
         });
-        assertNotNull(apiResult);
+        Assertions.assertNotNull(apiResult);
         assertEquals(ApiResult.SUCCESS_CODE, apiResult.getCode());
         IpApiInfo ipApiInfo = apiResult.getData();
-        assertNotNull(ipApiInfo);
+        Assertions.assertNotNull(ipApiInfo);
         assertTrue(ipApiInfo.success());
         Console.log(ipApiInfo);
     }
@@ -47,10 +48,10 @@ public class ApiControllerAutoTest {
         String url = serviceUrl + "/ip-info";
         ApiResult<IpApiInfo> apiResult = HttpClient.get(url).queryParam("ip", "117.136.12.79").bean(new BaseTypeRef<ApiResult<IpApiInfo>>() {
         });
-        assertNotNull(apiResult);
+        Assertions.assertNotNull(apiResult);
         assertEquals(ApiResult.SUCCESS_CODE, apiResult.getCode());
         IpApiInfo ipApiInfo = apiResult.getData();
-        assertNotNull(ipApiInfo);
+        Assertions.assertNotNull(ipApiInfo);
         assertTrue(ipApiInfo.success());
         Console.log(ipApiInfo);
     }
@@ -64,10 +65,10 @@ public class ApiControllerAutoTest {
                 .queryParam(queryParams)
                 .bean(new BaseTypeRef<ApiResult<QueryReq>>() {
                 });
-        assertNotNull(apiResult);
+        Assertions.assertNotNull(apiResult);
         assertEquals(ApiResult.SUCCESS_CODE, apiResult.getCode());
         QueryReq queryReq = apiResult.getData();
-        assertNotNull(queryReq);
+        Assertions.assertNotNull(queryReq);
         Console.log(queryReq);
     }
 
@@ -82,10 +83,10 @@ public class ApiControllerAutoTest {
 
         ApiResult<SimplePostVO> apiResult = HttpClient.post(url).param(data).bean(new BaseTypeRef<ApiResult<SimplePostVO>>() {
         });
-        assertNotNull(apiResult);
+        Assertions.assertNotNull(apiResult);
         assertEquals(ApiResult.SUCCESS_CODE, apiResult.getCode());
         SimplePostVO simplePostVO = apiResult.getData();
-        assertNotNull(simplePostVO);
+        Assertions.assertNotNull(simplePostVO);
         Console.log(simplePostVO);
     }
 
@@ -102,10 +103,10 @@ public class ApiControllerAutoTest {
                 .param("banners", ClassLoaderUtil.getInputStream("java.png"), "JAVA.png")
                 .bean(new BaseTypeRef<ApiResult<FormPostVO>>() {
                 });
-        assertNotNull(apiResult);
+        Assertions.assertNotNull(apiResult);
         assertEquals(ApiResult.SUCCESS_CODE, apiResult.getCode());
         SimplePostVO simplePostVO = apiResult.getData();
-        assertNotNull(simplePostVO);
+        Assertions.assertNotNull(simplePostVO);
         Console.log(simplePostVO);
     }
 
@@ -119,7 +120,7 @@ public class ApiControllerAutoTest {
                         .build())
                 .bean(new BaseTypeRef<ApiResult<UserReq>>() {
                 });
-        assertNotNull(apiResult);
+        Assertions.assertNotNull(apiResult);
         assertEquals(ApiResult.SUCCESS_CODE, apiResult.getCode());
         UserReq userReq = apiResult.getData();
         Console.log(userReq);

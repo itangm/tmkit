@@ -426,7 +426,7 @@ public abstract class AbstractBaseRequest<Req extends BaseRequest<Req>> implemen
                     target = getNewFilename(target, 1);
                 }
             }
-            Files.copyStream(responseBody.byteStream(), target);
+            Files.copy(responseBody.byteStream(), target);
         } finally {
             IoUtil.closeQuietly(httpResponse);
         }
