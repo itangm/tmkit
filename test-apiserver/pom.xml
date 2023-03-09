@@ -67,10 +67,20 @@
         <dependency>
             <groupId>cn.tmkit</groupId>
             <artifactId>tmkit-http</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>shf4j-okhttp</artifactId>
+                    <groupId>cn.tmkit.http</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>sjf4j-gson</artifactId>
+                    <groupId>cn.tmkit.json</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>cn.tmkit.http</groupId>
-            <artifactId>shf4j-okhttp</artifactId>
+            <artifactId>shf4j-httpclient</artifactId>
         </dependency>
 
     </dependencies>

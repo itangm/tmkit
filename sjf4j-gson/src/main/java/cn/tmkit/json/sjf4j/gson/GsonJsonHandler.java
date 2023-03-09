@@ -126,7 +126,7 @@ public class GsonJsonHandler extends BaseJsonHandler {
         builder.registerTypeAdapter(MonthDay.class, MonthDayDeserializer.INSTANCE);
 
         builder.registerTypeAdapter(OffsetTime.class, OffsetTimeDeserializer.INSTANCE);
-        builder.registerTypeAdapter(OffsetDateTime.class, OffsetDateTimeDeserializer.class);
+        builder.registerTypeAdapter(OffsetDateTime.class, OffsetDateTimeDeserializer.INSTANCE);
 
         builder.registerTypeAdapter(ZonedDateTime.class, ZonedDateTimeDeserializer.INSTANCE);
 

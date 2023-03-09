@@ -20,9 +20,37 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.11</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>cn.tmkit.http</groupId>
             <artifactId>shf4j-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.tmkit.http</groupId>
+            <artifactId>shf4j-okhttp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.tmkit.json</groupId>
+            <artifactId>sjf4j-gson</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

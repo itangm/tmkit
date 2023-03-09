@@ -1,18 +1,14 @@
 package cn.tmkit.test.apiserver.controller;
 
 import cn.tmkit.core.io.FileUtil;
-import cn.tmkit.core.lang.Collections;
 import cn.tmkit.core.lang.*;
 import cn.tmkit.http.HttpClient;
 import cn.tmkit.http.shf4j.HeaderName;
 import cn.tmkit.http.shf4j.HttpHeaders;
-import cn.tmkit.json.sjf4j.util.JSONUtil;
-import cn.tmkit.test.apiserver.QueryReq;
 import cn.tmkit.test.apiserver.properties.AppConfigProperties;
-import cn.tmkit.test.apiserver.vo.ApiResult;
-import cn.tmkit.test.apiserver.vo.FileData;
-import cn.tmkit.test.apiserver.vo.IpApiInfo;
-import cn.tmkit.test.apiserver.vo.SimplePostVO;
+import cn.tmkit.test.apiserver.req.QueryReq;
+import cn.tmkit.test.apiserver.req.UserReq;
+import cn.tmkit.test.apiserver.vo.*;
 import cn.tmkit.web.servlet3.request.IPUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,12 +19,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author miles.tang
@@ -41,7 +39,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ApiController {
 
-    private String serverUrl = "/";
+    private String serverUrl = "http://localhost:8080";
 
     private final AppConfigProperties appConfigProperties;
 
@@ -130,60 +128,47 @@ public class ApiController {
      * @return 处理结果
      */
     @PostMapping("/post/form")
-    public ApiResult<Map<String, Object>> formPost(HttpServletRequest request) throws IOException {
+    @SuppressWarnings("ConstantConditions")
+    public ApiResult<FormPostVO> formPost(HttpServletRequest request) throws IOException {
         log.info(" <=== 接收含文件的表单提交请求");
-        ApiResult<Map<String, Object>> apiResult = new ApiResult<>();
+        FormPostVO formPostVO = new FormPostVO();
 
-        //this.handleRequestParams(request, apiResult);
+        formPostVO.setQueryString(request.getQueryString());
+        formPostVO.setParameterMap(handleRequestParams(request));
+        formPostVO.setHttpHeaders(handleRequestHeaders(request));
 
-        CommonsMultipartResolver resolver = new CommonsMultipartResolver(request.getServletContext());
-        if (resolver.isMultipart(request)) {
-            String realPath = request.getServletContext().getRealPath("");
-            File parentFile = new File(realPath + "/public/imgs");
-            FileUtil.mkdir(parentFile);
-            MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
 
+        if (request instanceof MultipartHttpServletRequest) {
             Map<String, List<FileData>> fileDataMap = new LinkedHashMap<>();
-            for (Map.Entry<String, List<MultipartFile>> entry : mRequest.getMultiFileMap().entrySet()) {
-                List<MultipartFile> valueList = entry.getValue();
-                if (CollectionUtils.isNotEmpty(valueList)) {
-                    List<FileData> fileDataList = new LinkedList<>();
-                    for (MultipartFile multipartFile : valueList) {
-                        FileData fileData = new FileData();
-                        fileData.setOldFilename(multipartFile.getOriginalFilename());
-                        fileData.setFileExt(FileUtil.getFileExt(fileData.getOldFilename()));
-                        fileData.setNewFilename(System.nanoTime() + "." + fileData.getFileExt());
-                        fileData.setFileSize((int) multipartFile.getSize());
-                        fileData.setShowUrl(serverUrl + "/public/imgs/" + fileData.getNewFilename());
-                        multipartFile.transferTo(new File(parentFile, fileData.getNewFilename()));
-                        fileDataList.add(fileData);
-                    }
-                    fileDataMap.put(entry.getKey(), fileDataList);
+            String realPath = request.getServletContext().getRealPath("");
+            File parentFile = new File(realPath + "/public/images");
+            FileUtil.mkdir(parentFile);
+            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+            for (Map.Entry<String, List<MultipartFile>> entry : multipartRequest.getMultiFileMap().entrySet()) {
+                for (MultipartFile multipartFile : entry.getValue()) {
+                    FileData fileData = new FileData();
+                    fileData.setOldFilename(multipartFile.getOriginalFilename());
+                    fileData.setFileExt(FileUtil.getFileExt(fileData.getOldFilename()));
+                    fileData.setNewFilename(System.nanoTime() + "." + fileData.getFileExt());
+                    fileData.setFileSize((int) multipartFile.getSize());
+                    fileData.setShowUrl(serverUrl + "/public/images/" + fileData.getNewFilename());
+                    FileUtil.copy(multipartFile.getInputStream(), new File(parentFile, fileData.getNewFilename()));
+
+                    List<FileData> list = MapUtil.computeIfAbsent(fileDataMap, multipartFile.getName(), s -> CollectionUtils.arrayList());
+                    list.add(fileData);
                 }
             }
-            if (MapUtil.isNotEmpty(fileDataMap)) {
-                // apiResult.setFileData(fileDataMap);
-            }
+            formPostVO.setFiles(fileDataMap);
         }
 
-        log.info(" ===> 接收含文件的表单提交请求处理完毕->{}", apiResult);
-        return apiResult;
+        log.info(" ===> 接收含文件的表单提交请求处理完毕->{}", formPostVO);
+        return ApiResult.success(formPostVO);
     }
 
-    @PostMapping(value = "/post/body/raw", consumes = {"text/plain", "application/json"})
-    public ApiResult<Object> rawBodyPost(@RequestBody(required = false) String content, HttpServletRequest request) {
-        log.info(" <=== 接收提交请求体(POST Text Body)请求，请求参数->content={}", content);
-        ApiResult<Object> apiResult = new ApiResult<>();
-        if (StringUtils.hasLength(content)) {
-            String contentType = request.getHeader(HeaderName.CONTENT_TYPE.getValue());
-            System.out.println("contentType = " + contentType);
-            if (contentType.equals("text/plain")) {
-                apiResult.setData(content);
-            } else {
-                apiResult.setData(JSONUtil.fromJson(content, Map.class));
-            }
-        }
-
+    @PostMapping(value = "/post/json")
+    public ApiResult<UserReq> postJson(@RequestBody UserReq userReq) {
+        log.info(" <=== userReq = {}", userReq);
+        ApiResult<UserReq> apiResult = ApiResult.success(userReq);
         log.info(" ===> 接收请求体(POST Text Body)请求处理完毕->{}", apiResult);
         return apiResult;
     }

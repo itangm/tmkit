@@ -1403,7 +1403,7 @@ public class Files extends Paths {
      * @param in         输入流,非空
      * @param targetFile 目标文件,非空
      */
-    public static void copyStream(InputStream in, File targetFile) {
+    public static void copy(InputStream in, File targetFile) {
         if (targetFile == null) {
             return;
         }

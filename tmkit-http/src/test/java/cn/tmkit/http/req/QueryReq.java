@@ -1,10 +1,7 @@
-package cn.tmkit.test.apiserver;
+package cn.tmkit.http.req;
 
 import lombok.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.List;
 
@@ -23,14 +20,11 @@ public class QueryReq implements Serializable {
     /**
      * 昵称
      */
-    @NotBlank(message = "昵称不能为空")
     private String nickname;
 
     /**
      * 兴趣爱好
      */
-    @NotEmpty(message = "兴趣爱好不能为空")
-    @Valid
-    private List<@NotBlank(message = "兴趣爱好不能为空") String> hobbies;
+    private List<String> hobbies;
 
 }

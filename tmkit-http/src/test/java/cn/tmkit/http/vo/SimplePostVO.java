@@ -1,4 +1,4 @@
-package cn.tmkit.test.apiserver.vo;
+package cn.tmkit.http.vo;
 
 import cn.tmkit.http.shf4j.HttpHeaders;
 import lombok.*;

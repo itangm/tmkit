@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -404,6 +405,29 @@ public class Maps {
         Map<V, K> resultMap = new HashMap<>(map.size());
         map.forEach((k, v) -> resultMap.put(v, k));
         return resultMap;
+    }
+
+    /**
+     * Compute if absent.
+     * Use this method if you are frequently using the same key,
+     * because the get method has no lock.
+     *
+     * @param map             the map
+     * @param key             the key
+     * @param mappingFunction the mapping function
+     * @param <K>             the type of key
+     * @param <V>             the type of value
+     * @return the value
+     */
+    public static <K, V> V computeIfAbsent(Map<K, V> map, K key, Function<? super K, ? extends V> mappingFunction) {
+        if (Objects.isAnyNull(map, key, mappingFunction)) {
+            return null;
+        }
+        V value = map.get(key);
+        if (value != null) {
+            return value;
+        }
+        return map.computeIfAbsent(key, mappingFunction);
     }
 
     /**

@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * 集合工具类
@@ -393,29 +392,6 @@ public class Collections {
 
 
     // region general methods
-
-    /**
-     * Compute if absent.
-     * Use this method if you are frequently using the same key,
-     * because the get method has no lock.
-     *
-     * @param map             the map
-     * @param key             the key
-     * @param mappingFunction the mapping function
-     * @param <K>             the type of key
-     * @param <V>             the type of value
-     * @return the value
-     */
-    public static <K, V> V computeIfAbsent(Map<K, V> map, K key, Function<? super K, ? extends V> mappingFunction) {
-        if (Objects.isAnyNull(map, key, mappingFunction)) {
-            return null;
-        }
-        V value = map.get(key);
-        if (value != null) {
-            return value;
-        }
-        return map.computeIfAbsent(key, mappingFunction);
-    }
 
     /**
      * 将所有指定的元素添加到集合中
