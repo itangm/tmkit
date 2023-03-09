@@ -24,16 +24,7 @@
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>cn.tmkit.http</groupId>
-            <artifactId>shf4j-httpclient</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>cn.tmkit.json</groupId>
-            <artifactId>sjf4j-gson</artifactId>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
@@ -51,6 +42,15 @@
             <groupId>cn.tmkit.http</groupId>
             <artifactId>shf4j-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.tmkit.http</groupId>
+            <artifactId>shf4j-okhttp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.tmkit.json</groupId>
+            <artifactId>sjf4j-gson</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
