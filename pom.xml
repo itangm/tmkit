@@ -22,7 +22,8 @@
         <module>sjf4j-jackson</module>
         <module>sjf4j-fastjson</module>
         <module>shf4j-api</module>
-        <module>shf4j-okhttp</module>
+        <module>shf4j-okhttp-3.x</module>
+        <module>shf4j-okhttp-4.x</module>
         <module>shf4j-httpclient</module>
         <module>tmkit-servlet3</module>
         <module>tmkit-http</module>
@@ -225,7 +226,12 @@
             </dependency>
             <dependency>
                 <groupId>cn.tmkit.http</groupId>
-                <artifactId>shf4j-okhttp</artifactId>
+                <artifactId>shf4j-okhttp-3.x</artifactId>
+                <version>${tmkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.tmkit.http</groupId>
+                <artifactId>shf4j-okhttp-4.x</artifactId>
                 <version>${tmkit.version}</version>
             </dependency>
             <dependency>

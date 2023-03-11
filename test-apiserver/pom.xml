@@ -69,7 +69,7 @@
             <artifactId>tmkit-http</artifactId>
             <exclusions>
                 <exclusion>
-                    <artifactId>shf4j-okhttp</artifactId>
+                    <artifactId>shf4j-okhttp-4.x</artifactId>
                     <groupId>cn.tmkit.http</groupId>
                 </exclusion>
                 <exclusion>

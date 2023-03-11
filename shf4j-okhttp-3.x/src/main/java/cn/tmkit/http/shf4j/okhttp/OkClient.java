@@ -139,7 +139,7 @@ public class OkClient implements Client {
         }
         if (input.body() == null) {
             if (isMethodWithBody) {
-                requestBuilder.method(input.method().name(), okhttp3.RequestBody.create(new byte[0], okhttp3MediaType));
+                requestBuilder.method(input.method().name(), okhttp3.RequestBody.create(okhttp3MediaType, Arrays.EMPTY_BYTE_ARRAY));
             } else {
                 requestBuilder.method(input.method().name(), null);
             }
@@ -161,24 +161,23 @@ public class OkClient implements Client {
             builder.setType(okhttp3MediaType);
 
             if (Collections.isEmpty(multipartBody.getParts())) {
-                builder.addPart(okhttp3.RequestBody.create(new byte[0], okhttp3.MultipartBody.FORM));
+                builder.addPart(okhttp3.RequestBody.create(okhttp3.MultipartBody.FORM, Arrays.EMPTY_BYTE_ARRAY));
             } else {
                 for (MultipartBody.Part part : multipartBody.getParts()) {
                     MediaType partMediaType = MediaType.parse(part.getContentType().toString());
                     if (part.getFile() != null) {
                         builder.addFormDataPart(part.getName(), part.getValue(),
-                                okhttp3.RequestBody.create(part.getFile(), partMediaType));
+                                okhttp3.RequestBody.create(partMediaType, part.getFile()));
                     } else if (part.getIn() != null) {
                         builder.addFormDataPart(part.getName(), part.getValue(),
-                                okhttp3.RequestBody.create(RequestBody.create(null, part.getIn()).getData(), partMediaType));
+                                okhttp3.RequestBody.create(partMediaType, RequestBody.create(null, part.getIn()).getData()));
                     } else if (part.getBody() != null) {
                         RequestBody partBody = part.getBody();
 
                         builder.addFormDataPart(part.getName(), part.getValue(), okhttp3.RequestBody.create(
-                                part.getBody().getData(), (part.getBody().contentType() == null) ? null : MediaType.parse(part.getBody().contentType().toString())
-                        ));
+                                (part.getBody().contentType() == null) ? null : MediaType.parse(part.getBody().contentType().toString()), part.getBody().getData()));
                         builder.addFormDataPart(part.getName(), part.getValue(),
-                                okhttp3.RequestBody.create(part.getBody().getData(), partMediaType));
+                                okhttp3.RequestBody.create(partMediaType, part.getBody().getData()));
                     } else if (part.getValue() != null) {
                         builder.addFormDataPart(part.getName(), part.getValue());
                     }
@@ -186,7 +185,7 @@ public class OkClient implements Client {
             }
             requestBuilder.method(input.method().name(), builder.build());
         } else {
-            requestBuilder.method(input.method().name(), okhttp3.RequestBody.create(input.body().getData(), okhttp3MediaType));
+            requestBuilder.method(input.method().name(), okhttp3.RequestBody.create(okhttp3MediaType, input.body().getData()));
         }
         return requestBuilder.build();
     }
