@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Tester for {@linkplain JSONUtil}
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-03-13
  */
