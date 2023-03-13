@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * Tester for {@linkplain }
  *
- * @author ming.tang
+ * @author miles.tang
  * @version 0.0.1
  * @date 2023-03-07
  */
