@@ -138,26 +138,36 @@ public class Classes {
     }
 
     /**
-     * 判断sourceType是否是targetType父类或接口，其类的本身
+     * 判断类是否是枚举类
      *
-     * @param sourceType 被检查的类型
+     * @param rawType 待检查的类
+     * @return 是否位枚举类
+     */
+    public static boolean isEnumType(Class<?> rawType) {
+        return rawType != null && Enum.class.isAssignableFrom(rawType);
+    }
+
+    /**
+     * 判断{@code parentType}是否是{@code targetType}父类或接口，其类的本身
+     *
+     * @param parentType 父类型
      * @param targetType 被检查的类型
      * @return 如果是则返回{@code true}，否则返回{@code false}
      * @see Class#isAssignableFrom(Class)
      */
-    public static boolean isAssignable(Class<?> sourceType, Class<?> targetType) {
-        if (Arrays.isAnyNull(sourceType, targetType)) {
+    public static boolean isAssignable(Class<?> parentType, Class<?> targetType) {
+        if (Arrays.isAnyNull(parentType, targetType)) {
             return false;
         }
-        if (sourceType.isAssignableFrom(targetType)) {
+        if (parentType.isAssignableFrom(targetType)) {
             return true;
         }
-        if (sourceType.isPrimitive()) {
+        if (parentType.isPrimitive()) {
             Class<?> resolvedPrimitive = PRIMITIVE_WRAPPER_TYPE_MAP.get(targetType);
-            return sourceType == resolvedPrimitive;
+            return parentType == resolvedPrimitive;
         } else {
             Class<?> resolvedWrapper = PRIMITIVE_TYPE_TO_WRAPPER_MAP.get(targetType);
-            return resolvedWrapper != null && sourceType.isAssignableFrom(resolvedWrapper);
+            return resolvedWrapper != null && parentType.isAssignableFrom(resolvedWrapper);
         }
     }
 
