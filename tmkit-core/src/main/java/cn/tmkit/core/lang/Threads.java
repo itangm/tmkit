@@ -41,7 +41,7 @@ public class Threads {
      * @param min 最低睡眠时间，单位毫秒
      * @param max 最高睡眠时间，单位毫秒
      */
-    public static void sleepRandomly(final long min, final long max) {
+    public static void sleepRandom(final long min, final long max) {
         long ms = RandomUtil.nextLong(min, max + 1);
         sleep(ms);
     }
