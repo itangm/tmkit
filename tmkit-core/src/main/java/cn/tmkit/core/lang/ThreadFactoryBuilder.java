@@ -18,6 +18,16 @@ public class ThreadFactoryBuilder implements Builder<ThreadFactory> {
     private String namePrefix;
 
     /**
+     * 线程优先级
+     */
+    private int priority = Thread.NORM_PRIORITY;
+
+    /**
+     * 守护状态
+     */
+    private boolean daemon;
+
+    /**
      * 构建
      *
      * @return 被构建的对象
@@ -27,6 +37,12 @@ public class ThreadFactoryBuilder implements Builder<ThreadFactory> {
         return build(this);
     }
 
+    /**
+     * 构建
+     *
+     * @param builder 构建对象
+     * @return {@linkplain ThreadFactory} object
+     */
     private ThreadFactory build(ThreadFactoryBuilder builder) {
         final AtomicLong count = new AtomicLong(1);
         return r -> {
@@ -34,6 +50,8 @@ public class ThreadFactoryBuilder implements Builder<ThreadFactory> {
             if (builder.namePrefix != null) {
                 thread.setName(builder.namePrefix + count.getAndIncrement());
             }
+            thread.setPriority(priority);
+            thread.setDaemon(daemon);
             return thread;
         };
     }
@@ -55,6 +73,28 @@ public class ThreadFactoryBuilder implements Builder<ThreadFactory> {
      */
     public ThreadFactoryBuilder namePrefix(String namePrefix) {
         this.namePrefix = namePrefix;
+        return this;
+    }
+
+    /**
+     * 设置线程优先级
+     *
+     * @param priority 线程优先级
+     * @return 当前对象
+     */
+    public ThreadFactoryBuilder priority(int priority) {
+        this.priority = priority;
+        return this;
+    }
+
+    /**
+     * 是否为守护线程
+     *
+     * @param on 是否开启守护
+     * @return 当前对象
+     */
+    public ThreadFactoryBuilder daemon(boolean on) {
+        this.daemon = on;
         return this;
     }
 
