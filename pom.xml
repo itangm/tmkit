@@ -311,6 +311,44 @@
 
         <profile>
             <id>test</id>
+            <repositories>
+                <repository>
+                    <id>mored-release</id>
+                    <name>Release Repositroy</name>
+                    <url>http://192.168.10.30:8081/content/groups/public/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>mored-release</id>
+                    <name>Plugin Repository</name>
+                    <url>http://192.168.10.30:8081/content/groups/public/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                        <updatePolicy>always</updatePolicy>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>always</updatePolicy>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>mored-snapshot</id>
+                    <name>Snapshot Modules</name>
+                    <url>http://192.168.10.30:8081/content/repositories/snapshots/</url>
+                    <uniqueVersion>true</uniqueVersion>
+                </snapshotRepository>
+                <repository>
+                    <id>mored-release</id>
+                    <name>Release Modules</name>
+                    <url>http://192.168.10.30:8081/content/repositories/releases/</url>
+                </repository>
+            </distributionManagement>
             <build>
                 <plugins>
                     <!-- Source -->
