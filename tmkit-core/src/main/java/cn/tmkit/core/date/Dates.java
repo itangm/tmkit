@@ -471,7 +471,7 @@ public class Dates {
             start = end;
             end = temp;
         }
-        return LocalDateTimes.betweenDays(start.toInstant(), end.toInstant());
+        return Temporals.betweenDays(start.toInstant(), end.toInstant());
     }
 
     /**
