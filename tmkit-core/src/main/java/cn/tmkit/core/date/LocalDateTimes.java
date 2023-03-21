@@ -34,6 +34,26 @@ public class LocalDateTimes {
     }
 
     /**
+     * 当前的日期时间，忽略毫秒数
+     * <p>MySQL针对带有毫秒数的日期时间可能会发生提升1秒的问题，当毫秒数超出500时。通过本方法放回的当前日期时间舍去毫秒数</p>
+     *
+     * @return 日期时间，舍去毫秒数
+     */
+    public static LocalDateTime nowRoundingMills() {
+        return truncateToSecond(now());
+    }
+
+    /**
+     * 当前的日期时间，忽略毫秒数
+     * <p>MySQL针对带有毫秒数的日期时间可能会发生提升1秒的问题，当毫秒数超出500时。通过本方法放回的当前日期时间舍去毫秒数</p>
+     *
+     * @return 日期时间，舍去毫秒数
+     */
+    public static LocalDateTime nowWithoutMills() {
+        return nowRoundingMills();
+    }
+
+    /**
      * 当前日期，默认时区
      *
      * @return {@link LocalDate}
@@ -620,14 +640,45 @@ public class LocalDateTimes {
     }
 
     /**
-     * 计算两个日期之间的相差天数
+     * 获取两个日期的差，如果结束时间早于开始时间，获取结果为负。
+     * 返回结果为{@link Duration}对象，通过调用toXXX方法返回相差单位
      *
-     * @param start 开始时间
-     * @param end   结束时间
-     * @return 相差的天数
+     * @param startTimeInclude 开始时间（包含）
+     * @param endTimeExclude   结束时间（不包含）
+     * @return 时间差 {@link Duration}对象
      */
-    public static int betweenDays(Temporal start, Temporal end) {
-        return (int) ChronoUnit.DAYS.between(start, end);
+    public static Duration between(LocalDateTime startTimeInclude, LocalDateTime endTimeExclude) {
+        return Temporals.between(startTimeInclude, endTimeExclude);
+    }
+
+    /**
+     * 返回两者之间相差的毫秒数，如果{@code start}小于{@code end}负数
+     * 如果{@code  start}或{@code  end}为{@code null}则返回{@code -1}
+     *
+     * @param start 开始时间（包含）
+     * @param end   结束时间（不包含）
+     * @return 两者之间相差的毫秒数
+     */
+    public static long betweenMills(LocalDateTime start, LocalDateTime end) {
+        if (Objects.isAnyNull(start, end)) {
+            return -1;
+        }
+        return between(start, end).toMillis();
+    }
+
+    /**
+     * 返回两者之间相差的秒数，如果{@code start}小于{@code end}负数
+     * 如果{@code  start}或{@code  end}为{@code null}则返回{@code -1}
+     *
+     * @param start 开始时间（包含）
+     * @param end   结束时间（不包含）
+     * @return 两者之间相差的秒数
+     */
+    public static long betweenSeconds(LocalDateTime start, LocalDateTime end) {
+        if (Objects.isAnyNull(start, end)) {
+            return -1;
+        }
+        return between(start, end).getSeconds();
     }
 
     /**
@@ -699,6 +750,30 @@ public class LocalDateTimes {
      */
     public static int get(TemporalAccessor accessor, TemporalField field) {
         return accessor.isSupported(field) ? accessor.get(field) : ((int) field.range().getMinimum());
+    }
+
+    /**
+     * 按照{@linkplain TemporalUnit}级别舍去
+     *
+     * @param ldt  日期时间
+     * @param unit 保留的时间级别
+     * @return 舍去后的日期时间
+     */
+    public static LocalDateTime truncateTo(LocalDateTime ldt, TemporalUnit unit) {
+        if (Objects.isAnyNull(ldt, unit)) {
+            return ldt;
+        }
+        return ldt.truncatedTo(unit);
+    }
+
+    /**
+     * 按照{@linkplain ChronoUnit#SECONDS}级别舍去
+     *
+     * @param ldt 日期时间
+     * @return 舍去后的日期时间
+     */
+    public static LocalDateTime truncateToSecond(LocalDateTime ldt) {
+        return truncateTo(ldt, ChronoUnit.SECONDS);
     }
 
 }
