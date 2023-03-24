@@ -18,6 +18,11 @@ import java.time.format.DateTimeFormatterBuilder;
 public enum DefaultCustomFormatter implements CustomFormatter {
 
     /**
+     * 日期时间的CRON表达式
+     */
+    CRON_DATE(CRON_DATE_PATTERN, DateTimeFormatter.ofPattern(CRON_DATE_PATTERN)),
+
+    /**
      * 标准日期格式 yyyy-MM-dd
      */
     NORMAL_DATE(NORMAL_DATE_PATTERN, DateTimeFormatter.ofPattern(NORMAL_DATE_PATTERN)),

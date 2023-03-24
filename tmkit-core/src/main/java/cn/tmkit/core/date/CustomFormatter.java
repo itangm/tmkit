@@ -26,6 +26,11 @@ public interface CustomFormatter {
     DateTimeFormatter getFormatter();
 
     /**
+     * 日期时间的CRON表达式
+     */
+    String CRON_DATE_PATTERN = "ss mm HH dd MM ? yyyy";
+
+    /**
      * 标准日期格式 yyyy-MM-dd
      */
     String NORMAL_DATE_PATTERN = "yyyy-MM-dd";
