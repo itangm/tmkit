@@ -776,4 +776,15 @@ public class LocalDateTimes {
         return truncateTo(ldt, ChronoUnit.SECONDS);
     }
 
+    /**
+     * 根据日期时间生成CRON表达式
+     * <p style="font-weight: bold">特别注意，此处的CRON表达式并不是Spring Cron Expression</p>
+     *
+     * @param ldt 日期时间
+     * @return cron表达式
+     */
+    public static String getCronExpression(LocalDateTime ldt) {
+        return format(ldt, DefaultCustomFormatter.CRON_DATE);
+    }
+
 }
