@@ -5,8 +5,6 @@ import cn.tmkit.core.lang.reflect.Types;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -48,29 +46,5 @@ public abstract class BaseTypeRef<T> implements Comparator<T> {
     public int compare(T o1, T o2) {
         return 0;
     }
-
-    /**
-     * {@code java.util.LIst<String>}的泛型包装的类型
-     */
-    public static final Type LIST_STRING = new BaseTypeRef<List<String>>() {
-    }.getType();
-
-    /**
-     * {@code java.util.LIst<Long>}的泛型包装的类型
-     */
-    public static final Type LIST_LONG = new BaseTypeRef<List<Long>>() {
-    }.getType();
-
-    /**
-     * {@code java.util.LIst<Integer>}的泛型包装的类型
-     */
-    public static final Type LIST_INTEGER = new BaseTypeRef<List<Integer>>() {
-    }.getType();
-
-    /**
-     * {@code java.util.LIst<Map<String, String>>}的泛型包装的类型
-     */
-    public static final Type LIST_MAP_STRING = new BaseTypeRef<List<Map<String, String>>>() {
-    }.getType();
 
 }
