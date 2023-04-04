@@ -148,7 +148,7 @@ public class Collections {
      * @return ArrayList对象
      */
     public static <E> ArrayList<E> arrayList(Collection<E> values) {
-        if (Arrays.isEmpty(values)) {
+        if (isEmpty(values)) {
             return new ArrayList<>();
         }
         return new ArrayList<>(values);
@@ -228,7 +228,7 @@ public class Collections {
      * @return HashSet对象
      */
     public static <E> HashSet<E> hashSet(Collection<E> values) {
-        int capacity = Arrays.isEmpty(values) ? Maps.DEFAULT_INITIAL_CAPACITY : values.size();
+        int capacity = isEmpty(values) ? Maps.DEFAULT_INITIAL_CAPACITY : values.size();
         HashSet<E> hashSet = hashSet(capacity);
         hashSet.addAll(values);
         return hashSet;
