@@ -295,7 +295,7 @@ public class Maps {
      * @param ignoreNull     如果键或值为{@code true}则忽略空值
      * @return 返回字符串
      */
-    private static String join(final Map<String, ?> data, String keySeparator, String entrySeparator,
+    public static String join(final Map<String, ?> data, String keySeparator, String entrySeparator,
                                boolean keySortable, boolean ignoreNull) {
         if (data == null) {
             return null;
