@@ -53,6 +53,17 @@ public class Maps {
     /**
      * 创建{@linkplain HashMap}
      *
+     * @param <K> 键的类型
+     * @param <V> 值的类型
+     * @return HashMap实例
+     */
+    public static <K, V> HashMap<K, V> newHashMap() {
+        return hashMap();
+    }
+
+    /**
+     * 创建{@linkplain HashMap}
+     *
      * @param expectedSize 期望的大小
      * @param <K>          键的类型
      * @param <V>          值的类型
@@ -60,6 +71,18 @@ public class Maps {
      */
     public static <K, V> HashMap<K, V> hashMap(int expectedSize) {
         return new HashMap<>(ensureSize(expectedSize), DEFAULT_LOAD_FACTOR);
+    }
+
+    /**
+     * 创建{@linkplain HashMap}
+     *
+     * @param expectedSize 期望的大小
+     * @param <K>          键的类型
+     * @param <V>          值的类型
+     * @return HashMap实例
+     */
+    public static <K, V> HashMap<K, V> newHashMap(int expectedSize) {
+        return hashMap(expectedSize);
     }
 
     /**
@@ -77,6 +100,18 @@ public class Maps {
         HashMap<K, V> r = hashMap(m.size() << 1);
         r.putAll(m);
         return r;
+    }
+
+    /**
+     * 创建{@linkplain HashMap}
+     *
+     * @param <K> 键的类型
+     * @param <V> 值的类型
+     * @param m   map数据
+     * @return HashMap实例
+     */
+    public static <K, V> HashMap<K, V> newHashMap(Map<? extends K, ? extends V> m) {
+        return hashMap(m);
     }
 
     /**
