@@ -607,6 +607,17 @@ public class Strings {
     }
 
     /**
+     * 删除字符串两侧的空白符(char <= 32)，如果字符串为空则返回{@code null}
+     *
+     * @param cse 待操作的字符串，可以为{@code null}
+     * @return {@code null}或去除两侧控制符后的字符串
+     */
+    public static String trimToNull(CharSequence cse) {
+        String str = trim(cse);
+        return isEmpty(str) ? null : str;
+    }
+
+    /**
      * 去除字符串数组中的每个元素左右两侧空白部分
      *
      * @param array 原数组
