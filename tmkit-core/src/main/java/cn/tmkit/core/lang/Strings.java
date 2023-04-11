@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
  * @version 0.0.1
  * @date 2023-01-12
  */
+@SuppressWarnings("unused")
 public class Strings {
 
     // region 定义的公共的字符串相关的常量
@@ -615,6 +616,16 @@ public class Strings {
     public static String trimToNull(CharSequence cse) {
         String str = trim(cse);
         return isEmpty(str) ? null : str;
+    }
+
+    /**
+     * 删除字符串两侧的空白符(char <= 32)，如果字符串为{@code null}则返回空字符串
+     *
+     * @param cse 待操作的字符串，可以为{@code null}
+     * @return 空字符串或去除两侧控制符后的字符串
+     */
+    public static @NotNull String trimToEmpty(CharSequence cse) {
+        return (cse == null) ? EMPTY_STRING : trim(cse);
     }
 
     /**
