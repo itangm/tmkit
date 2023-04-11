@@ -124,6 +124,17 @@ public class Collections {
     }
 
     /**
+     * 新建一个指定容量大小的{@linkplain ArrayList}
+     *
+     * @param capacity 容量
+     * @param <E>      集合元素类型
+     * @return ArrayList对象
+     */
+    public static <E> ArrayList<E> newArrayList(int capacity) {
+        return arrayList(capacity);
+    }
+
+    /**
      * 新建一个ArrayList
      *
      * @param <E>    集合元素类型
@@ -147,11 +158,34 @@ public class Collections {
      * @param values 数组
      * @return ArrayList对象
      */
+    @SafeVarargs
+    public static <E> ArrayList<E> newArrayList(E... values) {
+        return arrayList(values);
+    }
+
+    /**
+     * 新建一个ArrayList
+     *
+     * @param <E>    集合元素类型
+     * @param values 数组
+     * @return ArrayList对象
+     */
     public static <E> ArrayList<E> arrayList(Collection<E> values) {
         if (isEmpty(values)) {
             return new ArrayList<>();
         }
         return new ArrayList<>(values);
+    }
+
+    /**
+     * 新建一个ArrayList
+     *
+     * @param <E>    集合元素类型
+     * @param values 数组
+     * @return ArrayList对象
+     */
+    public static <E> ArrayList<E> newArrayList(Collection<E> values) {
+        return arrayList(values);
     }
 
     /**
