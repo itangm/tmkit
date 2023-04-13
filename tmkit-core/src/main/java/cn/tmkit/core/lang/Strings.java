@@ -619,6 +619,19 @@ public class Strings {
     }
 
     /**
+     * 如果为空字符串则返回{@code null}否则返回源字符串
+     *
+     * @param cse 字符串
+     * @return 源字符串或{@code null}
+     */
+    public static String emptyToNull(CharSequence cse) {
+        if (isEmpty(cse)) {
+            return null;
+        }
+        return cse.toString();
+    }
+
+    /**
      * 删除字符串两侧的空白符(char <= 32)，如果字符串为{@code null}则返回空字符串
      *
      * @param cse 待操作的字符串，可以为{@code null}
