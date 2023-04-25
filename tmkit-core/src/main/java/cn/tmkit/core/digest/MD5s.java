@@ -40,6 +40,16 @@ public class MD5s {
     }
 
     /**
+     * MD5计算，结果转为16进制的小写字符串返回
+     *
+     * @param data 待计算的数据
+     * @return md5计算结果
+     */
+    public static String digestHex(final byte[] data) {
+        return HexUtil.encodeToStr(digest(data));
+    }
+
+    /**
      * 计算字符串的md5值，结果转为16进制的小写字符串返回
      *
      * @param data 待计算的数据
@@ -95,6 +105,16 @@ public class MD5s {
      */
     public static String digestHex(final InputStream data) {
         return HexUtil.encodeToStr(digest(data));
+    }
+
+    /**
+     * 计算MD5值，将结果转为BASE64输出
+     *
+     * @param data 待计算的数据
+     * @return BASE64的字符串
+     */
+    public static String digestBase64(final byte[] data) {
+        return Base64Util.encode(digest(data));
     }
 
     /**
