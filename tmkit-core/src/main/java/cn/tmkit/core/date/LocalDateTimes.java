@@ -22,6 +22,15 @@ import java.util.TimeZone;
  */
 public class LocalDateTimes {
 
+    // region Date And Time Constant
+
+    /**
+     * 一天最大的时间，也就是23:59:59，与官方API的区别在于不考虑纳秒的情况
+     */
+    public static final LocalTime MAX_TIME = LocalTime.of(23, 59, 59);
+
+    // endregion
+
     // region ============ Create LocalDateTime ============
 
     /**
@@ -785,6 +794,32 @@ public class LocalDateTimes {
      */
     public static String getCronExpression(LocalDateTime ldt) {
         return format(ldt, DefaultCustomFormatter.CRON_DATE);
+    }
+
+    /**
+     * 返回一天的开始，即当天的00:00:00
+     *
+     * @param date 某一天的时间
+     * @return 一天的开始
+     */
+    public static LocalDateTime startOfDay(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        return date.atStartOfDay();
+    }
+
+    /**
+     * 返回一天的结束，即当天的23:59:59
+     *
+     * @param date 某一天的时间
+     * @return 一天的结束
+     */
+    public static LocalDateTime endOfDay(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        return date.atTime(MAX_TIME);
     }
 
 }
