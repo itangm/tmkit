@@ -903,5 +903,26 @@ public class LocalDateTimes {
         return endOfDay(LocalDate.of(ldt.getYear(), ldt.getMonth(), dayOfMonth));
     }
 
+    /**
+     * 返回当前日期月份的第几天
+     *
+     * @return 月份的第几天
+     */
+    public static int dayOfMonth() {
+        return dayOfMonth(now());
+    }
+
+    /**
+     * 返回当前日期月份的第几天，如果参数为{@code null}则返回{@code -1}
+     *
+     * @param ldt 指定日期
+     * @return 月份的第几天
+     */
+    public static int dayOfMonth(LocalDateTime ldt) {
+        if (ldt == null) {
+            return -1;
+        }
+        return ldt.getDayOfMonth();
+    }
 
 }
