@@ -1,6 +1,7 @@
 package cn.tmkit.json.sjf4j;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 缓存类型
@@ -27,6 +28,18 @@ public interface TypeRefCache {
      * {@code java.util.LIst<Integer>}的泛型包装的类型
      */
     BaseTypeRef<List<Integer>> LIST_INTEGER = new BaseTypeRef<List<Integer>>() {
+    };
+
+    /**
+     * {@code java.util.Map<String, String>}的泛型包装的类型
+     */
+    BaseTypeRef<Map<String, String>> MAP_STRING_STRING = new BaseTypeRef<Map<String, String>>() {
+    };
+
+    /**
+     * {@code java.util.Map<String, String>}的泛型包装的类型
+     */
+    BaseTypeRef<Map<String, Object>> MAP_STRING_OBJECT = new BaseTypeRef<Map<String, Object>>() {
     };
 
 }
