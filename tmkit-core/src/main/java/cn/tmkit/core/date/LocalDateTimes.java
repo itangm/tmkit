@@ -822,4 +822,86 @@ public class LocalDateTimes {
         return date.atTime(MAX_TIME);
     }
 
+    /**
+     * 上月
+     *
+     * @return {@link LocalDateTime}
+     */
+    public static LocalDateTime lastMonth() {
+        return now().minusMonths(1);
+    }
+
+    /**
+     * 下月
+     *
+     * @return {@link LocalDateTime}
+     */
+    public static LocalDateTime nextMonth() {
+        return now().plusMonths(1);
+    }
+
+    /**
+     * 昨天
+     *
+     * @return {@link LocalDateTime}
+     */
+    public static LocalDateTime yesterday() {
+        return now().minusDays(1);
+    }
+
+    /**
+     * 明天
+     *
+     * @return {@link LocalDateTime}
+     */
+    public static LocalDateTime tomorrow() {
+        return now().plusDays(1);
+    }
+
+    /**
+     * 上周
+     *
+     * @return {@link LocalDateTime}
+     */
+    public static LocalDateTime lastWeek() {
+        return now().minusWeeks(1);
+    }
+
+    /**
+     * 下周
+     *
+     * @return {@link LocalDateTime}
+     */
+    public static LocalDateTime nextWeek() {
+        return now().plusWeeks(1);
+    }
+
+    /**
+     * 获取某月的开始时间
+     *
+     * @param ldt 日期
+     * @return {@link LocalDateTime}
+     */
+    public static LocalDateTime beginOfMonth(LocalDateTime ldt) {
+        if (ldt == null) {
+            return null;
+        }
+        return startOfDay(LocalDate.of(ldt.getYear(), ldt.getMonth(), 1));
+    }
+
+    /**
+     * 获取某月的结束时间
+     *
+     * @param ldt 日期
+     * @return {@link LocalDateTime}
+     */
+    public static LocalDateTime endOfMonth(LocalDateTime ldt) {
+        if (ldt == null) {
+            return null;
+        }
+        int dayOfMonth = ldt.getDayOfMonth();
+        return endOfDay(LocalDate.of(ldt.getYear(), ldt.getMonth(), dayOfMonth));
+    }
+
+
 }
