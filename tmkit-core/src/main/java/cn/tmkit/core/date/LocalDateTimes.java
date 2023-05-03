@@ -6,6 +6,7 @@ import cn.tmkit.core.lang.regex.PatternPool;
 import cn.tmkit.core.lang.regex.Regexes;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.Month;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -810,6 +811,19 @@ public class LocalDateTimes {
     }
 
     /**
+     * 返回一天的开始，即当天的00:00:00
+     *
+     * @param date 某一天的时间
+     * @return 一天的开始
+     */
+    public static LocalDateTime startOfDay(LocalDateTime date) {
+        if (date == null) {
+            return null;
+        }
+        return startOfDay(date.toLocalDate());
+    }
+
+    /**
      * 返回一天的结束，即当天的23:59:59
      *
      * @param date 某一天的时间
@@ -820,6 +834,19 @@ public class LocalDateTimes {
             return null;
         }
         return date.atTime(MAX_TIME);
+    }
+
+    /**
+     * 返回一天的结束，即当天的23:59:59
+     *
+     * @param date 某一天的时间
+     * @return 一天的结束
+     */
+    public static LocalDateTime endOfDay(LocalDateTime date) {
+        if (date == null) {
+            return null;
+        }
+        return endOfDay(date.toLocalDate());
     }
 
     /**
@@ -886,7 +913,20 @@ public class LocalDateTimes {
         if (ldt == null) {
             return null;
         }
-        return startOfDay(LocalDate.of(ldt.getYear(), ldt.getMonth(), 1));
+        return beginOfMonth(ldt.toLocalDate());
+    }
+
+    /**
+     * 获取某月的开始时间
+     *
+     * @param date 日期
+     * @return {@link LocalDateTime}
+     */
+    public static LocalDateTime beginOfMonth(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        return startOfDay(date.with(TemporalAdjusters.firstDayOfMonth()));
     }
 
     /**
@@ -899,8 +939,20 @@ public class LocalDateTimes {
         if (ldt == null) {
             return null;
         }
-        int dayOfMonth = ldt.getDayOfMonth();
-        return endOfDay(LocalDate.of(ldt.getYear(), ldt.getMonth(), dayOfMonth));
+        return endOfMonth(ldt.toLocalDate());
+    }
+
+    /**
+     * 获取某月的结束时间
+     *
+     * @param date 日期
+     * @return {@link LocalDateTime}
+     */
+    public static LocalDateTime endOfMonth(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        return endOfDay(date.with(TemporalAdjusters.lastDayOfMonth()));
     }
 
     /**
@@ -923,6 +975,114 @@ public class LocalDateTimes {
             return -1;
         }
         return ldt.getDayOfMonth();
+    }
+
+    /**
+     * 返回指定时间所在季度的第一天的开始时刻
+     *
+     * @param date 某一天的时间
+     * @return 一天的开始
+     */
+    public static LocalDateTime startOfQuarter(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        Month month = date.getMonth().firstMonthOfQuarter();
+        return LocalDateTime.of(LocalDate.of(date.getYear(), month, 1), LocalTime.MIN);
+    }
+
+    /**
+     * 返回指定时间所在季度的第一天的开始时刻
+     *
+     * @param date 某一天的时间
+     * @return 一天的开始
+     */
+    public static LocalDateTime startOfQuarter(LocalDateTime date) {
+        if (date == null) {
+            return null;
+        }
+        return startOfQuarter(date.toLocalDate());
+    }
+
+    /**
+     * 返回指定时间所在季度的最后一天的最后时刻
+     *
+     * @param date 某一天的时间
+     * @return 一天的结束
+     */
+    public static LocalDateTime endOfQuarter(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        Month month = date.getMonth().firstMonthOfQuarter();
+        month = month.plus(2);
+        LocalDate ld = LocalDate.of(date.getYear(), month, date.getDayOfMonth()).with(TemporalAdjusters.lastDayOfMonth());
+        return endOfDay(ld);
+    }
+
+    /**
+     * 返回指定时间所在季度的最后一天的最后时刻
+     *
+     * @param date 某一天的时间
+     * @return 一天的结束
+     */
+    public static LocalDateTime endOfQuarter(LocalDateTime date) {
+        if (date == null) {
+            return null;
+        }
+        return endOfQuarter(date.toLocalDate());
+    }
+
+    /**
+     * 返回指定时间所在年的第一天的开始
+     *
+     * @param date 某一天的时间
+     * @return 一天的开始
+     */
+    public static LocalDateTime startOfYear(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        return LocalDateTime.of(date.with(TemporalAdjusters.firstDayOfYear()), LocalTime.MIN);
+    }
+
+    /**
+     * 返回指定时间所在年的第一天的开始
+     *
+     * @param date 某一天的时间
+     * @return 一天的开始
+     */
+    public static LocalDateTime startOfYear(LocalDateTime date) {
+        if (date == null) {
+            return null;
+        }
+        return startOfYear(date.toLocalDate());
+    }
+
+    /**
+     * 返回指定时间所在年的最后一天最后时刻
+     *
+     * @param date 某一天的时间
+     * @return 一天的结束
+     */
+    public static LocalDateTime endOfYear(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        return endOfDay(date.with(TemporalAdjusters.lastDayOfYear()));
+    }
+
+    /**
+     * 返回指定时间所在年的最后一天最后时刻
+     *
+     * @param date 某一天的时间
+     * @return 一天的结束
+     */
+    public static LocalDateTime endOfYear(LocalDateTime date) {
+        if (date == null) {
+            return null;
+        }
+        return endOfYear(date.toLocalDate());
     }
 
 }
