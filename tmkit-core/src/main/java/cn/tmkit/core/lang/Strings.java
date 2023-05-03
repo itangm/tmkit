@@ -1467,6 +1467,33 @@ public class Strings {
     }
 
     /**
+     * 截取字符串,从指定位置开始,截取指定长度的字符串<br>
+     *
+     * @param cse        原始字符串
+     * @param startIndex 开始的index,包括
+     * @param length     要截取的长度
+     * @return 截取后的字符串
+     */
+    public static String substring(CharSequence cse, int startIndex, int length) {
+        return sub(cse, startIndex, startIndex + length);
+    }
+
+    /**
+     * 字符串截取
+     *
+     * @param cse        原始字符串
+     * @param startIndex 开始的index（包括）
+     * @param endIndex   结束的index（不包括）
+     * @return 字串
+     */
+    public static String sub(CharSequence cse, int startIndex, int endIndex) {
+        if (isEmpty(cse)) {
+            return str(cse);
+        }
+        return cse.subSequence(startIndex, endIndex).toString();
+    }
+
+    /**
      * 去除字符串中指定的多个字符，如有多个则全部去除
      *
      * @param cse   字符串
