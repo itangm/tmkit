@@ -1,8 +1,8 @@
 package cn.tmkit.core.lang;
 
+import cn.tmkit.core.lang.regex.Regexes;
 import cn.tmkit.core.math.BigDecimals;
 import cn.tmkit.core.math.FluentBigDecimal;
-import cn.tmkit.core.lang.regex.Regexes;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -197,7 +197,7 @@ public class Numbers {
         if (Objects.isNull(fen)) {
             return null;
         }
-        return String.valueOf(fen2Yuan(fen));
+        return String.format("%.2f", fen2Yuan(fen));
     }
 
     /**
@@ -217,6 +217,16 @@ public class Numbers {
      * @return 金额元
      */
     public static String fen2YuanStr(Long fen) {
+        return Objects.isNull(fen) ? null : fen2YuanStr(fen.toString());
+    }
+
+    /**
+     * 人民币金额分转元，保留2位小数
+     *
+     * @param fen 金额，单位分
+     * @return 金额元
+     */
+    public static String fen2YuanStr(Integer fen) {
         return Objects.isNull(fen) ? null : fen2YuanStr(fen.toString());
     }
 
