@@ -687,7 +687,21 @@ public class StringUtilTest {
         cse = "";
         assertEquals(cse, StrUtil.camelCaseToUnderline(cse));
         cse = "USA";
-        assertEquals("usa",StringUtil.camelCaseToUnderline(cse));
+        assertEquals("usa", StringUtil.camelCaseToUnderline(cse));
     }
+
+
+    // region 字符串截取
+
+    @Test
+    public void substrFromIndex() {
+        CharSequence cse = "null";
+        assertEquals("null", StrUtil.substrFromIndex(cse, 0));
+        assertEquals(StringUtils.EMPTY_STRING, StrUtil.substrFromIndex(cse, -5));
+        assertEquals("null", StrUtil.substrFromIndex(cse, -4));
+        assertEquals("ll", StrUtil.substrFromIndex(cse, -2));
+    }
+
+    // endregion
 
 }
