@@ -38,16 +38,17 @@ public class FluentConfig {
     /**
      * 默认的金额配置，2位有效小数，超出四舍五入。数字总个数位20
      */
-    public static FluentConfig MONEY = monetary(20);
+    public static FluentConfig MONEY = monetary(20, 2);
 
     /**
      * 自定义金额配置
      *
      * @param precision 精度，数字总个数
+     * @param maxScale  小数点位数
      * @return {@linkplain FluentConfig}
      */
-    public static FluentConfig monetary(int precision) {
-        return new FluentConfig(new MathContext(precision, HALF_UP), new MaxScaler(2));
+    public static FluentConfig monetary(int precision, int maxScale) {
+        return new FluentConfig(new MathContext(precision, HALF_UP), new MaxScaler(maxScale));
     }
 
 }
