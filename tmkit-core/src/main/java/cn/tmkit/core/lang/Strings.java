@@ -1448,52 +1448,6 @@ public class Strings {
     }
 
     /**
-     * 根据长度截取
-     *
-     * @param cse    字符串
-     * @param length 长度
-     * @return 截取后的字符串
-     */
-    public static String substring(CharSequence cse, int length) {
-        if (isEmpty(cse)) {
-            return str(cse);
-        }
-        if (length <= 0) {
-            return EMPTY_STRING;
-        }
-        String str = cse.toString();
-        int realLength = str.length();
-        return (realLength >= length) ? cse.toString().substring(0, length) : str;
-    }
-
-    /**
-     * 截取字符串,从指定位置开始,截取指定长度的字符串<br>
-     *
-     * @param cse        原始字符串
-     * @param startIndex 开始的index,包括
-     * @param length     要截取的长度
-     * @return 截取后的字符串
-     */
-    public static String substring(CharSequence cse, int startIndex, int length) {
-        return sub(cse, startIndex, startIndex + length);
-    }
-
-    /**
-     * 字符串截取
-     *
-     * @param cse        原始字符串
-     * @param startIndex 开始的index（包括）
-     * @param endIndex   结束的index（不包括）
-     * @return 字串
-     */
-    public static String sub(CharSequence cse, int startIndex, int endIndex) {
-        if (isEmpty(cse)) {
-            return str(cse);
-        }
-        return cse.subSequence(startIndex, endIndex).toString();
-    }
-
-    /**
      * 去除字符串中指定的多个字符，如有多个则全部去除
      *
      * @param cse   字符串
@@ -1516,47 +1470,6 @@ public class Strings {
         return sb.toString();
     }
 
-
-    /**
-     * 截取分隔符字符串之前的字符串，不包含分隔符字符串，分隔符字符串出现多次匹配第一次找到的。
-     * 如果给定的字符串为空(null或"")或分隔符为null，则返回原字符串
-     * 如果分隔符字符串为""，则返回空串，如果分隔符字符串未找到，则返回原字符串。
-     * <pre>
-     * Strings.substrBefore(null, *, false)      = null
-     * Strings.substrBefore("", *, false)        = ""
-     * Strings.substrBefore("abc", "a", false)   = ""
-     * Strings.substrBefore("abcba", "b", false) = "a"
-     * Strings.substrBefore("abc", "c", false)   = "ab"
-     * Strings.substrBefore("abc", "d", false)   = "abc"
-     * Strings.substrBefore("abc", "", false)    = ""
-     * Strings.substrBefore("abc", null, false)  = "abc"
-     * </pre>
-     *
-     * @param charSeq         被查找的字符串
-     * @param separator       分隔符字符串（不包含）
-     * @param isLastSeparator 是否从后往前找分隔符字符串
-     * @return 切割后的字符串
-     */
-    public static String substrBefore(CharSequence charSeq, CharSequence separator, boolean isLastSeparator) {
-        if (isEmpty(charSeq) || separator == null) {
-            return charSeq == null ? null : charSeq.toString();
-        }
-
-        final String sep = separator.toString();
-        if (sep.isEmpty()) {
-            return EMPTY_STRING;
-        }
-
-        final String str = charSeq.toString();
-        final int pos = isLastSeparator ? str.lastIndexOf(sep) : str.indexOf(sep);
-        if (-1 == pos) {
-            return str;
-        }
-        if (pos == 0) {
-            return EMPTY_STRING;
-        }
-        return str.substring(0, pos);
-    }
 
     // endregion
 
@@ -2102,5 +2015,121 @@ public class Strings {
 
     // endregion
 
+    // region 字符串截取
+
+    /**
+     * 根据长度截取
+     *
+     * @param cse    字符串
+     * @param length 长度
+     * @return 截取后的字符串
+     */
+    public static String substring(CharSequence cse, int length) {
+        if (isEmpty(cse)) {
+            return str(cse);
+        }
+        if (length <= 0) {
+            return EMPTY_STRING;
+        }
+        String str = cse.toString();
+        int realLength = str.length();
+        return (realLength >= length) ? cse.toString().substring(0, length) : str;
+    }
+
+    /**
+     * 截取字符串,从指定位置开始,截取指定长度的字符串<br>
+     *
+     * @param cse        原始字符串
+     * @param startIndex 开始的index,包括
+     * @param length     要截取的长度
+     * @return 截取后的字符串
+     */
+    public static String substring(CharSequence cse, int startIndex, int length) {
+        return sub(cse, startIndex, startIndex + length);
+    }
+
+    /**
+     * 字符串截取
+     *
+     * @param cse        原始字符串
+     * @param startIndex 开始的index（包括）
+     * @param endIndex   结束的index（不包括）
+     * @return 截取后的字符串
+     */
+    public static String sub(CharSequence cse, int startIndex, int endIndex) {
+        if (isEmpty(cse)) {
+            return str(cse);
+        }
+        //TODO 目前实现的比较简单
+        return cse.subSequence(startIndex, endIndex).toString();
+    }
+
+    /**
+     * 从指定位置开始截取到最后一个。支持{@code startIndex}为负数，代表的是从后往前到字符串的末尾
+     * 字符串末尾的值为{@code -1}
+     *
+     * @param cse        原始字符串
+     * @param startIndex 开始的index（包括）
+     * @return 截取后的字符串
+     */
+    public static String substrFromIndex(CharSequence cse, int startIndex) {
+        if (isEmpty(cse)) {
+            return str(cse);
+        }
+        int length = cse.length();
+        int pos = startIndex;
+        if (pos < 0) {
+            pos = length + pos;
+            if (pos < 0) {
+                return EMPTY_STRING;
+            }
+        } else if (pos >= length) {
+            return EMPTY_STRING;
+        }
+        return cse.toString().substring(pos);
+    }
+
+    /**
+     * 截取分隔符字符串之前的字符串，不包含分隔符字符串，分隔符字符串出现多次匹配第一次找到的。
+     * 如果给定的字符串为空(null或"")或分隔符为null，则返回原字符串
+     * 如果分隔符字符串为""，则返回空串，如果分隔符字符串未找到，则返回原字符串。
+     * <pre>
+     * Strings.substrBefore(null, *, false)      = null
+     * Strings.substrBefore("", *, false)        = ""
+     * Strings.substrBefore("abc", "a", false)   = ""
+     * Strings.substrBefore("abcba", "b", false) = "a"
+     * Strings.substrBefore("abc", "c", false)   = "ab"
+     * Strings.substrBefore("abc", "d", false)   = "abc"
+     * Strings.substrBefore("abc", "", false)    = ""
+     * Strings.substrBefore("abc", null, false)  = "abc"
+     * </pre>
+     *
+     * @param charSeq         被查找的字符串
+     * @param separator       分隔符字符串（不包含）
+     * @param isLastSeparator 是否从后往前找分隔符字符串
+     * @return 切割后的字符串
+     */
+    public static String substrBefore(CharSequence charSeq, CharSequence separator, boolean isLastSeparator) {
+        if (isEmpty(charSeq) || separator == null) {
+            return charSeq == null ? null : charSeq.toString();
+        }
+
+        final String sep = separator.toString();
+        if (sep.isEmpty()) {
+            return EMPTY_STRING;
+        }
+
+        final String str = charSeq.toString();
+        final int pos = isLastSeparator ? str.lastIndexOf(sep) : str.indexOf(sep);
+        if (-1 == pos) {
+            return str;
+        }
+        if (pos == 0) {
+            return EMPTY_STRING;
+        }
+        return str.substring(0, pos);
+    }
+
+    // endregion
 
 }
