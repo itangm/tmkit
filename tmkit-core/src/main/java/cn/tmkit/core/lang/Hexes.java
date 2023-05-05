@@ -181,12 +181,41 @@ public class Hexes {
 
     /**
      * 十进制转为十六进制
+     * <p>处理小于16的十进制，转为十六进制之后需要前补零</p>
+     *
+     * @param value 十进制的值
+     * @return 十六进制的值
+     */
+    public static String toHexStrLeftPadding(final int value) {
+        String hex = Integer.toHexString(value);
+        if (hex.length() == 1) {
+            return "0" + hex;
+        }
+        return hex;
+    }
+
+    /**
+     * 十进制转为十六进制
      *
      * @param value 十进制的值
      * @return 十六进制的值
      */
     public static String toUpperHexStr(final int value) {
         return Integer.toHexString(value).toUpperCase();
+    }
+
+    /**
+     * 十进制转为十六进制
+     *
+     * @param value 十进制的值
+     * @return 十六进制的值
+     */
+    public static String toUpperHexStrLeftPadding(final int value) {
+        String hex = Integer.toHexString(value).toUpperCase();
+        if (hex.length() == 1) {
+            return "0" + hex;
+        }
+        return hex;
     }
 
     /**
