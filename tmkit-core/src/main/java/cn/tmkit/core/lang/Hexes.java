@@ -167,4 +167,49 @@ public class Hexes {
         return digit;
     }
 
+    // region 进制转换
+
+    /**
+     * 十进制转为十六进制
+     *
+     * @param value 十进制的值
+     * @return 十六进制的值
+     */
+    public static String toHexStr(final int value) {
+        return Integer.toHexString(value);
+    }
+
+    /**
+     * 十进制转为十六进制
+     *
+     * @param value 十进制的值
+     * @return 十六进制的值
+     */
+    public static String toUpperHexStr(final int value) {
+        return Integer.toHexString(value).toUpperCase();
+    }
+
+    /**
+     * 十六进制字符串转为十进制
+     *
+     * @param hex 十六进制字符串
+     * @return 十进制的值
+     */
+    public static int toInt(String hex) {
+        return Integer.parseInt(hex, 16);
+    }
+
+    /**
+     * 十六进制字符串转为十进制，{@code short}类型为2个字节，
+     *
+     * @param hex 十六进制字符串
+     * @return 十进制的值
+     */
+    public static short toShort(String hex) {
+        return Integer.valueOf(hex, 16).shortValue();
+    }
+
+
+    // endregion
+
 }
