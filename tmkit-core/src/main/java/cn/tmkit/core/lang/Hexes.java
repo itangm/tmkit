@@ -186,12 +186,9 @@ public class Hexes {
      * @param value 十进制的值
      * @return 十六进制的值
      */
-    public static String toHexStrLeftPadding(final int value) {
+    public static String toHexStrLeftPad(final int value, int length) {
         String hex = Integer.toHexString(value);
-        if (hex.length() == 1) {
-            return "0" + hex;
-        }
-        return hex;
+        return Strings.leftPad(hex, length, '0');
     }
 
     /**
@@ -210,12 +207,9 @@ public class Hexes {
      * @param value 十进制的值
      * @return 十六进制的值
      */
-    public static String toUpperHexStrLeftPadding(final int value) {
+    public static String toUpperHexStrLeftPad(final int value, int length) {
         String hex = Integer.toHexString(value).toUpperCase();
-        if (hex.length() == 1) {
-            return "0" + hex;
-        }
-        return hex;
+        return Strings.leftPad(hex, length, '0');
     }
 
     /**

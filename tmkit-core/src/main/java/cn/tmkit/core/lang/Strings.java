@@ -2132,4 +2132,34 @@ public class Strings {
 
     // endregion
 
+    /**
+     * 字符串左侧补空格
+     *
+     * @param cse    待补全的字符串
+     * @param length 补全后的字符串长度
+     * @return 补全后的字符串
+     */
+    public static String leftPad(CharSequence cse, int length) {
+        return leftPad(cse, length, Chars.SPACE);
+    }
+
+    /**
+     * 字符串左侧补空格
+     *
+     * @param cse     待补全的字符串
+     * @param length  补全后的字符串长度
+     * @param padChar 补充的字符
+     * @return 补全后的字符串
+     */
+    public static String leftPad(CharSequence cse, int length, char padChar) {
+        if (cse == null) {
+            return null;
+        }
+        final int pads = length - cse.length();
+        if (pads <= 0) {
+            return cse.toString();
+        }
+        return repeat(padChar, pads).concat(cse.toString());
+    }
+
 }
