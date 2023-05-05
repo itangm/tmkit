@@ -26,15 +26,15 @@ public class HexesTest {
     }
 
     @Test
-    public void toHexStrLeftPadding() {
+    public void toHexStrLeftPad() {
         int value = 6;
         // 0000 1100
         // 06
-        assertEquals("06", Hexes.toHexStrLeftPadding(value));
+        assertEquals("06", Hexes.toHexStrLeftPad(value, 2));
         value = 15;
-        assertEquals("0f", Hexes.toHexStrLeftPadding(value));
+        assertEquals("0f", Hexes.toHexStrLeftPad(value, 2));
         value = 20;
-        assertEquals("14", Hexes.toHexStrLeftPadding(value));
+        assertEquals("14", Hexes.toHexStrLeftPad(value, 2));
     }
 
     @Test
@@ -50,15 +50,15 @@ public class HexesTest {
     }
 
     @Test
-    public void toUpperHexStrLeftPadding() {
+    public void toUpperHexStrLeftPad() {
         int value = 6;
         // 0000 1100
         // 06
-        assertEquals("06", Hexes.toUpperHexStrLeftPadding(value));
+        assertEquals("06", Hexes.toUpperHexStrLeftPad(value, 2));
         value = 15;
-        assertEquals("0F", Hexes.toUpperHexStrLeftPadding(value));
+        assertEquals("0F", Hexes.toUpperHexStrLeftPad(value, 2));
         value = 20;
-        assertEquals("14", Hexes.toUpperHexStrLeftPadding(value));
+        assertEquals("14", Hexes.toUpperHexStrLeftPad(value, 2));
     }
 
     @Test
