@@ -338,7 +338,7 @@ public class Collections {
      * @param c 集合数据
      * @return 字符串
      */
-    public static String join(final Collection<String> c) {
+    public static <T> String join(final Collection<T> c) {
         return join(c, true);
     }
 
@@ -350,7 +350,7 @@ public class Collections {
      * @param separator 分隔符
      * @return 字符串
      */
-    public static String join(final Collection<String> c, String separator) {
+    public static <T> String join(final Collection<T> c, String separator) {
         return join(c, separator, true);
     }
 
@@ -362,7 +362,7 @@ public class Collections {
      * @param ignoreNull 值为{@code null}忽略
      * @return 字符串
      */
-    public static String join(final Collection<String> src, final boolean ignoreNull) {
+    public static <T> String join(final Collection<T> src, final boolean ignoreNull) {
         return join(src, Strings.COMMA, ignoreNull);
     }
 
@@ -374,7 +374,7 @@ public class Collections {
      * @param ignoreNull 忽略null
      * @return 字符串
      */
-    public static String join(final Collection<String> src, String separator, final boolean ignoreNull) {
+    public static <T> String join(final Collection<T> src, String separator, final boolean ignoreNull) {
         return join(src, separator, ignoreNull, false);
     }
 
@@ -390,7 +390,7 @@ public class Collections {
      * @param sortable   值为{@code true}则正序排序，否则默认
      * @return 字符串
      */
-    public static String join(final Collection<String> src, String separator, final boolean ignoreNull, final boolean sortable) {
+    public static <T> String join(final Collection<T> src, String separator, final boolean ignoreNull, final boolean sortable) {
         if (src == null) {
             return null;
         }
@@ -401,22 +401,22 @@ public class Collections {
             separator = Strings.EMPTY_STRING;
         }
 
-        Collection<String> resultColl = src;
+        Collection<T> resultColl = src;
         if (sortable) {
             resultColl = new TreeSet<>(src);
         }
 
         StringBuilder sb = new StringBuilder();
         boolean isFirst = true;
-        for (String str : resultColl) {
-            if (ignoreNull && str == null) {
+        for (Object obj : resultColl) {
+            if (ignoreNull && obj == null) {
                 continue;
             }
             if (isFirst) {
-                sb.append(str);
+                sb.append(obj);
                 isFirst = false;
             } else {
-                sb.append(separator).append(str);
+                sb.append(separator).append(obj);
             }
         }
         return sb.toString();

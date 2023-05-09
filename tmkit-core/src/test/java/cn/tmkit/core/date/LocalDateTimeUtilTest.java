@@ -119,6 +119,10 @@ public class LocalDateTimeUtilTest {
 
     @Test
     public void testEndOfYear() {
-
+        LocalDateTime ld = LocalDateTime.of(2023, 1, 18, 10, 10, 10);
+        LocalDateTime ldt = LocalDateTimeUtil.endOfYear(ld);
+        LocalDateTime expected = LocalDateTime.of(2023, 12, 31, 23, 59, 59);
+        assertEquals(expected, ldt);
     }
+
 }

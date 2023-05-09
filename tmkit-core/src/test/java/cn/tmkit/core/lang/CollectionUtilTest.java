@@ -35,16 +35,16 @@ public class CollectionUtilTest {
 
     @Test
     public void join() {
-        List<String> list = null;
-        assertNull(Collections.join(list));
-        list = new ArrayList<>();
-        assertEquals("", CollectionUtil.join(list));
+        List<Object> list = new ArrayList<>();
+        assertEquals(StringUtil.EMPTY_STRING, CollectionUtil.join(list));
         list.add(null);
-        assertEquals("", CollectionUtil.join(list));
+        assertEquals(StringUtil.EMPTY_STRING, CollectionUtil.join(list));
         list.add("A");
         assertEquals("A", CollectionUtil.join(list));
         list.add("Op");
         assertEquals("A,Op", CollectionUtil.join(list));
+        list.add(12);
+        assertEquals("A,Op,12", CollectionUtil.join(list));
     }
 
     @Test
