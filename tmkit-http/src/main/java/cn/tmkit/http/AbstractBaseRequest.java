@@ -158,7 +158,7 @@ public abstract class AbstractBaseRequest<Req extends BaseRequest<Req>> implemen
     @Override
     public Req header(HttpHeaders headers) {
         if (Maps.isNotEmpty(headers)) {
-            headers.forEach((key, values) -> this.headers.put(key, values));
+            this.headers.putAll(headers);
         }
         return (Req) this;
     }
@@ -341,7 +341,8 @@ public abstract class AbstractBaseRequest<Req extends BaseRequest<Req>> implemen
         try {
             httpResponse = this.execute();
             httpResponse.checkStatus();
-            return httpResponse.body().string(null);
+            ResponseBody responseBody = httpResponse.body();
+            return (responseBody == null) ? null : responseBody.string(null);
         } finally {
             IoUtil.closeQuietly(httpResponse);
         }
