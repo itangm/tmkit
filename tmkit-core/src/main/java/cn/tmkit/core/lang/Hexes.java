@@ -223,6 +223,19 @@ public class Hexes {
     }
 
     /**
+     * 十六进制字符串转为十进制
+     *
+     * @param hex 十六进制字符串
+     * @return 十进制的值
+     */
+    public static Integer toInteger(String hex) {
+        if (StringUtil.isNotBlank(hex)) {
+            return toInt(hex);
+        }
+        return null;
+    }
+
+    /**
      * 十六进制字符串转为十进制，{@code short}类型为2个字节，
      *
      * @param hex 十六进制字符串
@@ -232,6 +245,41 @@ public class Hexes {
         return Integer.valueOf(hex, 16).shortValue();
     }
 
+    /**
+     * 十六进制字符串转为十进制，{@code short}类型为2个字节，
+     *
+     * @param hex 十六进制字符串
+     * @return 十进制的值
+     */
+    public static Short toShortWrap(String hex) {
+        if (StringUtil.isNotBlank(hex)) {
+            return toShort(hex);
+        }
+        return null;
+    }
+
+    /**
+     * 十六进制字符串转为十进制，{@code long}类型为8个字节，
+     *
+     * @param hex 十六进制字符串
+     * @return 十进制的值
+     */
+    public static long toLong(String hex) {
+        return Long.valueOf(hex, 16);
+    }
+
+    /**
+     * 十六进制字符串转为十进制，{@code long}类型为8个字节，
+     *
+     * @param hex 十六进制字符串
+     * @return 十进制的值
+     */
+    public static Long toLongWrap(String hex) {
+        if (StringUtil.isNotBlank(hex)) {
+            return toLong(hex);
+        }
+        return null;
+    }
 
     // endregion
 
