@@ -219,7 +219,7 @@ public class Hexes {
      * @return 十进制的值
      */
     public static int toInt(String hex) {
-        return Integer.parseInt(hex, 16);
+        return Integer.parseUnsignedInt(hex, 16);
     }
 
     /**
