@@ -507,7 +507,7 @@ public class Paths {
      * @param target 目标路径
      */
     public static void cp(Path source, Path target) {
-        cp(source, target, false);
+        cp(source, target, true);
     }
 
     /**
@@ -566,18 +566,29 @@ public class Paths {
      * @param in     输入流,非空
      * @param target 目标文件,非空
      */
-    public static void copy(InputStream in, Path target) {
+    public static void copy(InputStream in, Path target, boolean isOverride) {
         if (Arrays.isAnyNull(in, target)) {
             return;
         }
+        CopyOption[] copyOptions = isOverride ? new CopyOption[]{StandardCopyOption.REPLACE_EXISTING} : new CopyOption[0];
         try {
             mkdir(target.getParent());
-            java.nio.file.Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
+            java.nio.file.Files.copy(in, target, copyOptions);
         } catch (IOException e) {
             throw new IoRuntimeException(e);
         } finally {
             IoUtil.closeQuietly(in);
         }
+    }
+
+    /**
+     * 将输入流的数据输出到文件中，会自动关闭输入流，如果目标文件存在则直接覆盖
+     *
+     * @param in     输入流,非空
+     * @param target 目标文件,非空
+     */
+    public static void copy(InputStream in, Path target) {
+        copy(in, target, true);
     }
 
     // endregion
