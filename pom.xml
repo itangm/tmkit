@@ -264,7 +264,7 @@
                 <repository>
                     <id>mored-release</id>
                     <name>Release Repositroy</name>
-                    <url>http://192.168.10.67:8081/content/groups/public/</url>
+                    <url>http://maven.mored.com/content/groups/public/</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
@@ -274,7 +274,7 @@
                 <pluginRepository>
                     <id>mored-release</id>
                     <name>Plugin Repository</name>
-                    <url>http://192.168.10.67:8081/content/groups/public/</url>
+                    <url>http://maven.mored.com/content/groups/public/</url>
                     <releases>
                         <enabled>true</enabled>
                         <updatePolicy>always</updatePolicy>
@@ -289,13 +289,13 @@
                 <snapshotRepository>
                     <id>mored-snapshot</id>
                     <name>Snapshot Modules</name>
-                    <url>http://192.168.10.67:8081/content/repositories/snapshots/</url>
+                    <url>http://maven.mored.com/content/repositories/snapshots/</url>
                     <uniqueVersion>true</uniqueVersion>
                 </snapshotRepository>
                 <repository>
                     <id>mored-release</id>
                     <name>Release Modules</name>
-                    <url>http://192.168.10.67:8081/content/repositories/releases/</url>
+                    <url>http://maven.mored.com/content/repositories/releases/</url>
                 </repository>
             </distributionManagement>
             <build>
