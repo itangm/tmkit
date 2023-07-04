@@ -1375,17 +1375,17 @@ public class Files extends Paths {
     }
 
     /**
-     * 文件拷贝
+     * 文件拷贝，如果目标文件存在则直接覆盖
      *
      * @param source 源路径
      * @param target 目标路径
      */
     public static void copy(File source, File target) {
-        copy(source, target, false);
+        copy(source, target, true);
     }
 
     /**
-     * 文件拷贝
+     * 文件拷贝，如果目标文件存在则直接覆盖
      *
      * @param source     源路径
      * @param target     目标路径
@@ -1398,7 +1398,7 @@ public class Files extends Paths {
     }
 
     /**
-     * 将输入流的数据输出到文件中，会自动关闭输入流
+     * 将输入流的数据输出到文件中，会自动关闭输入流，如果目标文件存在则直接覆盖
      *
      * @param in         输入流,非空
      * @param targetFile 目标文件,非空
@@ -1449,7 +1449,7 @@ public class Files extends Paths {
     // region 移动文件或文件夹
 
     /**
-     * 移动文件或目录，默认文件存在
+     * 移动文件或目录，默认文件存在则直接覆盖
      *
      * <p>如果{@code dest}是目录，则{@code src}可以为文件或目录；如果{@code dest}是文件，则{@code src}则必须为文件</p>
      *
@@ -1457,11 +1457,11 @@ public class Files extends Paths {
      * @param dest 目标文件或目录
      */
     public static void mv(File src, File dest) {
-        mv(src, dest, false);
+        mv(src, dest, true);
     }
 
     /**
-     * 移动文件或目录，默认文件存在
+     * 移动文件或目录
      *
      * @param src        源文件或源目录
      * @param dest       目标文件或目录
