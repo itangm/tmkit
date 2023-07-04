@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -214,6 +216,16 @@ public class FileUtilTest {
     @Test
     public void appendUtf8Str() {
 
+    }
+
+    @Test
+    public void copyInputStream() throws Exception {
+        final File tempFile = File.createTempFile(UUID.randomUUID().toString().replace("-", ""), "tmkit");
+        File sourceFile = new File("C:\\Users\\miles.tang\\Downloads\\树叶.avi");
+        try (FileInputStream fis = FileUtil.getFileInputStream(sourceFile)) {
+            Files.copy(fis, tempFile);
+            System.out.println(tempFile.getAbsolutePath());
+        }
     }
 
 }

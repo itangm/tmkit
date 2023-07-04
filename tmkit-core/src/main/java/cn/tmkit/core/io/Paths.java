@@ -572,7 +572,7 @@ public class Paths {
         }
         try {
             mkdir(target.getParent());
-            java.nio.file.Files.copy(in, target);
+            java.nio.file.Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new IoRuntimeException(e);
         } finally {
