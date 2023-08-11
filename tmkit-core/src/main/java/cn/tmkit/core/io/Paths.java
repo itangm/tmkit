@@ -563,8 +563,9 @@ public class Paths {
     /**
      * 将输入流的数据输出到文件中，会自动关闭输入流
      *
-     * @param in     输入流,非空
-     * @param target 目标文件,非空
+     * @param in         输入流,非空
+     * @param target     目标文件,非空
+     * @param isOverride 是否覆盖已存在的
      */
     public static void copy(InputStream in, Path target, boolean isOverride) {
         if (Arrays.isAnyNull(in, target)) {
