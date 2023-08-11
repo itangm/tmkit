@@ -495,4 +495,57 @@ public class Collections {
     // endregion
 
 
+    // region get methods
+
+    /**
+     * 获取集合中指定下标的元素值，下标可以为负数，例如-1表示最后一个元素
+     *
+     * @param <E>        元素类型
+     * @param collection 集合
+     * @param index      下标，支持负数
+     * @return 元素值
+     */
+    public static <E> E get(Collection<E> collection, final int index) {
+        if (isEmpty(collection)) {
+            return null;
+        }
+        int size = collection.size();
+        // 负数的处理
+        int pos = (index < 0) ? (index + size) : index;
+        // 下标越界
+        if (pos < 0 || pos >= size) {
+            return null;
+        }
+        if (collection instanceof List) {
+            final List<E> list = ((List<E>) collection);
+            return list.get(index);
+        }
+        return get(collection.iterator(), pos);
+    }
+
+    /**
+     * 遍历{@linkplain  Iterator}，获取指定{@code index}位置的元素
+     *
+     * @param iterator 迭代器
+     * @param index    元素的位置，不能为负数
+     * @param <E>      元素类型
+     * @return 指定位置的元素值或{@code null}
+     */
+    public static <E> E get(Iterator<E> iterator, int index) {
+        Asserts.isTrue(index >= 0, "The index must be greater than or equal to 0.");
+        if (iterator == null) {
+            return null;
+        }
+        while (iterator.hasNext()) {
+            index--;
+            if (index == -1) {
+                return iterator.next();
+            }
+            iterator.next();
+        }
+        return null;
+    }
+
+    // endregion
+
 }
