@@ -245,6 +245,126 @@ public class Maps {
         return new LinkedMultiValueMap<>(ensureSize(expectedSize));
     }
 
+    /**
+     * 创建一个单一的Map
+     *
+     * @param key   键的值
+     * @param value 值的值
+     * @param <K>   键的类型
+     * @param <V>   值的类型
+     * @return 单个键值对的Map
+     * @see Collections#singletonMap(Object, Object)
+     */
+    public static <K, V> Map<K, V> singletonMap(K key, V value) {
+        return Collections.singletonMap(key, value);
+    }
+
+    /**
+     * 创建一个Map
+     *
+     * @param key   键的值
+     * @param value 值的值
+     * @param <K>   键的类型
+     * @param <V>   值的类型
+     * @return Map对象
+     */
+    public static <K, V> Map<K, V> of(K key, V value) {
+        Map<K, V> map = MapUtil.newHashMap();
+        map.put(key, value);
+        return map;
+    }
+
+    /**
+     * 创建一个Map
+     *
+     * @param key1   键的值
+     * @param value1 值的值
+     * @param key2   键的值
+     * @param value2 值的值
+     * @param <K>    键的类型
+     * @param <V>    值的类型
+     * @return Map对象
+     */
+    public static <K, V> Map<K, V> of(K key1, V value1, K key2, V value2) {
+        Map<K, V> map = MapUtil.newHashMap();
+        map.put(key1, value1);
+        map.put(key2, value2);
+        return map;
+    }
+
+    /**
+     * 创建一个Map
+     *
+     * @param key1   键的值
+     * @param value1 值的值
+     * @param key2   键的值
+     * @param value2 值的值
+     * @param key3   键的值
+     * @param value3 值的值
+     * @param <K>    键的类型
+     * @param <V>    值的类型
+     * @return Map对象
+     */
+    public static <K, V> Map<K, V> of(K key1, V value1, K key2, V value2, K key3, V value3) {
+        Map<K, V> map = MapUtil.newHashMap();
+        map.put(key1, value1);
+        map.put(key2, value2);
+        map.put(key3, value3);
+        return map;
+    }
+
+    /**
+     * 创建一个Map
+     *
+     * @param key1   键的值
+     * @param value1 值的值
+     * @param key2   键的值
+     * @param value2 值的值
+     * @param key3   键的值
+     * @param value3 值的值
+     * @param key4   键的值
+     * @param value4 值的值
+     * @param <K>    键的类型
+     * @param <V>    值的类型
+     * @return Map对象
+     */
+    public static <K, V> Map<K, V> of(K key1, V value1, K key2, V value2, K key3, V value3, K key4, V value4) {
+        Map<K, V> map = MapUtil.newHashMap();
+        map.put(key1, value1);
+        map.put(key2, value2);
+        map.put(key3, value3);
+        map.put(key4, value4);
+        return map;
+    }
+
+    /**
+     * 创建一个Map
+     *
+     * @param key1   键的值
+     * @param value1 值的值
+     * @param key2   键的值
+     * @param value2 值的值
+     * @param key3   键的值
+     * @param value3 值的值
+     * @param key4   键的值
+     * @param value4 值的值
+     * @param key5   键的值
+     * @param value5 值的值
+     * @param <K>    键的类型
+     * @param <V>    值的类型
+     * @return Map对象
+     */
+    public static <K, V> Map<K, V> of(K key1, V value1, K key2, V value2, K key3, V value3, K key4, V value4,
+                                      K key5, V value5) {
+        Map<K, V> map = MapUtil.newHashMap();
+        map.put(key1, value1);
+        map.put(key2, value2);
+        map.put(key3, value3);
+        map.put(key4, value4);
+        map.put(key5, value5);
+        return map;
+    }
+
     // endregion
 
 
@@ -331,7 +451,7 @@ public class Maps {
      * @return 返回字符串
      */
     public static String join(final Map<String, ?> data, String keySeparator, String entrySeparator,
-                               boolean keySortable, boolean ignoreNull) {
+                              boolean keySortable, boolean ignoreNull) {
         if (data == null) {
             return null;
         }

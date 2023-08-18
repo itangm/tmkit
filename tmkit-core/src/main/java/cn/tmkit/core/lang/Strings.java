@@ -4,10 +4,7 @@ import cn.tmkit.core.support.MessageFormatter;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -1983,7 +1980,7 @@ public class Strings {
      * @param arg            单个参数
      * @return 格式化后的文本
      */
-    public static String format(String messagePattern, Object arg) {
+    public static String format(CharSequence messagePattern, Object arg) {
         return format(messagePattern, new Object[]{arg});
     }
 
@@ -1994,9 +1991,14 @@ public class Strings {
      * @param args           参数列表
      * @return 格式化后的文本
      */
-    public static String format(String messagePattern, Object... args) {
+    public static String format(CharSequence messagePattern, Object... args) {
         MessageFormatter formatter = new MessageFormatter(messagePattern);
         return formatter.format(args);
+    }
+
+    public static String format(CharSequence messagePattern, Map<String, Object> params) {
+        MessageFormatter formatter = new MessageFormatter(messagePattern);
+        return formatter.format(params);
     }
 
     /**
