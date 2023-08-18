@@ -703,9 +703,10 @@ public class StringUtilTest {
 
     @Test
     public void format2() {
-        String urlTpl = "http://localhost/containers/{id}/logs/{name}";
-        Map<String, Object> params = MapUtil.of("id", "0a081e8cc67f","name","demo-ok");
-        assertEquals("http://localhost/containers/0a081e8cc67f/logs/demo-ok", StringUtil.format(urlTpl, params));
+        String urlTpl = "http://localhost/containers/{id}/logs/{name}?filters={filters}";
+        Map<String, Object> params = MapUtil.of("id", "0a081e8cc67f","name","demo-ok",
+                "filters","{st:ok}");
+        assertEquals("http://localhost/containers/0a081e8cc67f/logs/demo-ok?filters={st:ok}", StringUtil.format(urlTpl, params));
     }
 
 
