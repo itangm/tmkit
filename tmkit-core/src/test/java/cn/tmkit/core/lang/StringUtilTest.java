@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -688,6 +689,23 @@ public class StringUtilTest {
         assertEquals(cse, StrUtil.camelCaseToUnderline(cse));
         cse = "USA";
         assertEquals("usa", StringUtil.camelCaseToUnderline(cse));
+    }
+
+    @Test
+    public void format1() {
+        CharSequence cse = null;
+        assertNull(StrUtil.camelCaseToUnderline(cse));
+        cse = "";
+        assertEquals(cse, StrUtil.camelCaseToUnderline(cse));
+        cse = "USA";
+        assertEquals("usa", StringUtil.camelCaseToUnderline(cse));
+    }
+
+    @Test
+    public void format2() {
+        String urlTpl = "http://localhost/containers/{id}/logs/{name}";
+        Map<String, Object> params = MapUtil.of("id", "0a081e8cc67f","name","demo-ok");
+        assertEquals("http://localhost/containers/0a081e8cc67f/logs/demo-ok", StringUtil.format(urlTpl, params));
     }
 
 
