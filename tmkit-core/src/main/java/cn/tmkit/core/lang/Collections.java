@@ -229,6 +229,18 @@ public class Collections {
     }
 
     /**
+     * 创建一个只有一个元素的集合
+     *
+     * @param element 元素的值
+     * @param <E>     元素类型
+     * @return 集合
+     * @see java.util.Collections#singletonList(Object)
+     */
+    public static <E> List<E> singletonList(E element) {
+        return java.util.Collections.singletonList(element);
+    }
+
+    /**
      * 新建一个指定容量大小的{@linkplain HashSet}
      *
      * @param capacity 指定初始容量
