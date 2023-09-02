@@ -232,37 +232,33 @@ public class Beans {
             copyOption = new CopyOption();
         }
         final CopyOption finalCo = copyOption;
-        Map<String, PropertyDescriptor> propertyDescriptorMap = getPropertyDescriptorMap(target.getClass());
-        source.forEach((key, value) -> {
-            if (finalCo.getIgnoreProperties().contains(key)) {
-                return;
-            }
-            PropertyDescriptor propertyDescriptor = propertyDescriptorMap.get(key);
-            if (propertyDescriptor == null) {
-                return;
-            }
-            Method writeMethod = propertyDescriptor.getWriteMethod();
-            if (writeMethod == null) {
-                return;
-            }
-            if (value == null) {
-                if (!finalCo.isIgnoreNullValue()) {
-                    Reflects.invoke(target, writeMethod, (finalCo.getValueConverter() == null) ? new Object[]{null} :
-                            new Object[]{finalCo.getValueConverter().convert(key, null)});
-                }
-            } else {
-                if (value instanceof String) {
-                    String str = (String) value;
-                    if (Strings.hasLength(str) || !finalCo.isIgnoreEmptyString()) {
-                        Reflects.invoke(target, writeMethod, finalCo.getValueConverter() == null ? value :
-                                finalCo.getValueConverter().convert(key, value));
+        getPropertyDescriptorList(target.getClass()).stream().filter(Objects::nonNull)
+                .filter(pd -> Objects.nonNull(pd.getWriteMethod()))
+                .forEach(pd -> {
+                    String key = pd.getName();
+                    if (finalCo.getIgnoreProperties().contains(key)) {
+                        return;
                     }
-                } else {
-                    Reflects.invoke(target, writeMethod, finalCo.getValueConverter() == null ? value :
-                            finalCo.getValueConverter().convert(key, value));
-                }
-            }
-        });
+                    Object value = source.get(key);
+                    Method writeMethod = pd.getWriteMethod();
+                    if (value == null) {
+                        if (!finalCo.isIgnoreNullValue()) {
+                            Reflects.invoke(target, writeMethod, (finalCo.getValueConverter() == null) ? new Object[]{null} :
+                                    new Object[]{finalCo.getValueConverter().convert(key, null)});
+                        }
+                    } else {
+                        if (value instanceof String) {
+                            String str = (String) value;
+                            if (Strings.hasLength(str) || !finalCo.isIgnoreEmptyString()) {
+                                Reflects.invoke(target, writeMethod, finalCo.getValueConverter() == null ? value :
+                                        finalCo.getValueConverter().convert(key, value));
+                            }
+                        } else {
+                            Reflects.invoke(target, writeMethod, finalCo.getValueConverter() == null ? value :
+                                    finalCo.getValueConverter().convert(key, value));
+                        }
+                    }
+                });
     }
 
     /**
@@ -378,35 +374,38 @@ public class Beans {
                 beanToMap(source, (Map<String, Object>) target, copyOption);
             } else {
                 final CopyOption finalCo = copyOption;
-                final Map<String, PropertyDescriptor> targetPdMap = getPropertyDescriptorMap(target.getClass());
-                getPropertyDescriptorMap(source.getClass()).forEach((key, sourcePd) -> {
-                    if (finalCo.getIgnoreProperties().contains(key)) {
-                        return;
-                    }
-                    PropertyDescriptor targetPd = targetPdMap.get(key);
-                    if (targetPd == null || targetPd.getWriteMethod() == null) {
-                        return;
-                    }
-                    Object value = Reflects.invoke(source, sourcePd.getReadMethod());
-                    if (value == null) {
-                        if (!finalCo.isIgnoreNullValue()) {
-                            Object targetVal = finalCo.getValueConverter() == null ? new Object[]{null} :
-                                    finalCo.getValueConverter().convert(key, null);
-                            Reflects.invoke(target, targetPd.getWriteMethod(), targetVal);
-                        }
-                    } else {
-                        if (value instanceof String) {
-                            String str = (String) value;
-                            if (Strings.hasLength(str) || !finalCo.isIgnoreEmptyString()) {
-                                Reflects.invoke(target, targetPd.getWriteMethod(), (finalCo.getValueConverter() == null) ?
-                                        value : finalCo.getValueConverter().convert(key, value));
+                final Map<String, PropertyDescriptor> sourcePdMap = getPropertyDescriptorMap(source.getClass());
+                getPropertyDescriptorList(target.getClass()).stream().filter(Objects::nonNull)
+                        .filter(pd -> Objects.nonNull(pd.getWriteMethod()))
+                        .forEach(pd -> {
+                            String key = pd.getName();
+                            if (finalCo.getIgnoreProperties().contains(key)) {
+                                return;
                             }
-                        } else {
-                            Reflects.invoke(target, targetPd.getWriteMethod(), (finalCo.getValueConverter() == null) ?
-                                    value : finalCo.getValueConverter().convert(key, value));
-                        }
-                    }
-                });
+                            PropertyDescriptor sourcePd = sourcePdMap.get(key);
+                            if (sourcePd == null || sourcePd.getReadMethod() == null) {
+                                return;
+                            }
+                            Object value = Reflects.invoke(source, sourcePd.getReadMethod());
+                            if (value == null) {
+                                if (!finalCo.isIgnoreNullValue()) {
+                                    Object targetVal = finalCo.getValueConverter() == null ? new Object[]{null} :
+                                            finalCo.getValueConverter().convert(key, null);
+                                    Reflects.invoke(target, pd.getWriteMethod(), targetVal);
+                                }
+                            } else {
+                                if (value instanceof String) {
+                                    String str = (String) value;
+                                    if (Strings.hasLength(str) || !finalCo.isIgnoreEmptyString()) {
+                                        Reflects.invoke(target, pd.getWriteMethod(), (finalCo.getValueConverter() == null) ?
+                                                value : finalCo.getValueConverter().convert(key, value));
+                                    }
+                                } else {
+                                    Reflects.invoke(target, pd.getWriteMethod(), (finalCo.getValueConverter() == null) ?
+                                            value : finalCo.getValueConverter().convert(key, value));
+                                }
+                            }
+                        });
             }
         }
     }
