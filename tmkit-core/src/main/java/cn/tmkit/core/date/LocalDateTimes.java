@@ -1085,4 +1085,28 @@ public class LocalDateTimes {
         return endOfYear(date.toLocalDate());
     }
 
+    /**
+     * 加或减对应的分钟
+     *
+     * @param offset 偏移分钟数，正数向未来偏移，负数向历史偏移
+     * @return 偏移后的日期
+     */
+    public static LocalDateTime offsetMinute(int offset) {
+        return offsetMinute(LocalDateTime.now(), offset);
+    }
+
+    /**
+     * 加或减对应的分钟
+     *
+     * @param date    日期
+     * @param minutes 偏移分钟数，正数向未来偏移，负数向历史偏移
+     * @return 偏移后的日期
+     */
+    public static LocalDateTime offsetMinute(LocalDateTime date, int minutes) {
+        if (date == null || minutes == 0) {
+            return date;
+        }
+        return date.plusMinutes(minutes);
+    }
+
 }
