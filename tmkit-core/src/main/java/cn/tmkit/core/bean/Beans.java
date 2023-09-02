@@ -243,8 +243,8 @@ public class Beans {
                     Method writeMethod = pd.getWriteMethod();
                     if (value == null) {
                         if (!finalCo.isIgnoreNullValue()) {
-                            Reflects.invoke(target, writeMethod, (finalCo.getValueConverter() == null) ? new Object[]{null} :
-                                    new Object[]{finalCo.getValueConverter().convert(key, null)});
+                            Reflects.invoke(target, writeMethod, (finalCo.getValueConverter() == null) ? null :
+                                    finalCo.getValueConverter().convert(key, null));
                         }
                     } else {
                         if (value instanceof String) {
@@ -389,7 +389,7 @@ public class Beans {
                             Object value = Reflects.invoke(source, sourcePd.getReadMethod());
                             if (value == null) {
                                 if (!finalCo.isIgnoreNullValue()) {
-                                    Object targetVal = finalCo.getValueConverter() == null ? new Object[]{null} :
+                                    Object targetVal = finalCo.getValueConverter() == null ? null :
                                             finalCo.getValueConverter().convert(key, null);
                                     Reflects.invoke(target, pd.getWriteMethod(), targetVal);
                                 }
