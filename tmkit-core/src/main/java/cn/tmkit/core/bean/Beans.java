@@ -346,7 +346,7 @@ public class Beans {
      *
      * @param source         源对象
      * @param target         目标对象
-     * @param valueConverter 是否忽略null值
+     * @param valueConverter 值转换器
      */
     public static void copyProperties(Object source, Object target, ValueConverter valueConverter) {
         copyProperties(source, target, new CopyOption(valueConverter));
@@ -464,13 +464,30 @@ public class Beans {
      * @param <E>              泛型标记
      * @return 目标bean对象
      */
-
     public static <E> E copyProperties(Object src, Class<E> targetClass, String... ignoreProperties) {
         if (Objects.isAnyNull(src, targetClass)) {
             return null;
         }
         E target = Reflects.newInstance(targetClass);
         Beans.copyProperties(src, target, ignoreProperties);
+        return target;
+    }
+
+    /**
+     * 拷贝对象
+     *
+     * @param src            源bean对象
+     * @param targetClass    目标bean类型
+     * @param valueConverter 值转换器
+     * @param <E>            泛型标记
+     * @return 目标bean对象
+     */
+    public static <E> E copyProperties(Object src, Class<E> targetClass, ValueConverter valueConverter) {
+        if (Objects.isAnyNull(src, targetClass)) {
+            return null;
+        }
+        E target = Reflects.newInstance(targetClass);
+        Beans.copyProperties(src, target, valueConverter);
         return target;
     }
 
