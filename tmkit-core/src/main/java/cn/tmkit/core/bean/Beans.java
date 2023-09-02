@@ -214,9 +214,7 @@ public class Beans {
             copyOption = new CopyOption();
         }
         final CopyOption finalCo = copyOption;
-        source.forEach((key, value) -> {
-            copyToMap(key, value, target, finalCo);
-        });
+        source.forEach((key, value) -> copyToMap(key, value, target, finalCo));
     }
 
     /**
@@ -249,16 +247,19 @@ public class Beans {
             }
             if (value == null) {
                 if (!finalCo.isIgnoreNullValue()) {
-                    Reflects.invoke(target, writeMethod, new Object[]{null});
+                    Reflects.invoke(target, writeMethod, (finalCo.getValueConverter() == null) ? new Object[]{null} :
+                            new Object[]{finalCo.getValueConverter().convert(key, null)});
                 }
             } else {
                 if (value instanceof String) {
                     String str = (String) value;
                     if (Strings.hasLength(str) || !finalCo.isIgnoreEmptyString()) {
-                        Reflects.invoke(target, writeMethod, value);
+                        Reflects.invoke(target, writeMethod, finalCo.getValueConverter() == null ? value :
+                                finalCo.getValueConverter().convert(key, value));
                     }
                 } else {
-                    Reflects.invoke(target, writeMethod, value);
+                    Reflects.invoke(target, writeMethod, finalCo.getValueConverter() == null ? value :
+                            finalCo.getValueConverter().convert(key, value));
                 }
             }
         });
@@ -341,6 +342,17 @@ public class Beans {
     }
 
     /**
+     * 对象复制，如果值为{@code null}时如果设置{@code ignoreNullValue}为{@code true}则不复制
+     *
+     * @param source         源对象
+     * @param target         目标对象
+     * @param valueConverter 是否忽略null值
+     */
+    public static void copyProperties(Object source, Object target, ValueConverter valueConverter) {
+        copyProperties(source, target, new CopyOption(valueConverter));
+    }
+
+    /**
      * 对象复制
      *
      * @param source     源对象
@@ -378,16 +390,20 @@ public class Beans {
                     Object value = Reflects.invoke(source, sourcePd.getReadMethod());
                     if (value == null) {
                         if (!finalCo.isIgnoreNullValue()) {
-                            Reflects.invoke(target, targetPd.getWriteMethod(), new Object[]{null});
+                            Object targetVal = finalCo.getValueConverter() == null ? new Object[]{null} :
+                                    finalCo.getValueConverter().convert(key, null);
+                            Reflects.invoke(target, targetPd.getWriteMethod(), targetVal);
                         }
                     } else {
                         if (value instanceof String) {
                             String str = (String) value;
                             if (Strings.hasLength(str) || !finalCo.isIgnoreEmptyString()) {
-                                Reflects.invoke(target, targetPd.getWriteMethod(), value);
+                                Reflects.invoke(target, targetPd.getWriteMethod(), (finalCo.getValueConverter() == null) ?
+                                        value : finalCo.getValueConverter().convert(key, value));
                             }
                         } else {
-                            Reflects.invoke(target, targetPd.getWriteMethod(), value);
+                            Reflects.invoke(target, targetPd.getWriteMethod(), (finalCo.getValueConverter() == null) ?
+                                    value : finalCo.getValueConverter().convert(key, value));
                         }
                     }
                 });
@@ -472,16 +488,28 @@ public class Beans {
         }
         if (value == null) {
             if (!copyOption.isIgnoreNullValue()) {
-                targetMap.put(key, null);
+                if (copyOption.getValueConverter() == null) {
+                    targetMap.put(key, null);
+                } else {
+                    targetMap.put(key, copyOption.getValueConverter().convert(key, null));
+                }
             }
         } else {
             if (value instanceof String) {
                 String str = (String) value;
                 if (Strings.hasLength(str) || !copyOption.isIgnoreEmptyString()) {
-                    targetMap.put(key, value);
+                    if (copyOption.getValueConverter() == null) {
+                        targetMap.put(key, value);
+                    } else {
+                        targetMap.put(key, copyOption.getValueConverter().convert(key, value));
+                    }
                 }
             } else {
-                targetMap.put(key, value);
+                if (copyOption.getValueConverter() == null) {
+                    targetMap.put(key, value);
+                } else {
+                    targetMap.put(key, copyOption.getValueConverter().convert(key, value));
+                }
             }
         }
     }

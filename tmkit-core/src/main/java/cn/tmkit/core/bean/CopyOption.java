@@ -31,6 +31,11 @@ public class CopyOption implements java.io.Serializable {
      */
     private List<String> ignoreProperties = new ArrayList<>();
 
+    /**
+     * 值转换器
+     */
+    private ValueConverter valueConverter;
+
     public boolean isIgnoreNullValue() {
         return ignoreNullValue;
     }
@@ -41,6 +46,10 @@ public class CopyOption implements java.io.Serializable {
 
     public List<String> getIgnoreProperties() {
         return ignoreProperties;
+    }
+
+    public ValueConverter getValueConverter() {
+        return valueConverter;
     }
 
     /**
@@ -72,6 +81,10 @@ public class CopyOption implements java.io.Serializable {
         }
     }
 
+    public CopyOption(ValueConverter valueConverter) {
+        this.valueConverter = valueConverter;
+    }
+
     /**
      * 构造器
      *
@@ -95,6 +108,11 @@ public class CopyOption implements java.io.Serializable {
 
     public CopyOption setIgnoreProperties(List<String> ignoreProperties) {
         this.ignoreProperties = ignoreProperties;
+        return this;
+    }
+
+    public CopyOption setValueConverter(ValueConverter valueConverter) {
+        this.valueConverter = valueConverter;
         return this;
     }
 
