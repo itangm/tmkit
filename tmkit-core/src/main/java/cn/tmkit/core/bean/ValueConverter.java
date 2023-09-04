@@ -16,5 +16,8 @@ public interface ValueConverter {
      * @param value 属性的值
      * @return 转换后的值
      */
-    Object convert(String key, Object value);
+    default Object convert(String key, Object value) {
+        return value;
+    }
+
 }

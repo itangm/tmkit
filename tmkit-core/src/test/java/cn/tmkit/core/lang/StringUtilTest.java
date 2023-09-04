@@ -723,4 +723,14 @@ public class StringUtilTest {
 
     // endregion
 
+    @Test
+    public void splitToIntList() {
+        String enums = "1,2";
+        List<Integer> list = StrUtil.splitToIntList(enums);
+        list.forEach(System.out::println);
+        assertEquals(2, list.size());
+        assertEquals(1, list.get(0));
+        assertEquals(2, list.get(1));
+    }
+
 }
