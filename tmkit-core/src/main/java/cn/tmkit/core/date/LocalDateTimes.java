@@ -800,6 +800,15 @@ public class LocalDateTimes {
     /**
      * 返回一天的开始，即当天的00:00:00
      *
+     * @return 一天的开始
+     */
+    public static LocalDateTime startOfDay() {
+        return startOfDay(now());
+    }
+
+    /**
+     * 返回一天的开始，即当天的00:00:00
+     *
      * @param date 某一天的时间
      * @return 一天的开始
      */
@@ -821,6 +830,15 @@ public class LocalDateTimes {
             return null;
         }
         return startOfDay(date.toLocalDate());
+    }
+
+    /**
+     * 返回一天的结束，即当天的23:59:59
+     *
+     * @return 一天的结束
+     */
+    public static LocalDateTime endOfDay() {
+        return endOfDay(now());
     }
 
     /**
