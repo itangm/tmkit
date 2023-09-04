@@ -370,7 +370,7 @@ public class LocalDateTimes {
      * @return 格式化后的字符串
      */
     public static String format() {
-        return format(LocalDateTime.now());
+        return format(now());
     }
 
     /**
@@ -380,7 +380,7 @@ public class LocalDateTimes {
      * @return 格式化后的字符串
      */
     public static String format(String pattern) {
-        return format(LocalDateTime.now(), pattern);
+        return format(now(), pattern);
     }
 
     /**
@@ -390,7 +390,7 @@ public class LocalDateTimes {
      * @return 格式化后的字符串
      */
     public static String format(@NotNull CustomFormatter formatter) {
-        return format(LocalDateTime.now(), formatter);
+        return format(now(), formatter);
     }
 
     /**
@@ -400,7 +400,7 @@ public class LocalDateTimes {
      * @return 格式化后的字符串
      */
     public static String format(DateTimeFormatter formatter) {
-        return format(LocalDateTime.now(), formatter);
+        return format(now(), formatter);
     }
 
     /**
@@ -873,7 +873,17 @@ public class LocalDateTimes {
      * @return {@link LocalDateTime}
      */
     public static LocalDateTime yesterday() {
-        return now().minusDays(1);
+        return yesterday(now());
+    }
+
+    /**
+     * 指定时间的昨天
+     *
+     * @param date 指定日期
+     * @return {@link LocalDateTime}
+     */
+    public static LocalDateTime yesterday(LocalDateTime date) {
+        return offsetDay(date, -1);
     }
 
     /**
@@ -1086,27 +1096,171 @@ public class LocalDateTimes {
     }
 
     /**
-     * 加或减对应的分钟
+     * 对当前时间移动秒数
      *
-     * @param offset 偏移分钟数，正数向未来偏移，负数向历史偏移
-     * @return 偏移后的日期
+     * @param seconds 移动秒数，正数向未来移动，负数向历史移动
+     * @return 移动后的日期
      */
-    public static LocalDateTime offsetMinute(int offset) {
-        return offsetMinute(LocalDateTime.now(), offset);
+    public static LocalDateTime offsetSecond(int seconds) {
+        return offsetSecond(now(), seconds);
     }
 
     /**
-     * 加或减对应的分钟
+     * 对当前时间移动秒数
      *
      * @param date    日期
-     * @param minutes 偏移分钟数，正数向未来偏移，负数向历史偏移
-     * @return 偏移后的日期
+     * @param seconds 移动秒数，正数向未来移动，负数向历史移动
+     * @return 移动后的日期
+     */
+    public static LocalDateTime offsetSecond(LocalDateTime date, int seconds) {
+        if (date == null || seconds == 0) {
+            return date;
+        }
+        return date.plusSeconds(seconds);
+    }
+
+    /**
+     * 对当前时间移动分钟数
+     *
+     * @param minutes 移动分钟数，正数向未来移动，负数向历史移动
+     * @return 移动后的日期
+     */
+    public static LocalDateTime offsetMinute(int minutes) {
+        return offsetMinute(now(), minutes);
+    }
+
+    /**
+     * 根据指定时间移动分钟数
+     *
+     * @param date    日期
+     * @param minutes 移动分钟数，正数向未来移动，负数向历史移动
+     * @return 移动后的日期
      */
     public static LocalDateTime offsetMinute(LocalDateTime date, int minutes) {
         if (date == null || minutes == 0) {
             return date;
         }
         return date.plusMinutes(minutes);
+    }
+
+    /**
+     * 对当前时间移动小时数
+     *
+     * @param hours 移动小时数，正数向未来移动，负数向历史移动
+     * @return 移动后的日期
+     */
+    public static LocalDateTime offsetHour(int hours) {
+        return offsetHour(now(), hours);
+    }
+
+    /**
+     * 对当前时间移动小时数
+     *
+     * @param date  日期
+     * @param hours 移动小时数，正数向未来移动，负数向历史移动
+     * @return 移动后的日期
+     */
+    public static LocalDateTime offsetHour(LocalDateTime date, int hours) {
+        if (date == null || hours == 0) {
+            return date;
+        }
+        return date.plusHours(hours);
+    }
+
+    /**
+     * 根据指定时间移动天数
+     *
+     * @param day 移动的天数，正数向未来移动，负数向历史移动
+     * @return 移动的日期
+     */
+    public static LocalDateTime offsetDay(int day) {
+        return offsetDay(now(), day);
+    }
+
+    /**
+     * 根据指定时间移动天数
+     *
+     * @param date 日期
+     * @param day  移动的天数，正数向未来移动，负数向历史移动
+     * @return 移动的日期
+     */
+    public static LocalDateTime offsetDay(LocalDateTime date, int day) {
+        if (date == null || day == 0) {
+            return date;
+        }
+        return date.plusDays(day);
+    }
+
+    /**
+     * 对当前时间移动月份数
+     *
+     * @param months 移动月份数，正数向未来移动，负数向历史移动
+     * @return 移动后的日期
+     */
+    public static LocalDateTime offsetMonth(int months) {
+        return offsetMonth(now(), months);
+    }
+
+    /**
+     * 对当前时间移动月份数
+     *
+     * @param date   日期
+     * @param months 移动月份数，正数向未来移动，负数向历史移动
+     * @return 移动后的日期
+     */
+    public static LocalDateTime offsetMonth(LocalDateTime date, int months) {
+        if (date == null || months == 0) {
+            return date;
+        }
+        return date.plusMonths(months);
+    }
+
+    /**
+     * 对当前时间移动年数
+     *
+     * @param years 移动年数，正数向未来移动，负数向历史移动
+     * @return 移动后的日期
+     */
+    public static LocalDateTime offsetYear(int years) {
+        return offsetYear(now(), years);
+    }
+
+    /**
+     * 对当前时间移动年数
+     *
+     * @param date  日期
+     * @param years 移动年数，正数向未来移动，负数向历史移动
+     * @return 移动后的日期
+     */
+    public static LocalDateTime offsetYear(LocalDateTime date, int years) {
+        if (date == null || years == 0) {
+            return date;
+        }
+        return date.plusYears(years);
+    }
+
+    /**
+     * 对当前时间移动周数
+     *
+     * @param weeks 移动周数，正数向未来移动，负数向历史移动
+     * @return 移动后的日期
+     */
+    public static LocalDateTime offsetWeek(int weeks) {
+        return offsetYear(now(), weeks);
+    }
+
+    /**
+     * 对当前时间移动周数
+     *
+     * @param date  日期
+     * @param weeks 移动周数，正数向未来移动，负数向历史移动
+     * @return 移动后的日期
+     */
+    public static LocalDateTime offsetWeek(LocalDateTime date, int weeks) {
+        if (date == null || weeks == 0) {
+            return date;
+        }
+        return date.plusWeeks(weeks);
     }
 
 }
