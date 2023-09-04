@@ -1281,4 +1281,27 @@ public class LocalDateTimes {
         return date.plusWeeks(weeks);
     }
 
+    /**
+     * 对当前时间移动指定周期
+     *
+     * @param duration 移动周期数，正数向未来移动，负数向历史移动
+     * @return 移动后的日期
+     */
+    public static LocalDateTime offsetDuration(Duration duration) {
+        return offsetDuration(now(), duration);
+    }
+
+    /**
+     * 对当前时间移动指定周期
+     *
+     * @param duration 移动周期数，正数向未来移动，负数向历史移动
+     * @return 移动后的日期
+     */
+    public static LocalDateTime offsetDuration(LocalDateTime date, Duration duration) {
+        if (date == null || duration == null) {
+            return date;
+        }
+        return date.plus(duration);
+    }
+
 }
