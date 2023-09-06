@@ -10,13 +10,23 @@ package cn.tmkit.core.bean;
 public interface ValueConverter {
 
     /**
+     * 是否匹配属性名或键名
+     *
+     * @param key 键名或属性名
+     * @return 匹配执行转换
+     */
+    default boolean matches(String key) {
+        return false;
+    }
+
+    /**
      * 值的转换器
      *
-     * @param key   属性key
-     * @param value 属性的值
+     * @param value       属性的值
+     * @param targetClass 目标类型
      * @return 转换后的值
      */
-    default Object convert(String key, Object value) {
+    default Object convert(Object value, Class<?> targetClass) {
         return value;
     }
 
