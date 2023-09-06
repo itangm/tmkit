@@ -488,18 +488,18 @@ public class Beans {
     /**
      * 拷贝对象
      *
-     * @param src            源bean对象
-     * @param targetClass    目标bean类型
-     * @param valueConverter 值转换器
-     * @param <E>            泛型标记
+     * @param src             源bean对象
+     * @param targetClass     目标bean类型
+     * @param valueConverters 值转换器列表
+     * @param <E>             泛型标记
      * @return 目标bean对象
      */
-    public static <E> E copyProperties(Object src, Class<E> targetClass, ValueConverter valueConverter) {
+    public static <E> E copyProperties(Object src, Class<E> targetClass, ValueConverter... valueConverters) {
         if (Objects.isAnyNull(src, targetClass)) {
             return null;
         }
         E target = Reflects.newInstance(targetClass);
-        Beans.copyProperties(src, target, valueConverter);
+        Beans.copyProperties(src, target, valueConverters);
         return target;
     }
 
