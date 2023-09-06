@@ -1,6 +1,7 @@
 package cn.tmkit.core.bean;
 
 import cn.tmkit.core.lang.Arrays;
+import cn.tmkit.core.lang.Collections;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class CopyOption implements java.io.Serializable {
     /**
      * 值转换器
      */
-    private ValueConverter valueConverter;
+    private List<ValueConverter> valueConverters;
 
     public boolean isIgnoreNullValue() {
         return ignoreNullValue;
@@ -48,8 +49,8 @@ public class CopyOption implements java.io.Serializable {
         return ignoreProperties;
     }
 
-    public ValueConverter getValueConverter() {
-        return valueConverter;
+    public List<ValueConverter> getValueConverters() {
+        return (valueConverters == null) ? Collections.emptyList() : valueConverters;
     }
 
     /**
@@ -81,8 +82,8 @@ public class CopyOption implements java.io.Serializable {
         }
     }
 
-    public CopyOption(ValueConverter valueConverter) {
-        this.valueConverter = valueConverter;
+    public CopyOption(ValueConverter[] valueConverters) {
+        this.valueConverters = Collections.arrayList(valueConverters);
     }
 
     /**
@@ -112,7 +113,19 @@ public class CopyOption implements java.io.Serializable {
     }
 
     public CopyOption setValueConverter(ValueConverter valueConverter) {
-        this.valueConverter = valueConverter;
+        if (valueConverter != null) {
+            if (this.valueConverters == null) {
+                this.valueConverters = Collections.arrayList();
+            }
+            this.valueConverters.add(valueConverter);
+        }
+        return this;
+    }
+
+    public CopyOption setValueConverter(ValueConverter... valueConverters) {
+        if (Arrays.isNotEmpty(valueConverters)) {
+            Arrays.stream(valueConverters).forEach(this::setValueConverter);
+        }
         return this;
     }
 

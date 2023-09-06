@@ -1,5 +1,6 @@
 package cn.tmkit.core.bean;
 
+import cn.tmkit.core.convert.ConverterRegistry;
 import cn.tmkit.core.exception.BeanException;
 import cn.tmkit.core.lang.Arrays;
 import cn.tmkit.core.lang.Collections;
@@ -235,30 +236,44 @@ public class Beans {
         getPropertyDescriptorList(target.getClass()).stream().filter(Objects::nonNull)
                 .filter(pd -> Objects.nonNull(pd.getWriteMethod()))
                 .forEach(pd -> {
+                    Method writeMethod = pd.getWriteMethod();
+                    if (writeMethod == null) {
+                        return;
+                    }
                     String key = pd.getName();
                     if (finalCo.getIgnoreProperties().contains(key)) {
                         return;
                     }
                     Object value = source.get(key);
-                    Method writeMethod = pd.getWriteMethod();
+                    Class<?> parameterType = writeMethod.getParameterTypes()[0];
                     if (value == null) {
-                        if (!finalCo.isIgnoreNullValue()) {
-                            Reflects.invoke(target, writeMethod, (finalCo.getValueConverter() == null) ? null :
-                                    finalCo.getValueConverter().convert(key, null));
+                        if (finalCo.isIgnoreNullValue()) {
+                            return;
                         }
+                        setMethodValue(key, finalCo, target, writeMethod, null, parameterType);
                     } else {
                         if (value instanceof String) {
                             String str = (String) value;
-                            if (Strings.hasLength(str) || !finalCo.isIgnoreEmptyString()) {
-                                Reflects.invoke(target, writeMethod, finalCo.getValueConverter() == null ? value :
-                                        finalCo.getValueConverter().convert(key, value));
+                            if (StringUtil.isEmpty(str) && finalCo.isIgnoreEmptyString()) {
+                                return;
                             }
-                        } else {
-                            Reflects.invoke(target, writeMethod, finalCo.getValueConverter() == null ? value :
-                                    finalCo.getValueConverter().convert(key, value));
+
                         }
+                        setMethodValue(key, finalCo, target, writeMethod, value, parameterType);
                     }
                 });
+    }
+
+    private static void setMethodValue(String key, CopyOption copyOption, Object target, Method writeMethod, Object param, Class<?> parameterType) {
+        Optional<ValueConverter> optional = copyOption.getValueConverters().stream()
+                .filter(valueConverter -> valueConverter.matches(key))
+                .findFirst();
+        if (optional.isPresent()) {
+            Reflects.invoke(target, writeMethod, optional.get().convert(param, parameterType));
+        } else {
+            Object defaultValue = (param == null) ? ClassUtil.getDefaultValue(parameterType) : ConverterRegistry.getInstance().convert(param, parameterType);
+            Reflects.invoke(target, writeMethod, defaultValue);
+        }
     }
 
     /**
@@ -340,12 +355,12 @@ public class Beans {
     /**
      * 对象复制，如果值为{@code null}时如果设置{@code ignoreNullValue}为{@code true}则不复制
      *
-     * @param source         源对象
-     * @param target         目标对象
-     * @param valueConverter 值转换器
+     * @param source          源对象
+     * @param target          目标对象
+     * @param valueConverters 值转换器列表
      */
-    public static void copyProperties(Object source, Object target, ValueConverter valueConverter) {
-        copyProperties(source, target, new CopyOption(valueConverter));
+    public static void copyProperties(Object source, Object target, ValueConverter... valueConverters) {
+        copyProperties(source, target, new CopyOption(valueConverters));
     }
 
     /**
@@ -386,24 +401,22 @@ public class Beans {
                             if (sourcePd == null || sourcePd.getReadMethod() == null) {
                                 return;
                             }
+                            Class<?> parameterType = pd.getWriteMethod().getParameterTypes()[0];
                             Object value = Reflects.invoke(source, sourcePd.getReadMethod());
                             if (value == null) {
-                                if (!finalCo.isIgnoreNullValue()) {
-                                    Object targetVal = finalCo.getValueConverter() == null ? null :
-                                            finalCo.getValueConverter().convert(key, null);
-                                    Reflects.invoke(target, pd.getWriteMethod(), targetVal);
+                                if (finalCo.isIgnoreNullValue()) {
+                                    return;
                                 }
+                                setMethodValue(key, finalCo, target, pd.getWriteMethod(), null, parameterType);
+
                             } else {
                                 if (value instanceof String) {
                                     String str = (String) value;
-                                    if (Strings.hasLength(str) || !finalCo.isIgnoreEmptyString()) {
-                                        Reflects.invoke(target, pd.getWriteMethod(), (finalCo.getValueConverter() == null) ?
-                                                value : finalCo.getValueConverter().convert(key, value));
+                                    if (StringUtil.isEmpty(str) && finalCo.isIgnoreEmptyString()) {
+                                        return;
                                     }
-                                } else {
-                                    Reflects.invoke(target, pd.getWriteMethod(), (finalCo.getValueConverter() == null) ?
-                                            value : finalCo.getValueConverter().convert(key, value));
                                 }
+                                setMethodValue(key, finalCo, target, pd.getWriteMethod(), value, parameterType);
                             }
                         });
             }
@@ -503,29 +516,31 @@ public class Beans {
             return;
         }
         if (value == null) {
-            if (!copyOption.isIgnoreNullValue()) {
-                if (copyOption.getValueConverter() == null) {
-                    targetMap.put(key, null);
-                } else {
-                    targetMap.put(key, copyOption.getValueConverter().convert(key, null));
-                }
+            if (copyOption.isIgnoreNullValue()) {
+                return;
+            }
+            Optional<ValueConverter> optional = copyOption.getValueConverters().stream()
+                    .filter(valueConverter -> valueConverter.matches(key))
+                    .findFirst();
+            if (optional.isPresent()) {
+                targetMap.put(key, optional.get().convert(null, Void.class));
+            } else {
+                targetMap.put(key, null);
             }
         } else {
             if (value instanceof String) {
                 String str = (String) value;
-                if (Strings.hasLength(str) || !copyOption.isIgnoreEmptyString()) {
-                    if (copyOption.getValueConverter() == null) {
-                        targetMap.put(key, value);
-                    } else {
-                        targetMap.put(key, copyOption.getValueConverter().convert(key, value));
-                    }
+                if (StringUtil.isEmpty(str) && copyOption.isIgnoreEmptyString()) {
+                    return;
                 }
+            }
+            Optional<ValueConverter> optional = copyOption.getValueConverters().stream()
+                    .filter(valueConverter -> valueConverter.matches(key))
+                    .findFirst();
+            if (optional.isPresent()) {
+                targetMap.put(key, optional.get().convert(value, value.getClass()));
             } else {
-                if (copyOption.getValueConverter() == null) {
-                    targetMap.put(key, value);
-                } else {
-                    targetMap.put(key, copyOption.getValueConverter().convert(key, value));
-                }
+                targetMap.put(key, value);
             }
         }
     }
