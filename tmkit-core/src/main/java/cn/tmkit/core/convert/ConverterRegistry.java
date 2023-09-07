@@ -61,7 +61,7 @@ public class ConverterRegistry {
 
         // 日期
         builtin.put(LocalDate.class, new LocalDateConverter());
-        builtin.put(LocalDateTime.class, new LocalDateConverter());
+        builtin.put(LocalDateTime.class, new LocalDateTimeConverter());
 
     }
 
