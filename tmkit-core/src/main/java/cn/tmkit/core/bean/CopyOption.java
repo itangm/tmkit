@@ -20,7 +20,7 @@ public class CopyOption implements java.io.Serializable {
     /**
      * 是否忽略空值，当源对象的值为null时，true: 忽略而不注入此值，false: 注入null
      */
-    private boolean ignoreNullValue = false;
+    private boolean ignoreNullValue = true;
 
     /**
      * 忽略空字符串

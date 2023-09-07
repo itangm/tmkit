@@ -8,6 +8,8 @@ import cn.tmkit.core.lang.reflect.Types;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -56,6 +58,11 @@ public class ConverterRegistry {
         builtin.put(BigInteger.class, BigIntegerConverter.getInstance());
         builtin.put(CharSequence.class, new StringConverter());
         builtin.put(String.class, new StringConverter());
+
+        // 日期
+        builtin.put(LocalDate.class, new LocalDateConverter());
+        builtin.put(LocalDateTime.class, new LocalDateConverter());
+
     }
 
     /**
