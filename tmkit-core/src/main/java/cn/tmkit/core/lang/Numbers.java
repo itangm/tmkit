@@ -101,6 +101,32 @@ public class Numbers {
     }
 
     /**
+     * 金额元转为金额分
+     *
+     * @param yuan 元
+     * @return 分
+     */
+    public static Integer yuan2Fen(BigDecimal yuan) {
+        if (yuan == null) {
+            return null;
+        }
+        return FluentBigDecimal.of(yuan).multiply(100).intValueExact();
+    }
+
+    /**
+     * 金额元转为金额分
+     *
+     * @param yuan 元
+     * @return 分
+     */
+    public static Long yuan2FenLong(BigDecimal yuan) {
+        if (yuan == null) {
+            return null;
+        }
+        return FluentBigDecimal.of(yuan).multiply(100).longValueExact();
+    }
+
+    /**
      * 人民币金额转为分
      *
      * @param yuan 金额,单位为元
