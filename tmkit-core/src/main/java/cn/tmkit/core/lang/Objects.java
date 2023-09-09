@@ -249,6 +249,18 @@ public class Objects {
     }
 
     /**
+     * 判断两个对象不相等
+     *
+     * @param a 第一个比较对象
+     * @param b 第二个比较对象
+     * @return 不相等返回{@code true}，否则返回{@code false}
+     * @see #equals(Object, Object)
+     */
+    public static boolean notEquals(final Object a, final Object b) {
+        return !equals(a, b);
+    }
+
+    /**
      * 对象的哈希码，如果对象为{@code null}则返回0
      *
      * @param obj 对象
