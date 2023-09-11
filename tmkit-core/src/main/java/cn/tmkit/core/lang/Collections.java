@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 集合工具类
@@ -556,6 +558,80 @@ public class Collections {
             iterator.next();
         }
         return null;
+    }
+
+    // endregion
+
+
+    // region 集合转换
+
+    /**
+     * 集合对象转为List集合
+     *
+     * @param collection 集合对象
+     * @param <E>        元素类型
+     * @return List集合
+     */
+    @NotNull
+    public static <E> List<E> toList(Collection<E> collection) {
+        if (collection == null) {
+            return emptyList();
+        }
+        if (collection instanceof List) {
+            return (List<E>) collection;
+        }
+        return newArrayList(collection);
+    }
+
+    /**
+     * 集合对象转为Set集合
+     *
+     * @param collection 集合对象
+     * @param <E>        元素类型
+     * @return Set集合
+     */
+    @NotNull
+    public static <E> Set<E> toSet(Collection<E> collection) {
+        if (collection == null) {
+            return emptySet();
+        }
+        if (collection instanceof Set) {
+            return (Set<E>) collection;
+        }
+        return new HashSet<>(collection);
+    }
+
+    /**
+     * 集合对象使用转换器转为List集合
+     *
+     * @param collection 集合悐
+     * @param mapper     转换器，非空
+     * @param <E>        原集合的元素类型
+     * @param <R>        目标集合的元素的类型
+     * @return List集合
+     */
+    @NotNull
+    public static <E, R> List<R> toList(Collection<E> collection, @NotNull Function<E, R> mapper) {
+        if (isEmpty(collection)) {
+            return emptyList();
+        }
+        return collection.stream().map(mapper).collect(Collectors.toList());
+    }
+
+    /**
+     * 集合对象使用转换器转为Set集合
+     *
+     * @param collection 集合悐
+     * @param mapper     转换器，非空
+     * @param <E>        原集合的元素类型
+     * @param <R>        目标集合的元素的类型
+     * @return Set集合
+     */
+    public static <E, R> Set<R> toSet(Collection<E> collection, @NotNull Function<E, R> mapper) {
+        if (isEmpty(collection)) {
+            return emptySet();
+        }
+        return collection.stream().map(mapper).collect(Collectors.toSet());
     }
 
     // endregion

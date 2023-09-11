@@ -4,10 +4,12 @@ import cn.tmkit.core.convert.Converts;
 import cn.tmkit.core.map.LinkedMultiValueMap;
 import cn.tmkit.core.map.MultiValueMap;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -37,6 +39,17 @@ public class Maps {
 
     private static int ensureSize(int expectedSize) {
         return (int) (expectedSize / DEFAULT_LOAD_FACTOR);
+    }
+
+    /**
+     * 创建一个空的不可变的Map（Map的各种方法基本不能用）
+     *
+     * @param <K> 键的类型
+     * @param <V> 值的类型
+     * @return 空的Map对象
+     */
+    public static <K, V> Map<K, V> emptyMap() {
+        return java.util.Collections.emptyMap();
     }
 
     /**
@@ -253,10 +266,10 @@ public class Maps {
      * @param <K>   键的类型
      * @param <V>   值的类型
      * @return 单个键值对的Map
-     * @see Collections#singletonMap(Object, Object)
+     * @see java.util.Collections#singletonMap(Object, Object)
      */
     public static <K, V> Map<K, V> singletonMap(K key, V value) {
-        return Collections.singletonMap(key, value);
+        return java.util.Collections.singletonMap(key, value);
     }
 
     /**
@@ -402,7 +415,7 @@ public class Maps {
      */
     @NotNull
     public static <K, V> Map<K, V> wrapper(Map<K, V> map) {
-        return (map == null) ? Collections.emptyMap() : map;
+        return (map == null) ? emptyMap() : map;
     }
 
     // endregion
@@ -841,7 +854,137 @@ public class Maps {
 
     // endregion
 
-    // region
+
+    // region 转换
+
+    /**
+     * 集合对象转为Map对象
+     *
+     * @param collection 集合对象
+     * @param keyMapper  键的转换器，非空
+     * @param <K>        键的类型
+     * @param <T>        集合的元素类型
+     * @return Map对象
+     */
+    public static <K, T> Map<K, T> toMap(Collection<T> collection, @NotNull Function<? super T, ? extends K> keyMapper) {
+        return toMap(collection, keyMapper, Function.identity());
+    }
+
+    /**
+     * 集合对象转为Map对象
+     *
+     * @param collection  集合对象
+     * @param keyMapper   键的转换器，非空
+     * @param valueMapper 值的转换器
+     * @param <K>         键的类型
+     * @param <V>         值的类型
+     * @param <T>         集合的元素类型
+     * @return Map对象
+     */
+    public static <K, V, T> Map<K, V> toMap(Collection<T> collection, @NotNull Function<? super T, ? extends K> keyMapper,
+                                            @NotNull Function<? super T, ? extends V> valueMapper) {
+        return toMap(collection, keyMapper, valueMapper, pickLast());
+    }
+
+    /**
+     * 集合对象转为Map对象
+     *
+     * @param collection    集合对象
+     * @param keyMapper     键的转换器，非空
+     * @param valueMapper   值的转换器
+     * @param mergeFunction 合并的函数，如果键相同的时候
+     * @param <K>           键的类型
+     * @param <V>           值的类型
+     * @param <T>           集合的元素类型
+     * @return Map对象
+     */
+    public static <K, V, T> Map<K, V> toMap(Collection<T> collection, @NotNull Function<? super T, ? extends K> keyMapper,
+                                            @NotNull Function<? super T, ? extends V> valueMapper,
+                                            @NotNull BinaryOperator<V> mergeFunction) {
+        if (Collections.isEmpty(collection)) {
+            return emptyMap();
+        }
+        return collection.stream().collect(Collectors.toMap(keyMapper, valueMapper, mergeFunction));
+    }
+
+    /**
+     * 转换Map中值
+     *
+     * @param originalMap    源Map对象
+     * @param valueConverter 值的转换器
+     * @param <K>            键的类型
+     * @param <V>            值的类型
+     * @param <R>            值的新类型
+     * @return 转换后的Map对象
+     */
+    public static <K, V, R> Map<K, R> convertValue(Map<K, V> originalMap, @NotNull BiFunction<K, V, R> valueConverter) {
+        return convertValue(originalMap, valueConverter, pickLast());
+    }
+
+    /**
+     * 转换Map中值
+     *
+     * @param originalMap    源Map对象
+     * @param valueConverter 值的转换器
+     * @param mergeFunction  值的合并操作
+     * @param <K>            键的类型
+     * @param <V>            值的类型
+     * @param <R>            值的新类型
+     * @return 转换后的Map对象
+     */
+    public static <K, V, R> Map<K, R> convertValue(Map<K, V> originalMap, @NotNull BiFunction<K, V, R> valueConverter,
+                                                   @Nullable BinaryOperator<R> mergeFunction) {
+        if (isEmpty(originalMap)) {
+            return emptyMap();
+        }
+        BinaryOperator<R> bo = (mergeFunction == null) ? pickLast() : mergeFunction;
+        return originalMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,
+                entry -> valueConverter.apply(entry.getKey(), entry.getValue()), bo));
+    }
+
+    /**
+     * 转换Map中值
+     *
+     * @param originalMap 源Map对象
+     * @param converter   值的转换器
+     * @param <K>         键的类型
+     * @param <V>         值的类型
+     * @param <R>         值的新类型
+     * @return 转换后的Map对象
+     */
+    public static <K, V, R> Map<K, R> convertValue(Map<K, V> originalMap, @NotNull Function<V, R> converter) {
+        return convertValue(originalMap, converter, pickLast());
+    }
+
+    /**
+     * 转换Map中值
+     *
+     * @param originalMap   源Map对象
+     * @param converter     值的转换器
+     * @param mergeFunction 值的合并操作
+     * @param <K>           键的类型
+     * @param <V>           值的类型
+     * @param <R>           值的新类型
+     * @return 转换后的Map对象
+     */
+    public static <K, V, R> Map<K, R> convertValue(Map<K, V> originalMap, @NotNull Function<V, R> converter, @Nullable BinaryOperator<R> mergeFunction) {
+        if (isEmpty(originalMap)) {
+            return emptyMap();
+        }
+        BinaryOperator<R> bo = (mergeFunction == null) ? pickLast() : mergeFunction;
+        return originalMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> converter.apply(entry.getValue()), bo));
+    }
+
+    /**
+     * 内置的选择最后一个元素
+     *
+     * @param <T> 元素类型
+     * @return 最后一个元素
+     */
+    public static <T> BinaryOperator<T> pickLast() {
+        return (t, t2) -> t2;
+    }
+
     // endregion
 
 }
