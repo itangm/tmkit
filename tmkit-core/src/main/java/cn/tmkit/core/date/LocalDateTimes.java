@@ -191,6 +191,8 @@ public class LocalDateTimes {
             return ((LocalDate) temporalAccessor).atStartOfDay();
         } else if (temporalAccessor instanceof LocalDateTime) {
             return (LocalDateTime) temporalAccessor;
+        } else if (temporalAccessor instanceof LocalTime) {
+            return LocalDate.now().atTime((LocalTime) temporalAccessor);
         } else {
             return LocalDateTime.of(
                     get(temporalAccessor, ChronoField.YEAR), get(temporalAccessor, ChronoField.MONTH_OF_YEAR),
