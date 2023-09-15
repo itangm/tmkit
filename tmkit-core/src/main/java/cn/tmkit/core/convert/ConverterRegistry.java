@@ -113,7 +113,7 @@ public class ConverterRegistry {
      * @param <T>   目标类型
      * @return 默认转换器
      */
-    public <T> Converter< T> getDefaultConverter(Class<T> clazz) {
+    public <T> Converter<T> getDefaultConverter(Class<T> clazz) {
         return getConverter(clazz, false);
     }
 
@@ -124,7 +124,7 @@ public class ConverterRegistry {
      * @param <T>   目标类型
      * @return 自定义转换器
      */
-    public <T> Converter< T> getCustomConverter(Class<T> clazz) {
+    public <T> Converter<T> getCustomConverter(Class<T> clazz) {
         return getConverter(clazz, true);
     }
 
@@ -178,7 +178,12 @@ public class ConverterRegistry {
             targetClass = (Class<T>) defaultValue.getClass();
         }
 
-        Converter< T> converter = getConverter(targetClass, customFirst);
+        // 类型兼容，强转
+        if (targetClass.isInstance(value)) {
+            return (T) value;
+        }
+
+        Converter<T> converter = getConverter(targetClass, customFirst);
         if (converter != null) {
             return converter.handle(value, defaultValue);
         }
