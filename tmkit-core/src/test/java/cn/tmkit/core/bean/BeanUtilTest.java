@@ -1,8 +1,10 @@
 package cn.tmkit.core.bean;
 
+import cn.tmkit.core.lang.CollectionUtil;
 import cn.tmkit.core.lang.MapUtil;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -43,10 +45,30 @@ public class BeanUtilTest {
 
     @Test
     public void testCopyProperties1() {
+        OrderWithGoods source = OrderWithGoods.builder().id(1L)
+                .name("吃饭够")
+                .weight(20)
+                .orderDate(LocalDate.now())
+                .orderType(OrderInfo.OrderTypeEnum.PAY)
+                .attrs(MapUtil.of("specialFlag", true, "fee", 100))
+                .goods(CollectionUtil.arrayList(new OrderWithGoods.Goods(1L, "西瓜", 10.0D, new BigDecimal("0.99"))))
+                .build();
+        OrderWithGoods target = BeanUtil.copyProperties(source, OrderWithGoods.class);
+        assertNotNull(target);
     }
 
     @Test
-    void testCopyProperties2() {
+    public void testCopyProperties2() {
+        OrderWithCoupon source = OrderWithCoupon.builder().id(1L)
+                .name("吃饭够")
+                .weight(20)
+                .orderDate(LocalDate.now())
+                .orderType(OrderInfo.OrderTypeEnum.PAY)
+                .attrs(MapUtil.of("specialFlag", true, "fee", 100))
+                .coupon(new OrderWithCoupon.Coupon(1L, "西瓜", 10.0D, new BigDecimal("0.99")))
+                .build();
+        OrderWithCoupon target = BeanUtil.copyProperties(source, OrderWithCoupon.class);
+        assertNotNull(target);
     }
 
     @Test
