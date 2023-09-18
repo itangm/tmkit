@@ -12,21 +12,23 @@ public interface ValueConverter {
     /**
      * 是否匹配属性名或键名
      *
-     * @param key 键名或属性名
+     * @param source 元数据
+     * @param key    键名或属性名
      * @return 匹配执行转换
      */
-    default boolean matches(String key) {
+    default boolean matches(Object source, String key) {
         return false;
     }
 
     /**
      * 值的转换器
      *
+     * @param source      元数据
      * @param value       属性的值
      * @param targetClass 目标类型
      * @return 转换后的值
      */
-    default Object convert(Object value, Class<?> targetClass) {
+    default Object convert(Object source, Object value, Class<?> targetClass) {
         return value;
     }
 
