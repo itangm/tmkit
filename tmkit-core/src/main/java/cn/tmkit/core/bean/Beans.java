@@ -196,7 +196,7 @@ public class Beans {
         final Map<String, PropertyDescriptor> propertyDescriptorMap = getPropertyDescriptorMap(bean.getClass());
         propertyDescriptorMap.forEach((key, pd) -> {
             Object value = Reflects.invoke(bean, pd.getReadMethod());
-            copyToMap(key, value, targetMap, finalCo);
+            copyToMap(bean, key, value, targetMap, finalCo);
         });
     }
 
@@ -215,7 +215,7 @@ public class Beans {
             copyOption = new CopyOption();
         }
         final CopyOption finalCo = copyOption;
-        source.forEach((key, value) -> copyToMap(key, value, target, finalCo));
+        source.forEach((key, value) -> copyToMap(source, key, value, target, finalCo));
     }
 
     /**
@@ -250,7 +250,7 @@ public class Beans {
                         if (finalCo.isIgnoreNullValue()) {
                             return;
                         }
-                        setMethodValue(key, finalCo, target, writeMethod, null, parameterType);
+                        setMethodValue(source, key, finalCo, target, writeMethod, null, parameterType);
                     } else {
                         if (value instanceof String) {
                             String str = (String) value;
@@ -259,17 +259,18 @@ public class Beans {
                             }
 
                         }
-                        setMethodValue(key, finalCo, target, writeMethod, value, parameterType);
+                        setMethodValue(source, key, finalCo, target, writeMethod, value, parameterType);
                     }
                 });
     }
 
-    private static void setMethodValue(String key, CopyOption copyOption, Object target, Method writeMethod, Object param, Class<?> parameterType) {
+    private static void setMethodValue(Object source, String key, CopyOption copyOption, Object target,
+                                       Method writeMethod, Object param, Class<?> parameterType) {
         Optional<ValueConverter> optional = copyOption.getValueConverters().stream()
-                .filter(valueConverter -> valueConverter.matches(key))
+                .filter(valueConverter -> valueConverter.matches(source, key))
                 .findFirst();
         if (optional.isPresent()) {
-            Reflects.invoke(target, writeMethod, optional.get().convert(param, parameterType));
+            Reflects.invoke(target, writeMethod, optional.get().convert(source, param, parameterType));
         } else {
             Object defaultValue = (param == null) ? ClassUtil.getDefaultValue(parameterType) : ConverterRegistry.getInstance().convert(param, parameterType);
             Reflects.invoke(target, writeMethod, defaultValue);
@@ -407,7 +408,7 @@ public class Beans {
                                 if (finalCo.isIgnoreNullValue()) {
                                     return;
                                 }
-                                setMethodValue(key, finalCo, target, pd.getWriteMethod(), null, parameterType);
+                                setMethodValue(source, key, finalCo, target, pd.getWriteMethod(), null, parameterType);
 
                             } else {
                                 if (value instanceof String) {
@@ -416,7 +417,7 @@ public class Beans {
                                         return;
                                     }
                                 }
-                                setMethodValue(key, finalCo, target, pd.getWriteMethod(), value, parameterType);
+                                setMethodValue(source, key, finalCo, target, pd.getWriteMethod(), value, parameterType);
                             }
                         });
             }
@@ -511,7 +512,7 @@ public class Beans {
      * @param targetMap  目标Map
      * @param copyOption 复制选项
      */
-    private static void copyToMap(String key, Object value, Map<String, Object> targetMap, CopyOption copyOption) {
+    private static void copyToMap(Object source, String key, Object value, Map<String, Object> targetMap, CopyOption copyOption) {
         if (copyOption.getIgnoreProperties().contains(key)) {
             return;
         }
@@ -520,10 +521,10 @@ public class Beans {
                 return;
             }
             Optional<ValueConverter> optional = copyOption.getValueConverters().stream()
-                    .filter(valueConverter -> valueConverter.matches(key))
+                    .filter(valueConverter -> valueConverter.matches(source, key))
                     .findFirst();
             if (optional.isPresent()) {
-                targetMap.put(key, optional.get().convert(null, Void.class));
+                targetMap.put(key, optional.get().convert(source, null, Void.class));
             } else {
                 targetMap.put(key, null);
             }
@@ -535,10 +536,10 @@ public class Beans {
                 }
             }
             Optional<ValueConverter> optional = copyOption.getValueConverters().stream()
-                    .filter(valueConverter -> valueConverter.matches(key))
+                    .filter(valueConverter -> valueConverter.matches(source, key))
                     .findFirst();
             if (optional.isPresent()) {
-                targetMap.put(key, optional.get().convert(value, value.getClass()));
+                targetMap.put(key, optional.get().convert(source, value, value.getClass()));
             } else {
                 targetMap.put(key, value);
             }
