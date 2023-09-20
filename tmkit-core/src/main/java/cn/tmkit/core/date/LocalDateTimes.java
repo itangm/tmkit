@@ -694,6 +694,51 @@ public class LocalDateTimes {
     }
 
     /**
+     * 返回两者之间相差的分钟数，如果{@code start}小于{@code end}负数
+     * 如果{@code  start}或{@code  end}为{@code null}则返回{@code -1}
+     *
+     * @param start 开始时间（包含）
+     * @param end   结束时间（不包含）
+     * @return 两者之间相差的分钟数
+     */
+    public static long betweenMinutes(LocalDateTime start, LocalDateTime end) {
+        if (Objects.isAnyNull(start, end)) {
+            return -1;
+        }
+        return between(start, end).toMinutes();
+    }
+
+    /**
+     * 返回两者之间相差的小时数，如果{@code start}小于{@code end}负数
+     * 如果{@code  start}或{@code  end}为{@code null}则返回{@code -1}
+     *
+     * @param start 开始时间（包含）
+     * @param end   结束时间（不包含）
+     * @return 两者之间相差的小时数
+     */
+    public static long betweenHours(LocalDateTime start, LocalDateTime end) {
+        if (Objects.isAnyNull(start, end)) {
+            return -1;
+        }
+        return between(start, end).toHours();
+    }
+
+    /**
+     * 返回两者之间相差的天数，如果{@code start}小于{@code end}负数
+     * 如果{@code  start}或{@code  end}为{@code null}则返回{@code -1}
+     *
+     * @param start 开始时间（包含）
+     * @param end   结束时间（不包含）
+     * @return 两者之间相差的天数
+     */
+    public static long betweenDays(LocalDateTime start, LocalDateTime end) {
+        if (Objects.isAnyNull(start, end)) {
+            return -1;
+        }
+        return between(start, end).toDays();
+    }
+
+    /**
      * 判定日期是否在日期指定范围内，起始日期和结束日期可以互换
      *
      * @param date  被检查的日期
