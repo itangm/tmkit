@@ -439,7 +439,7 @@ public class Collections {
     // endregion
 
 
-    // region general methods
+    // region 添加
 
     /**
      * 将所有指定的元素添加到集合中
@@ -447,15 +447,33 @@ public class Collections {
      * @param coll     集合
      * @param elements 待添加的元素
      * @param <E>      元的类型
-     * @return 如果集合有变化则返回{@code true}
      */
     @SafeVarargs
-    public static <E> boolean addAll(Collection<? super E> coll, E... elements) {
+    public static <E> void addAll(Collection<E> coll, E... elements) {
         if (coll == null || Arrays.isEmpty(elements)) {
-            return false;
+            return;
         }
-        return java.util.Collections.addAll(coll, elements);
+        java.util.Collections.addAll(coll, elements);
     }
+
+    /**
+     * 将所有指定的元素添加到集合中
+     *
+     * @param coll     集合
+     * @param elements 待添加的元素
+     * @param <E>      元的类型
+     */
+    public static <E> void addAll(Collection<E> coll, Collection<E> elements) {
+        if (coll == null || isEmpty(elements)) {
+            return;
+        }
+        coll.addAll(elements);
+    }
+
+    // endregion
+
+
+    // region general methods
 
     /**
      * 将集合和数组合并到新的集合中
