@@ -2,9 +2,12 @@ package cn.tmkit.core.lang;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 import java.util.stream.Collectors;
 
 /**
@@ -650,6 +653,63 @@ public class Collections {
             return emptySet();
         }
         return collection.stream().map(mapper).collect(Collectors.toSet());
+    }
+
+    // endregion
+
+    // region 最大值、最小值
+
+    /**
+     * 获取集合元素中某个属性的最大值
+     *
+     * @param collection 集合对象
+     * @param mapper     元素的属性映射器
+     * @param <E>        元素的类型
+     * @return 最大值或{@code null}
+     */
+    public static <E> Integer getMaxInt(Collection<E> collection, ToIntFunction<E> mapper) {
+        if (isEmpty(collection)) {
+            return null;
+        }
+        OptionalInt optionalInt = collection.stream().mapToInt(mapper).max();
+        if (optionalInt.isPresent()) {
+            return optionalInt.getAsInt();
+        }
+        return null;
+    }
+
+    /**
+     * 获取集合元素中某个属性的最大值
+     *
+     * @param collection 集合对象
+     * @param mapper     元素的属性映射器
+     * @param <E>        元素的类型
+     * @return 最大值或{@code null}
+     */
+    public static <E> Long getMaxLong(Collection<E> collection, ToLongFunction<E> mapper) {
+        if (isEmpty(collection)) {
+            return null;
+        }
+        OptionalLong optionalLong = collection.stream().mapToLong(mapper).max();
+        if (optionalLong.isPresent()) {
+            return optionalLong.getAsLong();
+        }
+        return null;
+    }
+
+    /**
+     * 获取集合元素中某个属性的最大值
+     *
+     * @param collection 集合对象
+     * @param mapper     元素的属性映射器
+     * @param <E>        元素的类型
+     * @return 最大值或{@code null}
+     */
+    public static <E> LocalDateTime getMaxLocalDateTime(Collection<E> collection, Function<E, LocalDateTime> mapper) {
+        if (isEmpty(collection)) {
+            return null;
+        }
+        return collection.stream().map(mapper).max(LocalDateTime::compareTo).orElse(null);
     }
 
     // endregion
