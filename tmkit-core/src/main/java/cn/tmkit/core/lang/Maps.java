@@ -858,6 +858,22 @@ public class Maps {
     // region 转换
 
     /**
+     * 集合对象根据元素属性分组，属性相同的元素组成一个子集合
+     *
+     * @param collection 集合对象
+     * @param classifier 分类器
+     * @param <K>        键的类型
+     * @param <T>        值的类型
+     * @return Map对象
+     */
+    public static <K, T> Map<K, List<T>> groupingBy(Collection<T> collection, Function<? super T, ? extends K> classifier) {
+        if (Collections.isEmpty(collection)) {
+            return emptyMap();
+        }
+        return collection.stream().collect(Collectors.groupingBy(classifier));
+    }
+
+    /**
      * 集合对象转为Map对象
      *
      * @param collection 集合对象
