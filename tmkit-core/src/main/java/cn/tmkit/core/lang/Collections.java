@@ -2,12 +2,12 @@ package cn.tmkit.core.lang;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
 /**
@@ -660,6 +660,22 @@ public class Collections {
     // region 最大值、最小值
 
     /**
+     * 根据集合元素中某一个属性的值最大，返回这个元素，如果匹配不到则返回{@code null}
+     *
+     * @param collection   集合对象
+     * @param keyExtractor 元素的属性映射器
+     * @param <E>          元素类型
+     * @param <K>          属性类型
+     * @return 最大的元素
+     */
+    public static <E, K extends Comparable<K>> E maxElement(Collection<E> collection, Function<? super E, ? extends K> keyExtractor) {
+        if (isEmpty(collection)) {
+            return null;
+        }
+        return collection.stream().max(Comparator.comparing(keyExtractor)).orElse(null);
+    }
+
+    /**
      * 获取集合元素中某个属性的最大值
      *
      * @param collection 集合对象
@@ -667,7 +683,7 @@ public class Collections {
      * @param <E>        元素的类型
      * @return 最大值或{@code null}
      */
-    public static <E> Integer getMaxInt(Collection<E> collection, ToIntFunction<E> mapper) {
+    public static <E> Integer maxInt(Collection<E> collection, ToIntFunction<E> mapper) {
         if (isEmpty(collection)) {
             return null;
         }
@@ -686,7 +702,7 @@ public class Collections {
      * @param <E>        元素的类型
      * @return 最大值或{@code null}
      */
-    public static <E> Long getMaxLong(Collection<E> collection, ToLongFunction<E> mapper) {
+    public static <E> Long maxLong(Collection<E> collection, ToLongFunction<E> mapper) {
         if (isEmpty(collection)) {
             return null;
         }
@@ -705,7 +721,71 @@ public class Collections {
      * @param <E>        元素的类型
      * @return 最大值或{@code null}
      */
-    public static <E> LocalDateTime getMaxLocalDateTime(Collection<E> collection, Function<E, LocalDateTime> mapper) {
+    public static <E> Double maxLong(Collection<E> collection, ToDoubleFunction<E> mapper) {
+        if (isEmpty(collection)) {
+            return null;
+        }
+        OptionalDouble optionalDouble = collection.stream().mapToDouble(mapper).max();
+        if (optionalDouble.isPresent()) {
+            return optionalDouble.getAsDouble();
+        }
+        return null;
+    }
+
+    /**
+     * 获取集合元素中某个属性的最大值
+     *
+     * @param collection 集合对象
+     * @param mapper     元素的属性映射器
+     * @param <E>        元素的类型
+     * @return 最大值或{@code null}
+     */
+    public static <E> BigDecimal maxBigDecimal(Collection<E> collection, Function<E, BigDecimal> mapper) {
+        if (isEmpty(collection)) {
+            return null;
+        }
+        return collection.stream().map(mapper).max(BigDecimal::compareTo).orElse(null);
+    }
+
+    /**
+     * 获取集合元素中某个属性的最大值
+     *
+     * @param collection 集合对象
+     * @param mapper     元素的属性映射器
+     * @param <E>        元素的类型
+     * @return 最大值或{@code null}
+     */
+    public static <E> LocalDate maxLocalDate(Collection<E> collection, Function<E, LocalDate> mapper) {
+        if (isEmpty(collection)) {
+            return null;
+        }
+        return collection.stream().map(mapper).max(LocalDate::compareTo).orElse(null);
+    }
+
+    /**
+     * 获取集合元素中某个属性的最大值
+     *
+     * @param collection 集合对象
+     * @param mapper     元素的属性映射器
+     * @param <E>        元素的类型
+     * @return 最大值或{@code null}
+     */
+    public static <E> LocalTime maxLocalTime(Collection<E> collection, Function<E, LocalTime> mapper) {
+        if (isEmpty(collection)) {
+            return null;
+        }
+        return collection.stream().map(mapper).max(LocalTime::compareTo).orElse(null);
+    }
+
+    /**
+     * 获取集合元素中某个属性的最大值
+     *
+     * @param collection 集合对象
+     * @param mapper     元素的属性映射器
+     * @param <E>        元素的类型
+     * @return 最大值或{@code null}
+     */
+    public static <E> LocalDateTime maxLocalDateTime(Collection<E> collection, Function<E, LocalDateTime> mapper) {
         if (isEmpty(collection)) {
             return null;
         }
