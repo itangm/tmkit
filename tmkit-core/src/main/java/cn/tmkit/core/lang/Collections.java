@@ -657,6 +657,7 @@ public class Collections {
 
     // endregion
 
+
     // region 最大值、最小值
 
     /**
@@ -790,6 +791,203 @@ public class Collections {
             return null;
         }
         return collection.stream().map(mapper).max(LocalDateTime::compareTo).orElse(null);
+    }
+
+    /**
+     * 根据集合元素中某一个属性的值最小，返回这个元素，如果匹配不到则返回{@code null}
+     *
+     * @param collection   集合对象
+     * @param keyExtractor 元素的属性映射器
+     * @param <E>          元素类型
+     * @param <K>          属性类型
+     * @return 最小的元素
+     */
+    public static <E, K extends Comparable<K>> E minElement(Collection<E> collection, Function<? super E, ? extends K> keyExtractor) {
+        if (isEmpty(collection)) {
+            return null;
+        }
+        return collection.stream().min(Comparator.comparing(keyExtractor)).orElse(null);
+    }
+
+    /**
+     * 获取集合元素中某个属性的最小值
+     *
+     * @param collection 集合对象
+     * @param mapper     元素的属性映射器
+     * @param <E>        元素的类型
+     * @return 最小值或{@code null}
+     */
+    public static <E> Integer minInt(Collection<E> collection, ToIntFunction<E> mapper) {
+        if (isEmpty(collection)) {
+            return null;
+        }
+        OptionalInt optionalInt = collection.stream().mapToInt(mapper).min();
+        if (optionalInt.isPresent()) {
+            return optionalInt.getAsInt();
+        }
+        return null;
+    }
+
+    /**
+     * 获取集合元素中某个属性的最小值
+     *
+     * @param collection 集合对象
+     * @param mapper     元素的属性映射器
+     * @param <E>        元素的类型
+     * @return 最小值或{@code null}
+     */
+    public static <E> Long minLong(Collection<E> collection, ToLongFunction<E> mapper) {
+        if (isEmpty(collection)) {
+            return null;
+        }
+        OptionalLong optionalLong = collection.stream().mapToLong(mapper).min();
+        if (optionalLong.isPresent()) {
+            return optionalLong.getAsLong();
+        }
+        return null;
+    }
+
+    /**
+     * 获取集合元素中某个属性的最小值
+     *
+     * @param collection 集合对象
+     * @param mapper     元素的属性映射器
+     * @param <E>        元素的类型
+     * @return 最小值或{@code null}
+     */
+    public static <E> Double minLong(Collection<E> collection, ToDoubleFunction<E> mapper) {
+        if (isEmpty(collection)) {
+            return null;
+        }
+        OptionalDouble optionalDouble = collection.stream().mapToDouble(mapper).min();
+        if (optionalDouble.isPresent()) {
+            return optionalDouble.getAsDouble();
+        }
+        return null;
+    }
+
+    /**
+     * 获取集合元素中某个属性的最小值
+     *
+     * @param collection 集合对象
+     * @param mapper     元素的属性映射器
+     * @param <E>        元素的类型
+     * @return 最小值或{@code null}
+     */
+    public static <E> BigDecimal minBigDecimal(Collection<E> collection, Function<E, BigDecimal> mapper) {
+        if (isEmpty(collection)) {
+            return null;
+        }
+        return collection.stream().map(mapper).min(BigDecimal::compareTo).orElse(null);
+    }
+
+    /**
+     * 获取集合元素中某个属性的最小值
+     *
+     * @param collection 集合对象
+     * @param mapper     元素的属性映射器
+     * @param <E>        元素的类型
+     * @return 最小值或{@code null}
+     */
+    public static <E> LocalDate minLocalDate(Collection<E> collection, Function<E, LocalDate> mapper) {
+        if (isEmpty(collection)) {
+            return null;
+        }
+        return collection.stream().map(mapper).min(LocalDate::compareTo).orElse(null);
+    }
+
+    /**
+     * 获取集合元素中某个属性的最小值
+     *
+     * @param collection 集合对象
+     * @param mapper     元素的属性映射器
+     * @param <E>        元素的类型
+     * @return 最小值或{@code null}
+     */
+    public static <E> LocalTime minLocalTime(Collection<E> collection, Function<E, LocalTime> mapper) {
+        if (isEmpty(collection)) {
+            return null;
+        }
+        return collection.stream().map(mapper).min(LocalTime::compareTo).orElse(null);
+    }
+
+    /**
+     * 获取集合元素中某个属性的最小值
+     *
+     * @param collection 集合对象
+     * @param mapper     元素的属性映射器
+     * @param <E>        元素的类型
+     * @return 最小值或{@code null}
+     */
+    public static <E> LocalDateTime minLocalDateTime(Collection<E> collection, Function<E, LocalDateTime> mapper) {
+        if (isEmpty(collection)) {
+            return null;
+        }
+        return collection.stream().map(mapper).min(LocalDateTime::compareTo).orElse(null);
+    }
+
+    // endregion
+
+    // region 求和
+
+    /**
+     * 获取集合元素中某个属性的值求和
+     *
+     * @param collection 集合对象
+     * @param mapper     元素的属性映射器
+     * @param <E>        元素的类型
+     * @return 求和
+     */
+    public static <E> int sumInt(Collection<E> collection, ToIntFunction<E> mapper) {
+        if (isEmpty(collection)) {
+            return 0;
+        }
+        return collection.stream().mapToInt(mapper).sum();
+    }
+
+    /**
+     * 获取集合元素中某个属性的值求和
+     *
+     * @param collection 集合对象
+     * @param mapper     元素的属性映射器
+     * @param <E>        元素的类型
+     * @return 求和
+     */
+    public static <E> long sumLong(Collection<E> collection, ToLongFunction<E> mapper) {
+        if (isEmpty(collection)) {
+            return 0;
+        }
+        return collection.stream().mapToLong(mapper).sum();
+    }
+
+    /**
+     * 获取集合元素中某个属性的值求和
+     *
+     * @param collection 集合对象
+     * @param mapper     元素的属性映射器
+     * @param <E>        元素的类型
+     * @return 求和
+     */
+    public static <E> double sumDouble(Collection<E> collection, ToDoubleFunction<E> mapper) {
+        if (isEmpty(collection)) {
+            return 0;
+        }
+        return collection.stream().mapToDouble(mapper).sum();
+    }
+
+    /**
+     * 获取集合元素中某个属性的值求和
+     *
+     * @param collection 集合对象
+     * @param mapper     元素的属性映射器
+     * @param <E>        元素的类型
+     * @return 求和
+     */
+    public static <E> BigDecimal sumBigDecimal(Collection<E> collection, Function<E, BigDecimal> mapper) {
+        if (isEmpty(collection)) {
+            return null;
+        }
+        return collection.stream().map(mapper).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     // endregion
