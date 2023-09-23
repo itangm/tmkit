@@ -931,6 +931,16 @@ public class Collections {
     // region 求和
 
     /**
+     * 求和
+     *
+     * @param collection 集合元素
+     * @return 求和的值
+     */
+    public static int sumInt(Collection<Integer> collection) {
+        return sumInt(collection, Integer::intValue);
+    }
+
+    /**
      * 获取集合元素中某个属性的值求和
      *
      * @param collection 集合对象
@@ -946,6 +956,16 @@ public class Collections {
     }
 
     /**
+     * 求和
+     *
+     * @param collection 集合元素
+     * @return 求和的值
+     */
+    public static long sumLong(Collection<Long> collection) {
+        return sumLong(collection, Long::longValue);
+    }
+
+    /**
      * 获取集合元素中某个属性的值求和
      *
      * @param collection 集合对象
@@ -958,6 +978,16 @@ public class Collections {
             return 0;
         }
         return collection.stream().mapToLong(mapper).sum();
+    }
+
+    /**
+     * 求和
+     *
+     * @param collection 集合元素
+     * @return 求和的值
+     */
+    public static double sumDouble(Collection<Double> collection) {
+        return sumDouble(collection, Double::doubleValue);
     }
 
     /**
