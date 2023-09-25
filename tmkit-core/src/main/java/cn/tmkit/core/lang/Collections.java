@@ -527,6 +527,20 @@ public class Collections {
         coll.forEach(action);
     }
 
+    /**
+     * 非空操作
+     *
+     * @param c        集合
+     * @param consumer 非空的操作
+     * @param <E>      元素类型
+     */
+    public static <E> void isNotEmpty(Collection<E> c, Consumer<Collection<E>> consumer) {
+        if (isEmpty(c) || Objects.isNull(consumer)) {
+            return;
+        }
+        consumer.accept(c);
+    }
+
     // endregion
 
 
