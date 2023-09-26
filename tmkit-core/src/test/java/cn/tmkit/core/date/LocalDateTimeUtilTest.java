@@ -2,6 +2,7 @@ package cn.tmkit.core.date;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -159,4 +160,75 @@ public class LocalDateTimeUtilTest {
         ldt = LocalDateTimeUtil.of(2020, 9, 10, 0, 0, 0);
         assertTrue(LocalDateTimeUtil.isLeapYear(ldt));
     }
+
+    @Test
+    public void offsetSecond() {
+        LocalDateTime now = LocalDateTimeUtil.now();
+        LocalDateTime expected = now.plusSeconds(10);
+        assertEquals(expected, LocalDateTimeUtil.offsetSecond(10));
+        expected = now.minusSeconds(10);
+        assertEquals(expected, LocalDateTimeUtil.offsetSecond(-10));
+    }
+
+    @Test
+    public void offsetMinute() {
+        LocalDateTime now = LocalDateTimeUtil.now();
+        LocalDateTime expected = now.plusMinutes(10);
+        assertEquals(expected, LocalDateTimeUtil.offsetMinute(10));
+        expected = now.minusMinutes(10);
+        assertEquals(expected, LocalDateTimeUtil.offsetMinute(-10));
+    }
+
+    @Test
+    public void offsetHour() {
+        LocalDateTime now = LocalDateTimeUtil.now();
+        LocalDateTime expected = now.plusHours(10);
+        assertEquals(expected, LocalDateTimeUtil.offsetHour(10));
+        expected = now.minusHours(10);
+        assertEquals(expected, LocalDateTimeUtil.offsetHour(-10));
+    }
+
+    @Test
+    public void offsetDay() {
+        LocalDateTime now = LocalDateTimeUtil.now();
+        LocalDateTime expected = now.plusDays(10);
+        assertEquals(expected, LocalDateTimeUtil.offsetDay(10));
+        expected = now.minusDays(10);
+        assertEquals(expected, LocalDateTimeUtil.offsetDay(-10));
+    }
+
+    @Test
+    public void offsetMonth() {
+        LocalDateTime now = LocalDateTimeUtil.now();
+        LocalDateTime expected = now.plusMonths(10);
+        assertEquals(expected, LocalDateTimeUtil.offsetMonth(10));
+        expected = now.minusMonths(10);
+        assertEquals(expected, LocalDateTimeUtil.offsetMonth(-10));
+    }
+
+    @Test
+    public void offsetYear() {
+        LocalDateTime now = LocalDateTimeUtil.now();
+        LocalDateTime expected = now.plusYears(10);
+        assertEquals(expected, LocalDateTimeUtil.offsetYear(10));
+        expected = now.minusYears(10);
+        assertEquals(expected, LocalDateTimeUtil.offsetYear(-10));
+    }
+
+    @Test
+    public void offsetWeek() {
+        LocalDateTime now = LocalDateTimeUtil.now();
+        LocalDateTime expected = now.plusWeeks(10);
+        assertEquals(expected, LocalDateTimeUtil.offsetWeek(10));
+        expected = now.minusWeeks(10);
+        assertEquals(expected, LocalDateTimeUtil.offsetWeek(-10));
+    }
+
+    @Test
+    public void offsetDuration() {
+        LocalDateTime now = LocalDateTimeUtil.now();
+        LocalDateTime expected = now.plusDays(10);
+        assertEquals(expected, LocalDateTimeUtil.offsetDuration(Duration.ofDays(10)));
+    }
+
 }

@@ -1260,13 +1260,15 @@ public class LocalDateTimes {
         return endOfYear(date.toLocalDate());
     }
 
+    // region 时间偏移（往前和往后）
+
     /**
      * 对当前时间移动秒数
      *
      * @param seconds 移动秒数，正数向未来移动，负数向历史移动
      * @return 移动后的日期
      */
-    public static LocalDateTime offsetSecond(int seconds) {
+    public static LocalDateTime offsetSecond(long seconds) {
         return offsetSecond(now(), seconds);
     }
 
@@ -1277,7 +1279,7 @@ public class LocalDateTimes {
      * @param seconds 移动秒数，正数向未来移动，负数向历史移动
      * @return 移动后的日期
      */
-    public static LocalDateTime offsetSecond(LocalDateTime date, int seconds) {
+    public static LocalDateTime offsetSecond(LocalDateTime date, long seconds) {
         if (date == null || seconds == 0) {
             return date;
         }
@@ -1290,7 +1292,7 @@ public class LocalDateTimes {
      * @param minutes 移动分钟数，正数向未来移动，负数向历史移动
      * @return 移动后的日期
      */
-    public static LocalDateTime offsetMinute(int minutes) {
+    public static LocalDateTime offsetMinute(long minutes) {
         return offsetMinute(now(), minutes);
     }
 
@@ -1301,7 +1303,7 @@ public class LocalDateTimes {
      * @param minutes 移动分钟数，正数向未来移动，负数向历史移动
      * @return 移动后的日期
      */
-    public static LocalDateTime offsetMinute(LocalDateTime date, int minutes) {
+    public static LocalDateTime offsetMinute(LocalDateTime date, long minutes) {
         if (date == null || minutes == 0) {
             return date;
         }
@@ -1314,7 +1316,7 @@ public class LocalDateTimes {
      * @param hours 移动小时数，正数向未来移动，负数向历史移动
      * @return 移动后的日期
      */
-    public static LocalDateTime offsetHour(int hours) {
+    public static LocalDateTime offsetHour(long hours) {
         return offsetHour(now(), hours);
     }
 
@@ -1325,7 +1327,7 @@ public class LocalDateTimes {
      * @param hours 移动小时数，正数向未来移动，负数向历史移动
      * @return 移动后的日期
      */
-    public static LocalDateTime offsetHour(LocalDateTime date, int hours) {
+    public static LocalDateTime offsetHour(LocalDateTime date, long hours) {
         if (date == null || hours == 0) {
             return date;
         }
@@ -1338,7 +1340,7 @@ public class LocalDateTimes {
      * @param day 移动的天数，正数向未来移动，负数向历史移动
      * @return 移动的日期
      */
-    public static LocalDateTime offsetDay(int day) {
+    public static LocalDateTime offsetDay(long day) {
         return offsetDay(now(), day);
     }
 
@@ -1349,7 +1351,7 @@ public class LocalDateTimes {
      * @param day  移动的天数，正数向未来移动，负数向历史移动
      * @return 移动的日期
      */
-    public static LocalDateTime offsetDay(LocalDateTime date, int day) {
+    public static LocalDateTime offsetDay(LocalDateTime date, long day) {
         if (date == null || day == 0) {
             return date;
         }
@@ -1362,7 +1364,7 @@ public class LocalDateTimes {
      * @param months 移动月份数，正数向未来移动，负数向历史移动
      * @return 移动后的日期
      */
-    public static LocalDateTime offsetMonth(int months) {
+    public static LocalDateTime offsetMonth(long months) {
         return offsetMonth(now(), months);
     }
 
@@ -1373,7 +1375,7 @@ public class LocalDateTimes {
      * @param months 移动月份数，正数向未来移动，负数向历史移动
      * @return 移动后的日期
      */
-    public static LocalDateTime offsetMonth(LocalDateTime date, int months) {
+    public static LocalDateTime offsetMonth(LocalDateTime date, long months) {
         if (date == null || months == 0) {
             return date;
         }
@@ -1386,7 +1388,7 @@ public class LocalDateTimes {
      * @param years 移动年数，正数向未来移动，负数向历史移动
      * @return 移动后的日期
      */
-    public static LocalDateTime offsetYear(int years) {
+    public static LocalDateTime offsetYear(long years) {
         return offsetYear(now(), years);
     }
 
@@ -1397,7 +1399,7 @@ public class LocalDateTimes {
      * @param years 移动年数，正数向未来移动，负数向历史移动
      * @return 移动后的日期
      */
-    public static LocalDateTime offsetYear(LocalDateTime date, int years) {
+    public static LocalDateTime offsetYear(LocalDateTime date, long years) {
         if (date == null || years == 0) {
             return date;
         }
@@ -1410,8 +1412,8 @@ public class LocalDateTimes {
      * @param weeks 移动周数，正数向未来移动，负数向历史移动
      * @return 移动后的日期
      */
-    public static LocalDateTime offsetWeek(int weeks) {
-        return offsetYear(now(), weeks);
+    public static LocalDateTime offsetWeek(long weeks) {
+        return offsetWeek(now(), weeks);
     }
 
     /**
@@ -1421,7 +1423,7 @@ public class LocalDateTimes {
      * @param weeks 移动周数，正数向未来移动，负数向历史移动
      * @return 移动后的日期
      */
-    public static LocalDateTime offsetWeek(LocalDateTime date, int weeks) {
+    public static LocalDateTime offsetWeek(LocalDateTime date, long weeks) {
         if (date == null || weeks == 0) {
             return date;
         }
@@ -1450,5 +1452,7 @@ public class LocalDateTimes {
         }
         return date.plus(duration);
     }
+
+    // endregion
 
 }
