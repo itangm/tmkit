@@ -4,8 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tester for {@linkplain LocalDateTimeUtil}
@@ -125,4 +126,37 @@ public class LocalDateTimeUtilTest {
         assertEquals(expected, ldt);
     }
 
+    @Test
+    public void parseToTime() {
+        String text = null;
+        assertNull(LocalDateTimes.parseToTime(text, (String) null));
+        text = "22:01:10";
+        assertEquals(LocalTime.of(22, 1, 10, 0), LocalDateTimes.parseToTime(text, DefaultCustomFormatter.NORMAL_TIME));
+    }
+
+    @Test
+    public void parseToDate() {
+        String text = null;
+        assertNull(LocalDateTimes.parseToDate(text, (String) null));
+        text = "2023-01-10";
+        assertEquals(LocalDate.of(2023, 1, 10), LocalDateTimes.parseToDate(text, DefaultCustomFormatter.NORMAL_DATE));
+    }
+
+    @Test
+    public void toEpochMilli() {
+        assertEquals((System.currentTimeMillis() / 1000) * 1000L,
+                LocalDateTimes.toEpochMilli(LocalDateTimes.nowWithoutMills()));
+    }
+
+    @Test
+    public void isLeapYear() {
+        LocalDateTime ldt = null;
+        assertFalse(LocalDateTimeUtil.isLeapYear(ldt));
+        ldt = LocalDateTimeUtil.of(2023, 9, 10, 0, 0, 0);
+        assertFalse(LocalDateTimeUtil.isLeapYear(ldt));
+        ldt = LocalDateTimeUtil.of(2022, 9, 10, 0, 0, 0);
+        assertFalse(LocalDateTimeUtil.isLeapYear(ldt));
+        ldt = LocalDateTimeUtil.of(2020, 9, 10, 0, 0, 0);
+        assertTrue(LocalDateTimeUtil.isLeapYear(ldt));
+    }
 }

@@ -32,6 +32,44 @@ public class LocalDateTimes {
 
     // endregion
 
+    // region ============ Create LocalDate ============
+
+    /**
+     * 当前日期，默认时区
+     *
+     * @return {@link LocalDate}
+     */
+    public static LocalDate nowDate() {
+        return LocalDate.now();
+    }
+
+    /**
+     * {@link Date}转{@link LocalDate}，使用默认时区
+     *
+     * @param date Date对象
+     * @return {@link LocalDate}
+     */
+    public static LocalDate ofDate(Date date) {
+        if (date == null) {
+            return null;
+        }
+        return of(date.toInstant()).toLocalDate();
+    }
+
+    /**
+     * 创建{@linkplain LocalDate}
+     *
+     * @param year       年，哪一年
+     * @param month      月，一年的地几个月
+     * @param dayOfMonth 日，一个月的第几天
+     * @return {@link LocalDate}
+     */
+    public static LocalDate ofDate(int year, int month, int dayOfMonth) {
+        return LocalDate.of(year, month, dayOfMonth);
+    }
+
+    // endregion
+
     // region ============ Create LocalDateTime ============
 
     /**
@@ -61,24 +99,6 @@ public class LocalDateTimes {
      */
     public static LocalDateTime nowWithoutMills() {
         return nowRoundingMills();
-    }
-
-    /**
-     * 当前日期，默认时区
-     *
-     * @return {@link LocalDate}
-     */
-    public static LocalDate nowDate() {
-        return LocalDate.now();
-    }
-
-    /**
-     * 当前时间，默认时区
-     *
-     * @return {@link LocalTime}
-     */
-    public static LocalTime nowTime() {
-        return LocalTime.now();
     }
 
     /**
@@ -203,6 +223,34 @@ public class LocalDateTimes {
         }
     }
 
+    /**
+     * 创建{@linkplain LocalDateTime}
+     *
+     * @param year       年，哪一年
+     * @param month      月，一年的地几个月
+     * @param dayOfMonth 日，一个月的第几天
+     * @param hour       小时，一天的几点，24小时制
+     * @param minute     分钟，一小时的第几分钟
+     * @param second     秒，一分钟的第几秒
+     * @return {@linkplain LocalDateTime}
+     */
+    public static LocalDateTime of(int year, int month, int dayOfMonth, int hour, int minute, int second) {
+        return LocalDateTime.of(year, month, dayOfMonth, hour, minute, second, 0);
+    }
+
+    // endregion
+
+    // region ============ Create LocalTime ============
+
+    /**
+     * 当前时间，默认时区
+     *
+     * @return {@link LocalTime}
+     */
+    public static LocalTime nowTime() {
+        return LocalTime.now();
+    }
+
     // endregion
 
     // region ============ Parse ============
@@ -305,15 +353,15 @@ public class LocalDateTimes {
     }
 
     /**
-     * 解析日期时间字符串为{@link LocalDate}，格式支持日期时间、日期、时间
+     * 解析日期时间字符串为{@link LocalDateTime}，格式支持日期时间、日期、时间
      *
-     * @param text      日期时间字符串
-     * @param formatter 日期格式化器，预定义的格式见：{@link DateTimeFormatter}
-     * @return {@link LocalDate}
+     * @param text            日期时间字符串
+     * @param customFormatter 日期格式化器，如果为{@code null}默认为{@linkplain DefaultCustomFormatter#NORMAL_DATETIME_FULL}
+     * @return {@link LocalDateTime}
      */
-    public static LocalDate parseToDate(CharSequence text, DateTimeFormatter formatter) {
-        LocalDateTime ldt = parse(text, formatter);
-        return (null == ldt) ? null : ldt.toLocalDate();
+    public static LocalDateTime parse(CharSequence text, CustomFormatter customFormatter) {
+        CustomFormatter cf = customFormatter == null ? DefaultCustomFormatter.NORMAL_DATETIME_FULL : customFormatter;
+        return parse(text, cf.getFormatter());
     }
 
     /**
@@ -355,14 +403,67 @@ public class LocalDateTimes {
      * @param pattern 日期格式，类似于yyyy-MM-dd
      * @return {@link LocalDate}
      */
-
     public static LocalDate parseToDate(CharSequence text, String pattern) {
         LocalDateTime ldt = parse(text, pattern);
         return (ldt == null) ? null : ldt.toLocalDate();
     }
 
-    // endregion
+    /**
+     * 解析日期时间字符串为{@link LocalDate}，格式支持日期时间、日期、时间
+     *
+     * @param text      日期时间字符串
+     * @param formatter 日期格式化器，预定义的格式见：{@link DateTimeFormatter}
+     * @return {@link LocalDate}
+     */
+    public static LocalDate parseToDate(CharSequence text, DateTimeFormatter formatter) {
+        LocalDateTime ldt = parse(text, formatter);
+        return (null == ldt) ? null : ldt.toLocalDate();
+    }
 
+    /**
+     * 解析日期时间字符串为{@link LocalDate}，格式支持日期时间、日期、时间
+     *
+     * @param text            日期时间字符串
+     * @param customFormatter 日期格式化器，如果为{@code null}默认为{@linkplain DefaultCustomFormatter#NORMAL_DATE}
+     * @return {@link LocalDate}
+     */
+    public static LocalDate parseToDate(CharSequence text, CustomFormatter customFormatter) {
+        CustomFormatter cf = customFormatter == null ? DefaultCustomFormatter.NORMAL_DATE : customFormatter;
+        return parseToDate(text, cf.getFormatter());
+    }
+
+    /**
+     * 解析时间，如果{@code pattern}为空则默认值为{@linkplain DefaultCustomFormatter#NORMAL_TIME}
+     *
+     * @param text    时间字符串
+     * @param pattern 时间格式，类似于<code>HH:mm:ss</code>
+     * @return {@linkplain LocalTime}
+     */
+    public static LocalTime parseToTime(CharSequence text, String pattern) {
+        if (Strings.isBlank(text)) {
+            return null;
+        }
+        DateTimeFormatter dtf = Strings.isBlank(pattern) ? DefaultCustomFormatter.NORMAL_TIME.getFormatter() :
+                CustomFormatterCache.ofPattern(pattern);
+        return LocalTime.parse(text, dtf);
+    }
+
+    /**
+     * 解析时间，如果{@code pattern}为空则默认值为{@linkplain DefaultCustomFormatter#NORMAL_TIME}
+     *
+     * @param text            时间字符串
+     * @param customFormatter 时间格式
+     * @return {@linkplain LocalTime}
+     */
+    public static LocalTime parseToTime(CharSequence text, CustomFormatter customFormatter) {
+        if (Strings.isBlank(text)) {
+            return null;
+        }
+        CustomFormatter cf = (customFormatter == null) ? DefaultCustomFormatter.NORMAL_TIME : customFormatter;
+        return LocalTime.parse(text, cf.getFormatter());
+    }
+
+    // endregion
 
     // region ============ Format ============
 
@@ -620,7 +721,6 @@ public class LocalDateTimes {
         }
         return Date.from(localDateTime.toInstant(Objects.getIfNull(zoneOffset, ZoneIdConstant.DEFAULT_ZONE_OFFSET)));
     }
-
 
     /**
      * 判断是否是闰年，闰年规则：<a href="http://zh.wikipedia.org/wiki/%E9%97%B0%E5%B9%B4">闰年查看</a>
