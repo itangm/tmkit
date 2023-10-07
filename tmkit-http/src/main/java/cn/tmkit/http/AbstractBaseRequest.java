@@ -403,7 +403,7 @@ public abstract class AbstractBaseRequest<Req extends BaseRequest<Req>> implemen
      */
     @Override
     public void file(File saveFile) throws HttpClientException {
-        boolean replace = false;
+//        boolean replace = false;
         Response httpResponse = null;
         try {
             httpResponse = this.execute();
@@ -414,18 +414,21 @@ public abstract class AbstractBaseRequest<Req extends BaseRequest<Req>> implemen
             if (saveFile.isDirectory()) {
                 String filename = contentDisposition(httpResponse.headers());
                 if (Strings.isEmpty(filename)) {
-                    filename = "Chillies-Download";
+                    filename = "Shf4j-Download";
                 }
                 target = new File(saveFile, filename);
             } else {
                 target = saveFile;
             }
-            if (replace) {
-                Files.delete(target);
-            } else {
-                if (target.exists()) {
-                    target = getNewFilename(target, 1);
-                }
+//            if (replace) {
+//                Files.delete(target);
+//            } else {
+//                if (target.exists()) {
+//                    target = getNewFilename(target, 1);
+//                }
+//            }
+            if (target.exists()) {
+                target = getNewFilename(target, 1);
             }
             Files.copy(responseBody.byteStream(), target);
         } finally {
@@ -457,7 +460,18 @@ public abstract class AbstractBaseRequest<Req extends BaseRequest<Req>> implemen
      */
     @Override
     public Response execute() {
-        return HttpClient.client.execute(generateRequest(), optionsBuilder == null ? null : optionsBuilder.build());
+        return execute(HttpClient.DEFAULT_CLIENT_NAME);
+    }
+
+    /**
+     * 同步执行HTTP请求并返回原始响应对象
+     *
+     * @param clientName 客户端名称
+     * @return {@linkplain Response}
+     */
+    @Override
+    public Response execute(String clientName) {
+        return HttpClient.getClient(clientName).execute(generateRequest(), optionsBuilder == null ? null : optionsBuilder.build());
     }
 
     private Options.Builder optionsBuilder() {

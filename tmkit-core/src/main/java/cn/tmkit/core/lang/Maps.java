@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
@@ -35,11 +36,11 @@ public class Maps {
      */
     public static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
-    // region 创建
-
     private static int ensureSize(int expectedSize) {
         return (int) (expectedSize / DEFAULT_LOAD_FACTOR);
     }
+
+    // region 创建空Map
 
     /**
      * 创建一个空的不可变的Map（Map的各种方法基本不能用）
@@ -51,6 +52,10 @@ public class Maps {
     public static <K, V> Map<K, V> emptyMap() {
         return java.util.Collections.emptyMap();
     }
+
+    // endregion
+
+    // region 创建HashMap
 
     /**
      * 创建{@linkplain HashMap}
@@ -127,6 +132,10 @@ public class Maps {
         return hashMap(m);
     }
 
+    // endregion
+
+    // region 创建LinkedHashMap
+
     /**
      * 创建{@linkplain LinkedHashMap}
      *
@@ -166,6 +175,10 @@ public class Maps {
         return r;
     }
 
+    // endregion
+
+    // region 创建TreeMap
+
     /**
      * 新建TreeMap，Key有序的Map
      *
@@ -194,6 +207,10 @@ public class Maps {
     public static <K, V> TreeMap<K, V> treeMap(Comparator<? super K> comparator) {
         return new TreeMap<>(comparator);
     }
+
+    // endregion
+
+    // region 创建IdentityHashMap
 
     /**
      * 新建{@linkplain IdentityHashMap}
@@ -235,6 +252,10 @@ public class Maps {
         return r;
     }
 
+    // endregion
+
+    // region 创建MultiValueMap
+
     /**
      * 创建{@linkplain MultiValueMap}
      *
@@ -257,6 +278,10 @@ public class Maps {
     public static <K, V> MultiValueMap<K, V> multiValueMap(int expectedSize) {
         return new LinkedMultiValueMap<>(ensureSize(expectedSize));
     }
+
+    // endregion
+
+    // region 创建HashMap，并初始值
 
     /**
      * 创建一个单一的Map
@@ -380,6 +405,55 @@ public class Maps {
 
     // endregion
 
+    // region 创建HashMap，并初始值
+
+    /**
+     * 创建{@linkplain ConcurrentHashMap}
+     *
+     * @param <K> 键的类型
+     * @param <V> 值的类型
+     * @return ConcurrentHashMap实例
+     */
+    public static <K, V> ConcurrentHashMap<K, V> concurrentHashMap() {
+        return newConcurrentHashMap();
+    }
+
+    /**
+     * 创建{@linkplain ConcurrentHashMap}
+     *
+     * @param expectedSize 期望的大小
+     * @param <K>          键的类型
+     * @param <V>          值的类型
+     * @return ConcurrentHashMap实例
+     */
+    public static <K, V> ConcurrentHashMap<K, V> concurrentHashMap(int expectedSize) {
+        return newConcurrentHashMap(expectedSize);
+    }
+
+    /**
+     * 创建{@linkplain ConcurrentHashMap}
+     *
+     * @param <K> 键的类型
+     * @param <V> 值的类型
+     * @return ConcurrentHashMap实例
+     */
+    public static <K, V> ConcurrentHashMap<K, V> newConcurrentHashMap() {
+        return new ConcurrentHashMap<>(DEFAULT_INITIAL_CAPACITY);
+    }
+
+    /**
+     * 创建{@linkplain ConcurrentHashMap}
+     *
+     * @param expectedSize 期望的大小
+     * @param <K>          键的类型
+     * @param <V>          值的类型
+     * @return ConcurrentHashMap实例
+     */
+    public static <K, V> ConcurrentHashMap<K, V> newConcurrentHashMap(int expectedSize) {
+        return new ConcurrentHashMap<>(ensureSize(expectedSize));
+    }
+
+    // endregion
 
     // region 是否为空判断
 

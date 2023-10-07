@@ -1,8 +1,11 @@
 package cn.tmkit.http;
 
+import cn.tmkit.core.lang.Maps;
 import cn.tmkit.http.shf4j.Client;
 import cn.tmkit.http.shf4j.Factory;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
 
 /**
  * HttpClient更高级的工具类入口
@@ -13,13 +16,35 @@ import org.jetbrains.annotations.NotNull;
  */
 public class HttpClient {
 
+    protected static final String DEFAULT_CLIENT_NAME = "shf4j-default";
+
     /**
-     * 通用的Client
+     * 缓存的客户端
      */
-    protected static Client client;
+    private static final Map<String, Client> CLIENTS = Maps.concurrentHashMap();
 
     static {
-        client = Factory.get().build(null);
+        CLIENTS.put(DEFAULT_CLIENT_NAME, Factory.get().build(null));
+    }
+
+    /**
+     * 获取自定义的客户端
+     *
+     * @param clientName 客户端名
+     * @return {@linkplain Client}的实现
+     */
+    public static Client getClient(@NotNull String clientName) {
+        return CLIENTS.get(clientName);
+    }
+
+    /**
+     * 配置全局Client
+     *
+     * @param clientName 自定义的名称
+     * @param client     自定义的client
+     */
+    public static void setClient(@NotNull String clientName, @NotNull Client client) {
+        CLIENTS.put(clientName, client);
     }
 
     /**
@@ -141,14 +166,5 @@ public class HttpClient {
 //    public static PutRequest put(@NotNull String urlPattern, Object... args) {
 //        return new PutRequest(Strings.format(urlPattern, args));
 //    }
-
-    /**
-     * 配置全局Client
-     *
-     * @param client 自定义的client
-     */
-    public static void globalClient(@NotNull Client client) {
-        HttpClient.client = client;
-    }
 
 }

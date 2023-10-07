@@ -34,7 +34,7 @@ public interface BaseRequest<Req extends BaseRequest<Req>> {
      * @param value 参数值
      * @return 返回当前类{@linkplain Req}的对象自己
      */
-    Req queryParam(String name,  Number value);
+    Req queryParam(String name, Number value);
 
     /**
      * 为url地址设置请求参数，即url?username=admin&nbsp;pwd=123
@@ -51,7 +51,7 @@ public interface BaseRequest<Req extends BaseRequest<Req>> {
      * @param parameters 参数对
      * @return 返回当前类{@linkplain Req}的对象自己
      */
-    Req queryParam( Map<String, ?> parameters);
+    Req queryParam(Map<String, ?> parameters);
 
     /**
      * 添加请求头信息
@@ -178,6 +178,14 @@ public interface BaseRequest<Req extends BaseRequest<Req>> {
      * @return {@linkplain Response}
      */
     Response execute();
+
+    /**
+     * 同步执行HTTP请求并返回原始响应对象
+     *
+     * @param clientName 客户端名称
+     * @return {@linkplain Response}
+     */
+    Response execute(String clientName);
 
     /**
      * 同步执行并处理响应内容转为字符串
