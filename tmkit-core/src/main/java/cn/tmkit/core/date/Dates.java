@@ -1,6 +1,7 @@
 package cn.tmkit.core.date;
 
 import cn.tmkit.core.exception.DateRuntimeException;
+import cn.tmkit.core.lang.Arrays;
 import cn.tmkit.core.lang.Objects;
 import cn.tmkit.core.lang.*;
 import cn.tmkit.core.lang.regex.ExtraPatternConstant;
@@ -8,6 +9,8 @@ import cn.tmkit.core.lang.regex.PatternPool;
 import cn.tmkit.core.lang.regex.Regexes;
 
 import java.text.ParseException;
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -457,21 +460,94 @@ public class Dates {
     //endregion
 
     /**
-     * 计算两个日期之间的相差天数
+     * 计算两个日期之间的相差分钟数，如果{@code start}、{@code end}任意一个为{@code null}则返回{@code -1}，否则其值为0或正整数
+     *
+     * @param start 开始时间
+     * @param end   结束时间
+     * @return 相差的分钟数
+     */
+    public static int betweenMinutes(Date start, Date end) {
+        return betweenMinutes(start, end, true);
+    }
+
+    /**
+     * 计算两个日期之间的相差分钟数，如果{@code start}、{@code end}任意一个为{@code null}则返回{@code -1}
+     *
+     * @param start 开始时间
+     * @param end   结束时间
+     * @return 相差的分钟数
+     */
+    public static int betweenMinutes(Date start, Date end, boolean isAbsolute) {
+        Duration duration = between(start, end, isAbsolute);
+        return duration == null ? -1 : (int) duration.toMinutes();
+    }
+
+    /**
+     * 计算两个日期之间的相差小时数，如果{@code start}、{@code end}任意一个为{@code null}则返回{@code -1}，否则其值为0或正整数
+     *
+     * @param start 开始时间
+     * @param end   结束时间
+     * @return 相差的小时数
+     */
+    public static int betweenHours(Date start, Date end) {
+        return betweenHours(start, end, true);
+    }
+
+    /**
+     * 计算两个日期之间的相差小时数，如果{@code start}、{@code end}任意一个为{@code null}则返回{@code -1}
+     *
+     * @param start 开始时间
+     * @param end   结束时间
+     * @return 相差的小时数
+     */
+    public static int betweenHours(Date start, Date end, boolean isAbsolute) {
+        Duration duration = between(start, end, isAbsolute);
+        return duration == null ? -1 : (int) duration.toHours();
+    }
+
+    /**
+     * 计算两个日期之间的相差天数，如果{@code start}、{@code end}任意一个为{@code null}则返回{@code -1}，否则其值为0或正整数
      *
      * @param start 开始时间
      * @param end   结束时间
      * @return 相差的天数
      */
     public static int betweenDays(Date start, Date end) {
-        Asserts.notNull(start);
-        Asserts.notNull(end);
-        if (start.after(end)) {
-            Date temp = start;
-            start = end;
-            end = temp;
+        return betweenDays(start, end, true);
+    }
+
+    /**
+     * 计算两个日期之间的相差天数，如果{@code start}、{@code end}任意一个为{@code null}则返回{@code -1}
+     *
+     * @param start 开始时间
+     * @param end   结束时间
+     * @return 相差的天数
+     */
+    public static int betweenDays(Date start, Date end, boolean isAbsolute) {
+        Duration duration = between(start, end, isAbsolute);
+        return duration == null ? -1 : (int) duration.toDays();
+    }
+
+    /**
+     * 计算两个日期之间的相差天数，如果{@code start}、{@code end}任意一个为{@code null}则返回{@code -1}
+     *
+     * @param start 开始时间
+     * @param end   结束时间
+     * @return 相差的天数
+     */
+    private static Duration between(Date start, Date end, boolean isAbsolute) {
+        if (Arrays.isAnyNull(start, end)) {
+            return null;
         }
-        return Temporals.betweenDays(start.toInstant(), end.toInstant());
+        Instant begin, finish;
+        if (isAbsolute && start.after(end)) {
+            begin = end.toInstant();
+            finish = start.toInstant();
+        } else {
+            begin = start.toInstant();
+            finish = end.toInstant();
+        }
+        return LocalDateTimes.between(begin, finish);
     }
 
     /**

@@ -21,6 +21,7 @@ import java.util.TimeZone;
  * @version 0.0.1
  * @date 2023-02-27
  */
+@SuppressWarnings("ConstantConditions")
 public class LocalDateTimes {
 
     // region Date And Time Constant
@@ -752,35 +753,70 @@ public class LocalDateTimes {
     }
 
     /**
-     * 获取两个日期的差，如果结束时间早于开始时间，获取结果为负。
+     * 获取两个日期的差，其结果值永远为正整数或0
      * 返回结果为{@link Duration}对象，通过调用toXXX方法返回相差单位
      *
-     * @param startTimeInclude 开始时间（包含）
-     * @param endTimeExclude   结束时间（不包含）
+     * @param start 开始时间（包含）
+     * @param end   结束时间（不包含）
      * @return 时间差 {@link Duration}对象
      */
-    public static Duration between(LocalDateTime startTimeInclude, LocalDateTime endTimeExclude) {
-        return Temporals.between(startTimeInclude, endTimeExclude);
+    public static Duration between(LocalDateTime start, LocalDateTime end) {
+        return between(start, end, true);
     }
 
     /**
-     * 返回两者之间相差的毫秒数，如果{@code start}小于{@code end}负数
-     * 如果{@code  start}或{@code  end}为{@code null}则返回{@code -1}
+     * 获取两个日期的差
+     * 返回结果为{@link Duration}对象，通过调用toXXX方法返回相差单位
+     *
+     * @param start      开始时间（包含）
+     * @param end        结束时间（不包含）
+     * @param isAbsolute 结果值是否为正数
+     * @return 时间差 {@link Duration}对象
+     */
+    public static Duration between(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
+        if (Arrays.isAnyNull(start, end)) {
+            return null;
+        }
+        LocalDateTime begin = start, fin = end;
+        if (isAbsolute && begin.isAfter(fin)) {
+            begin = end;
+            fin = start;
+        }
+
+        return Duration.between(begin, fin);
+    }
+
+    /**
+     * 返回两者之间相差的毫秒数
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}，否则其值为0或正整数
      *
      * @param start 开始时间（包含）
      * @param end   结束时间（不包含）
      * @return 两者之间相差的毫秒数
      */
     public static long betweenMills(LocalDateTime start, LocalDateTime end) {
-        if (Objects.isAnyNull(start, end)) {
-            return -1;
-        }
-        return between(start, end).toMillis();
+        return betweenMills(start, end, true);
     }
 
     /**
-     * 返回两者之间相差的秒数，如果{@code start}小于{@code end}负数
-     * 如果{@code  start}或{@code  end}为{@code null}则返回{@code -1}
+     * 返回两者之间相差的毫秒数，如果{@code start}小于{@code end}负数
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}
+     *
+     * @param start      开始时间（包含）
+     * @param end        结束时间（不包含）
+     * @param isAbsolute 结果值是否为正数
+     * @return 两者之间相差的毫秒数
+     */
+    public static long betweenMills(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
+        if (Objects.isAnyNull(start, end)) {
+            return -1;
+        }
+        return between(start, end, isAbsolute).toMillis();
+    }
+
+    /**
+     * 返回两者之间相差的秒数
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}，否则其值为0或正整数
      *
      * @param start 开始时间（包含）
      * @param end   结束时间（不包含）
@@ -794,8 +830,24 @@ public class LocalDateTimes {
     }
 
     /**
+     * 返回两者之间相差的秒数，如果{@code start}小于{@code end}负数
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}
+     *
+     * @param start      开始时间（包含）
+     * @param end        结束时间（不包含）
+     * @param isAbsolute 结果值是否为正数
+     * @return 两者之间相差的秒数
+     */
+    public static long betweenSeconds(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
+        if (Objects.isAnyNull(start, end)) {
+            return -1;
+        }
+        return between(start, end, isAbsolute).getSeconds();
+    }
+
+    /**
      * 返回两者之间相差的分钟数，如果{@code start}小于{@code end}负数
-     * 如果{@code  start}或{@code  end}为{@code null}则返回{@code -1}
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}
      *
      * @param start 开始时间（包含）
      * @param end   结束时间（不包含）
@@ -809,8 +861,24 @@ public class LocalDateTimes {
     }
 
     /**
+     * 返回两者之间相差的分钟数
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}，否则其值为0或正整数
+     *
+     * @param start      开始时间（包含）
+     * @param end        结束时间（不包含）
+     * @param isAbsolute 结果值是否为正数
+     * @return 两者之间相差的分钟数
+     */
+    public static long betweenMinutes(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
+        if (Objects.isAnyNull(start, end)) {
+            return -1;
+        }
+        return between(start, end, isAbsolute).toMinutes();
+    }
+
+    /**
      * 返回两者之间相差的小时数，如果{@code start}小于{@code end}负数
-     * 如果{@code  start}或{@code  end}为{@code null}则返回{@code -1}
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}
      *
      * @param start 开始时间（包含）
      * @param end   结束时间（不包含）
@@ -824,8 +892,24 @@ public class LocalDateTimes {
     }
 
     /**
+     * 返回两者之间相差的小时数
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}，否则其值为0或正整数
+     *
+     * @param start      开始时间（包含）
+     * @param end        结束时间（不包含）
+     * @param isAbsolute 结果值是否为正数
+     * @return 两者之间相差的小时数
+     */
+    public static long betweenHours(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
+        if (Objects.isAnyNull(start, end)) {
+            return -1;
+        }
+        return between(start, end, isAbsolute).toHours();
+    }
+
+    /**
      * 返回两者之间相差的天数，如果{@code start}小于{@code end}负数
-     * 如果{@code  start}或{@code  end}为{@code null}则返回{@code -1}
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}
      *
      * @param start 开始时间（包含）
      * @param end   结束时间（不包含）
@@ -836,6 +920,64 @@ public class LocalDateTimes {
             return -1;
         }
         return between(start, end).toDays();
+    }
+
+    /**
+     * 返回两者之间相差的天数
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}，否则其值为0或正整数
+     *
+     * @param start      开始时间（包含）
+     * @param end        结束时间（不包含）
+     * @param isAbsolute 结果值是否为正数
+     * @return 两者之间相差的天数
+     */
+    public static long betweenDays(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
+        if (Objects.isAnyNull(start, end)) {
+            return -1;
+        }
+        return between(start, end, isAbsolute).toDays();
+    }
+
+    /**
+     * 计算两个日期之间的相差
+     *
+     * @param start 开始时间
+     * @param end   结束时间
+     * @return 相差的天数
+     */
+    public static Duration between(Temporal start, Temporal end) {
+        if (Arrays.isAnyNull(start, end)) {
+            return null;
+        }
+        return Duration.between(start, end);
+    }
+
+    /**
+     * 计算两个日期之间的相差小时数
+     *
+     * @param start 开始时间
+     * @param end   结束时间
+     * @return 相差的天数
+     */
+    public static long betweenHours(Temporal start, Temporal end) {
+        if (Arrays.isAnyNull(start, end)) {
+            return -1;
+        }
+        return ChronoUnit.HOURS.between(start, end);
+    }
+
+    /**
+     * 计算两个日期之间的相差天数
+     *
+     * @param start 开始时间
+     * @param end   结束时间
+     * @return 相差的天数
+     */
+    public static long betweenDays(Temporal start, Temporal end) {
+        if (Arrays.isAnyNull(start, end)) {
+            return -1;
+        }
+        return ChronoUnit.DAYS.between(start, end);
     }
 
     /**
