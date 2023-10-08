@@ -52,7 +52,7 @@ public class HttpClient {
      *
      * @param client 自定义的client
      */
-    public static void setDefaultClient(@NotNull Client client) {
+    public static void globalClient(@NotNull Client client) {
         setClient(DEFAULT_CLIENT_NAME, client);
     }
 
