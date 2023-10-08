@@ -33,16 +33,39 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unchecked")
 public abstract class AbstractBaseRequest<Req extends BaseRequest<Req>> implements BaseRequest<Req> {
 
+    /**
+     * 请求客户端名
+     */
+    protected String clientName;
+
+    /**
+     * 请求方式
+     */
     protected HttpMethod method;
 
+    /**
+     * 请求地址
+     */
     protected String url;
 
+    /**
+     * 请求参数
+     */
     protected Map<String, String> queryParams;
 
+    /**
+     * HTTP请求头
+     */
     protected HttpHeaders headers;
 
+    /**
+     * 选项配置
+     */
     protected Options.Builder optionsBuilder;
 
+    /**
+     * 解析HTTP状态码
+     */
     private boolean decodeStatusCodeAll = true;
 
     private static final List<HttpStatus> DECODE_ALL_STATUS_CODES = Collections.arrayList(HttpStatus.values());
@@ -460,17 +483,6 @@ public abstract class AbstractBaseRequest<Req extends BaseRequest<Req>> implemen
      */
     @Override
     public Response execute() {
-        return execute(HttpClient.DEFAULT_CLIENT_NAME);
-    }
-
-    /**
-     * 同步执行HTTP请求并返回原始响应对象
-     *
-     * @param clientName 客户端名称
-     * @return {@linkplain Response}
-     */
-    @Override
-    public Response execute(String clientName) {
         return HttpClient.getClient(clientName).execute(generateRequest(), optionsBuilder == null ? null : optionsBuilder.build());
     }
 

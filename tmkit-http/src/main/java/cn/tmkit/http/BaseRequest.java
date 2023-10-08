@@ -180,14 +180,6 @@ public interface BaseRequest<Req extends BaseRequest<Req>> {
     Response execute();
 
     /**
-     * 同步执行HTTP请求并返回原始响应对象
-     *
-     * @param clientName 客户端名称
-     * @return {@linkplain Response}
-     */
-    Response execute(String clientName);
-
-    /**
      * 同步执行并处理响应内容转为字符串
      *
      * @return 响应结果字符串

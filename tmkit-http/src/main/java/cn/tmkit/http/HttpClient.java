@@ -38,13 +38,22 @@ public class HttpClient {
     }
 
     /**
-     * 配置全局Client
+     * 配置自定义Client
      *
      * @param clientName 自定义的名称
      * @param client     自定义的client
      */
     public static void setClient(@NotNull String clientName, @NotNull Client client) {
         CLIENTS.put(clientName, client);
+    }
+
+    /**
+     * 配置全局Client
+     *
+     * @param client 自定义的client
+     */
+    public static void setDefaultClient(@NotNull Client client) {
+        setClient(DEFAULT_CLIENT_NAME, client);
     }
 
     /**
@@ -55,6 +64,17 @@ public class HttpClient {
      */
     public static GetRequest get(@NotNull String url) {
         return new GetRequest(url);
+    }
+
+    /**
+     * Get请求
+     *
+     * @param url        请求地址
+     * @param clientName 自定义的client
+     * @return {@link GetRequest}
+     */
+    public static GetRequest get(@NotNull String url, @NotNull String clientName) {
+        return new GetRequest(url, clientName);
     }
 
 //    /**
@@ -73,8 +93,19 @@ public class HttpClient {
      * @param url 提交地址
      * @return {@link PostRequest}
      */
-    public static PostRequest post(String url) {
+    public static PostRequest post(@NotNull String url) {
         return new PostRequest(url);
+    }
+
+    /**
+     * FORM/POST表单提交
+     *
+     * @param url        提交地址
+     * @param clientName 自定义的client
+     * @return {@link PostRequest}
+     */
+    public static PostRequest post(@NotNull String url, @NotNull String clientName) {
+        return new PostRequest(url, clientName);
     }
 
 //    /**
@@ -97,6 +128,17 @@ public class HttpClient {
         return new DeleteRequest(url);
     }
 
+    /**
+     * DELETE 请求
+     *
+     * @param url        请求地址
+     * @param clientName 自定义的client
+     * @return {@linkplain DeleteRequest}
+     */
+    public static DeleteRequest delete(@NotNull String url, @NotNull String clientName) {
+        return new DeleteRequest(url, clientName);
+    }
+
 //    /**
 //     * DELETE 请求
 //     *
@@ -116,6 +158,18 @@ public class HttpClient {
     public static HeadRequest head(@NotNull String url) {
         return new HeadRequest(url);
     }
+
+    /**
+     * HEAD 请求
+     *
+     * @param url        请求地址
+     * @param clientName 自定义的client
+     * @return {@linkplain HeadRequest}
+     */
+    public static HeadRequest head(@NotNull String url, @NotNull String clientName) {
+        return new HeadRequest(url, clientName);
+    }
+
 //
 //    /**
 //     * HEAD 请求
@@ -137,6 +191,17 @@ public class HttpClient {
         return new PatchRequest(url);
     }
 
+    /**
+     * PATCH 请求
+     *
+     * @param url        请求地址
+     * @param clientName 自定义的client
+     * @return {@linkplain PatchRequest}
+     */
+    public static PatchRequest patch(@NotNull String url, @NotNull String clientName) {
+        return new PatchRequest(url, clientName);
+    }
+
 //    /**
 //     * PATCH 请求
 //     *
@@ -155,6 +220,17 @@ public class HttpClient {
      */
     public static PutRequest put(@NotNull String url) {
         return new PutRequest(url);
+    }
+
+    /**
+     * PUT 请求
+     *
+     * @param url        请求地址
+     * @param clientName 自定义的client
+     * @return {@linkplain PutRequest}
+     */
+    public static PutRequest put(@NotNull String url, @NotNull String clientName) {
+        return new PutRequest(url, clientName);
     }
 
 //    /**

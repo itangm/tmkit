@@ -12,8 +12,13 @@ import cn.tmkit.http.shf4j.HttpMethod;
 public class PatchRequest extends BaseBodyRequest<PatchRequest> {
 
     public PatchRequest(String url) {
+        this(url, HttpClient.DEFAULT_CLIENT_NAME);
+    }
+
+    public PatchRequest(String url, String clientName) {
         this.url = url;
         this.method = HttpMethod.PATCH;
+        this.clientName = clientName;
     }
 
 }

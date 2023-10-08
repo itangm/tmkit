@@ -12,8 +12,13 @@ import cn.tmkit.http.shf4j.HttpMethod;
 public class PostRequest extends BaseBodyRequest<PostRequest> {
 
     public PostRequest(String url) {
+        this(url, HttpClient.DEFAULT_CLIENT_NAME);
+    }
+
+    public PostRequest(String url, String clientName) {
         this.url = url;
         this.method = HttpMethod.POST;
+        this.clientName = clientName;
     }
 
 }

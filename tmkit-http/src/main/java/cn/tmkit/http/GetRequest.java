@@ -12,8 +12,13 @@ import cn.tmkit.http.shf4j.HttpMethod;
 public class GetRequest extends AbstractBaseRequest<GetRequest> {
 
     public GetRequest(String url) {
+        this(url, HttpClient.DEFAULT_CLIENT_NAME);
+    }
+
+    public GetRequest(String url, String clientName) {
         this.url = url;
         this.method = HttpMethod.GET;
+        this.clientName = clientName;
     }
 
 }

@@ -12,8 +12,13 @@ import cn.tmkit.http.shf4j.HttpMethod;
 public class HeadRequest extends AbstractBaseRequest<HeadRequest> {
 
     public HeadRequest(String url) {
+        this(url, HttpClient.DEFAULT_CLIENT_NAME);
+    }
+
+    public HeadRequest(String url, String clientName) {
         this.url = url;
         this.method = HttpMethod.HEAD;
+        this.clientName = clientName;
     }
 
 }
