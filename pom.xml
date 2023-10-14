@@ -27,6 +27,8 @@
         <module>shf4j-httpclient</module>
         <module>tmkit-servlet3</module>
         <module>tmkit-http</module>
+        <module>tmkit-map</module>
+        <module>tmkit-all</module>
         <module>test-apiserver</module>
     </modules>
 
@@ -244,10 +246,14 @@
                 <artifactId>tmkit-http</artifactId>
                 <version>${tmkit.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>cn.tmkit</groupId>
                 <artifactId>tmkit-servlet3</artifactId>
+                <version>${tmkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.tmkit.biz</groupId>
+                <artifactId>tmkit-map</artifactId>
                 <version>${tmkit.version}</version>
             </dependency>
 
