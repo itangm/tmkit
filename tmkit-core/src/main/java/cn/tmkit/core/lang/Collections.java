@@ -942,6 +942,7 @@ public class Collections {
 
     // endregion
 
+
     // region 求和
 
     /**
@@ -1034,6 +1035,76 @@ public class Collections {
         return collection.stream().map(mapper).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    // endregion
+
+
+    // region 集合分片
+
+    /**
+     * 集合分片，根据入参{@code size}指定分片大小。
+     * <p>简单来讲就是将一个大集合分为N个小集合，每个小集合的元素个数为{@code size}（最后一个集合的元素个数可能小于{@code size}）</p>
+     * <p>适用于批量插入，防止因为集合过大造成内存溢出等场景</p>
+     *
+     * @param coll 源集合
+     * @param size 小集合的元素数量
+     * @param <T>  元素类型
+     * @return 分片列表
+     */
+    public static <T> List<List<T>> partition(Collection<T> coll, int size) {
+        if (isEmpty(coll)) {
+            return emptyList();
+        }
+        return new Partition<>(coll, size);
+    }
+
+    /**
+     * 集合分片，根据入参{@code size}指定分片大小。
+     * <p>简单来讲就是将一个大集合分为N个小集合，每个小集合的元素个数为{@code size}（最后一个集合的元素个数可能小于{@code size}）</p>
+     * <p>适用于批量插入，防止因为集合过大造成内存溢出等场景</p>
+     *
+     * @param coll 源集合
+     * @param size 小集合的元素数量
+     * @param <T>  元素类型
+     * @return 分片列表
+     */
+    public static <T> List<List<T>> split(Collection<T> coll, int size) {
+        return partition(coll, size);
+    }
+
+    private static class Partition<T> extends AbstractList<List<T>> {
+
+        private final List<T> list;
+        private final int size;
+
+        private Partition(Collection<T> coll, int size) {
+            this.list = newArrayList(coll);
+            this.size = Math.min(size, list.size());
+        }
+
+        private Partition(List<T> coll, int size) {
+            this.list = newArrayList(coll);
+            this.size = Math.min(size, list.size());
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @param index
+         * @throws IndexOutOfBoundsException {@inheritDoc}
+         */
+        @Override
+        public List<T> get(int index) {
+            int start = index * size;
+            int end = Math.min(start + size, list.size());
+            return list.subList(start, end);
+        }
+
+        @Override
+        public int size() {
+            return (int) Math.ceil((double) list.size() / (double) size);
+        }
+
+    }
     // endregion
 
 }
