@@ -17,6 +17,21 @@ import java.math.BigDecimal;
 public class BigDecimals {
 
     /**
+     * 10
+     */
+    public static final BigDecimal TEN = BigDecimal.TEN;
+
+    /**
+     * 100
+     */
+    public static final BigDecimal ONE_HUNDRED = new BigDecimal(100);
+
+    /**
+     * 1000
+     */
+    public static final BigDecimal ONE_THOUSAND = new BigDecimal(1000);
+
+    /**
      * 多个数相加，保留2位小数，超出部分四舍五入
      *
      * @param a       第一个数

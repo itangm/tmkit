@@ -37,7 +37,7 @@ public class Numbers {
     /**
      * 1000
      */
-    public static final int ONE_THOUSAND = 100;
+    public static final int ONE_THOUSAND = 1000;
 
     /**
      * 将科学计数法转为字符串
