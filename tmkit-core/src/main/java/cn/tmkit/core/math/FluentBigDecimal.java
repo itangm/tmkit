@@ -36,10 +36,21 @@ public class FluentBigDecimal extends Number implements Serializable, Comparable
      */
     private final @NotNull FluentConfig fluentConfig;
 
+    /**
+     * 默认是按照金额形式，即保留两位小数，并且是四舍五入
+     *
+     * @param value 值
+     */
     FluentBigDecimal(@NotNull BigDecimal value) {
-        this(value, FluentConfig.DEFAULT);
+        this(value, FluentConfig.MONEY);
     }
 
+    /**
+     * 默认是按照金额形式，即保留两位小数，并且是四舍五入
+     *
+     * @param value        值
+     * @param fluentConfig 配置
+     */
     FluentBigDecimal(@NotNull BigDecimal value, @NotNull FluentConfig fluentConfig) {
         this.value = value;
         this.fluentConfig = fluentConfig;
