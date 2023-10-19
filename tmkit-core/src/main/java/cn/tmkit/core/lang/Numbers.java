@@ -25,6 +25,21 @@ public class Numbers {
     private static final BigInteger LONG_MAX = BigInteger.valueOf(Long.MAX_VALUE);
 
     /**
+     * 10
+     */
+    public static final int TEN = 10;
+
+    /**
+     * 100
+     */
+    public static final int ONE_HUNDRED = 100;
+
+    /**
+     * 1000
+     */
+    public static final int ONE_THOUSAND = 100;
+
+    /**
      * 将科学计数法转为字符串
      *
      * @param val 以科学计数法形式的数字
