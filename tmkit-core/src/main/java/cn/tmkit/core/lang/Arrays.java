@@ -1451,6 +1451,166 @@ public class Arrays {
     // endregion
 
 
+    // region 获取数组的元素
+
+    /**
+     * 获取数组对象中指定{@code index}的值，支持负数，例如-1表示倒数第一个值。
+     *
+     * @param <T>   数组元素类型
+     * @param array 数组对象
+     * @param index 下标，支持负数
+     * @return 值
+     * @throws ArrayIndexOutOfBoundsException 如果{@code index}不合法
+     */
+    public static <T> T get(T[] array, int index) throws ArrayIndexOutOfBoundsException {
+        if (isEmpty(array)) {
+            return null;
+        }
+        if (index < 0) {
+            index += array.length;
+        }
+        if (index >= array.length) {
+            throw new ArrayIndexOutOfBoundsException(index);
+        }
+        return array[index];
+    }
+
+    /**
+     * 获取数组对象中指定{@code index}的值，支持负数，例如-1表示倒数第一个值。
+     *
+     * @param array 数组对象
+     * @param index 下标，支持负数
+     * @return 值
+     * @throws ArrayIndexOutOfBoundsException 如果{@code index}不合法
+     */
+    public static byte get(byte[] array, int index) throws ArrayIndexOutOfBoundsException {
+        Asserts.notNull(array, "array can't be null!");
+        if (index < 0) {
+            index += array.length;
+        }
+        if (index >= array.length) {
+            throw new ArrayIndexOutOfBoundsException(index);
+        }
+        return array[index];
+    }
+
+    /**
+     * 获取数组对象中指定{@code index}的值，支持负数，例如-1表示倒数第一个值。
+     *
+     * @param array 数组对象
+     * @param index 下标，支持负数
+     * @return 值
+     * @throws ArrayIndexOutOfBoundsException 如果{@code index}不合法
+     */
+    public static short get(short[] array, int index) throws ArrayIndexOutOfBoundsException {
+        Asserts.notNull(array, "array can't be null!");
+        if (index < 0) {
+            index += array.length;
+        }
+        if (index >= array.length) {
+            throw new ArrayIndexOutOfBoundsException(index);
+        }
+        return array[index];
+    }
+
+    /**
+     * 获取数组对象中指定{@code index}的值，支持负数，例如-1表示倒数第一个值。
+     *
+     * @param array 数组对象
+     * @param index 下标，支持负数
+     * @return 值
+     * @throws ArrayIndexOutOfBoundsException 如果{@code index}不合法
+     */
+    public static int get(int[] array, int index) throws ArrayIndexOutOfBoundsException {
+        Asserts.notNull(array, "array can't be null!");
+        if (index < 0) {
+            index += array.length;
+        }
+        if (index >= array.length) {
+            throw new ArrayIndexOutOfBoundsException(index);
+        }
+        return array[index];
+    }
+
+    /**
+     * 获取数组对象中指定{@code index}的值，支持负数，例如-1表示倒数第一个值。
+     *
+     * @param array 数组对象
+     * @param index 下标，支持负数
+     * @return 值
+     * @throws ArrayIndexOutOfBoundsException 如果{@code index}不合法
+     */
+    public static long get(long[] array, int index) throws ArrayIndexOutOfBoundsException {
+        Asserts.notNull(array, "array can't be null!");
+        if (index < 0) {
+            index += array.length;
+        }
+        if (index >= array.length) {
+            throw new ArrayIndexOutOfBoundsException(index);
+        }
+        return array[index];
+    }
+
+    /**
+     * 获取数组对象中指定{@code index}的值，支持负数，例如-1表示倒数第一个值。
+     *
+     * @param array 数组对象
+     * @param index 下标，支持负数
+     * @return 值
+     * @throws ArrayIndexOutOfBoundsException 如果{@code index}不合法
+     */
+    public static float get(float[] array, int index) throws ArrayIndexOutOfBoundsException {
+        Asserts.notNull(array, "array can't be null!");
+        if (index < 0) {
+            index += array.length;
+        }
+        if (index >= array.length) {
+            throw new ArrayIndexOutOfBoundsException(index);
+        }
+        return array[index];
+    }
+
+    /**
+     * 获取数组对象中指定{@code index}的值，支持负数，例如-1表示倒数第一个值。
+     *
+     * @param array 数组对象
+     * @param index 下标，支持负数
+     * @return 值
+     * @throws ArrayIndexOutOfBoundsException 如果{@code index}不合法
+     */
+    public static double get(double[] array, int index) throws ArrayIndexOutOfBoundsException {
+        Asserts.notNull(array, "array can't be null!");
+        if (index < 0) {
+            index += array.length;
+        }
+        if (index >= array.length) {
+            throw new ArrayIndexOutOfBoundsException(index);
+        }
+        return array[index];
+    }
+
+    /**
+     * 获取数组对象中指定{@code index}的值，支持负数，例如-1表示倒数第一个值。
+     *
+     * @param array 数组对象
+     * @param index 下标，支持负数
+     * @return 值
+     * @throws ArrayIndexOutOfBoundsException 如果{@code index}不合法
+     */
+    public static char get(char[] array, int index) throws ArrayIndexOutOfBoundsException {
+        Asserts.notNull(array, "array can't be null!");
+        if (index < 0) {
+            index += array.length;
+        }
+        if (index >= array.length) {
+            throw new ArrayIndexOutOfBoundsException(index);
+        }
+        return array[index];
+    }
+
+    // endregion
+
+
     // region General
 
     /**

@@ -300,7 +300,7 @@ public class ArrayUtilTest {
 
     @Test
     public void toPrimitive() {
-        Character[] array= new Character[0];
+        Character[] array = new Character[0];
         assertSame(ArrayUtil.EMPTY_CHAR_ARRAY, ArrayUtil.toPrimitive(array));
         assertThrows(NullPointerException.class, () -> {
             Character[] values = new Character[]{49, null};
@@ -400,7 +400,7 @@ public class ArrayUtilTest {
 
     @Test
     public void testToPrimitive8() {
-        Byte[] array  = new Byte[0];
+        Byte[] array = new Byte[0];
         assertSame(ArrayUtil.EMPTY_BYTE_ARRAY, ArrayUtil.toPrimitive(array, (byte) 0));
         array = new Byte[]{49, null};
         assertArrayEquals(new byte[]{49, 0}, ArrayUtil.toPrimitive(array, (byte) 0));
@@ -410,7 +410,7 @@ public class ArrayUtilTest {
 
     @Test
     public void testToPrimitive9() {
-        Double[] array  = new Double[0];
+        Double[] array = new Double[0];
         assertSame(ArrayUtil.EMPTY_DOUBLE_ARRAY, ArrayUtil.toPrimitive(array));
         assertThrows(NullPointerException.class, () -> {
             Double[] values = new Double[]{49D, null};
@@ -466,7 +466,7 @@ public class ArrayUtilTest {
 
     @Test
     public void testToPrimitive14() {
-        Boolean[] array= new Boolean[0];
+        Boolean[] array = new Boolean[0];
         assertSame(ArrayUtil.EMPTY_BOOLEAN_ARRAY, ArrayUtil.toPrimitive(array, false));
         array = new Boolean[]{true, null};
         assertArrayEquals(new boolean[]{true, false}, ArrayUtil.toPrimitive(array, false));
@@ -532,7 +532,7 @@ public class ArrayUtilTest {
 
     @Test
     public void testToObject6() {
-        boolean[] array= new boolean[0];
+        boolean[] array = new boolean[0];
         assertSame(ArrayUtil.EMPTY_BOOLEAN_OBJECT_ARRAY, ArrayUtil.toObject(array));
         array = new boolean[]{true, false};
         assertArrayEquals(new Boolean[]{true, false}, ArrayUtil.toObject(array));
@@ -740,6 +740,13 @@ public class ArrayUtilTest {
     public void testMax5() {
         float[] array = new float[]{1, 2, 5.5F, 0.5F, 0.4F};
         assertEquals(ArrayUtil.max(array), 5.5F);
+    }
+
+    @Test
+    public void testGet() {
+        long[] array = new long[]{3, 4, 1, 2, 9};
+        assertEquals(4, ArrayUtil.get(array, 1));
+        assertEquals(9, ArrayUtil.get(array, -1));
     }
 
 }

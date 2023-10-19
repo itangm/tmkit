@@ -83,6 +83,13 @@
             <artifactId>shf4j-httpclient</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.ifeilong</groupId>
+            <artifactId>feilong</artifactId>
+            <version>4.0.1</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 </project>
