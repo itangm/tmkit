@@ -115,6 +115,217 @@ public class Numbers {
         return isNumeric(str);
     }
 
+    // region 向右取整的最小值
+
+    /**
+     * 向上取整，也可以立即为向右取整
+     *
+     * @param val 数值
+     * @return 向右取最小值
+     * @see Math#ceil(double)
+     */
+    public static double ceil(double val) {
+        return Math.ceil(val);
+    }
+
+    /**
+     * 向上取整，也可以立即为向右取整
+     *
+     * @param val 数值
+     * @return 向右取最小值
+     */
+    public static int ceilToInt(double val) {
+        return (int) ceil(val);
+    }
+
+    /**
+     * 向上取整，也可以立即为向右取整
+     *
+     * @param val 数值
+     * @return 向右取最小值
+     */
+    public static long ceilToLong(double val) {
+        return (long) ceil(val);
+    }
+
+    /**
+     * 向上取整，也可以立即为向右取整
+     *
+     * @param x 被除数
+     * @param y 除数
+     * @return 向右取最小值
+     */
+    public static int ceilDiv(int x, int y) {
+        return ceilToInt((double) x / y);
+    }
+
+    /**
+     * 向上取整，也可以立即为向右取整
+     *
+     * @param x 被除数
+     * @param y 除数
+     * @return 向右取最小值
+     */
+    public static long ceilDiv(long x, long y) {
+        return ceilToLong((double) x / y);
+    }
+
+    /**
+     * 向上取整，也可以立即为向右取整
+     *
+     * @param x 被除数
+     * @param y 除数
+     * @return 向右取最小值
+     */
+    public static double ceilDiv(double x, double y) {
+        return ceil(x / y);
+    }
+
+    /**
+     * 向上取整，也可以立即为向右取整
+     *
+     * @param x 被除数
+     * @param y 除数
+     * @return 向右取最小值
+     */
+    public static int ceilDivToInt(double x, double y) {
+        return ceilToInt(x / y);
+    }
+
+    /**
+     * 向上取整，也可以立即为向右取整
+     *
+     * @param x 被除数
+     * @param y 除数
+     * @return 向右取最小值
+     */
+    public static long ceilDivToLong(double x, double y) {
+        return ceilToLong(x / y);
+    }
+
+    // endregion
+
+
+    // region 向左取整的最大值
+
+    /**
+     * 向下取整，也可以立即为向左取整
+     *
+     * @param val 数值
+     * @return 向左取最大值
+     * @see Math#floor(double)
+     */
+    public static double floor(double val) {
+        return Math.floor(val);
+    }
+
+    /**
+     * 向下取整，也可以立即为向左取整
+     *
+     * @param val 数值
+     * @return 向左取最大值
+     */
+    public static int floorToInt(double val) {
+        return (int) floor(val);
+    }
+
+    /**
+     * 向下取整，也可以立即为向左取整
+     *
+     * @param val 数值
+     * @return 向左取最大值
+     */
+    public static long floorToLong(double val) {
+        return (long) floor(val);
+    }
+
+    /**
+     * 将两个数的商向下取整
+     *
+     * @param x 被除数
+     * @param y 除数
+     * @return 商的结果向下取整
+     * @see Math#floorDiv(int, int)
+     */
+    public static int floorDiv(int x, int y) {
+        return Math.floorDiv(x, y);
+    }
+
+    /**
+     * 将两个数的商向下取整
+     *
+     * @param x 被除数
+     * @param y 除数
+     * @return 商的结果向下取整
+     * @see Math#floorDiv(long, long)
+     */
+    public static long floorDiv(long x, long y) {
+        return Math.floorDiv(x, y);
+    }
+
+    /**
+     * 将两个数的商向下取整
+     *
+     * @param x 被除数
+     * @param y 除数
+     * @return 商的结果向下取整
+     */
+    public static double floorDiv(double x, double y) {
+        return floor(x / y);
+    }
+
+    /**
+     * 将两个数的商向下取整
+     *
+     * @param x 被除数
+     * @param y 除数
+     * @return 商的结果向下取整
+     */
+    public static int floorDivToInt(double x, double y) {
+        return floorToInt(x / y);
+    }
+
+    /**
+     * 将两个数的商向下取整
+     *
+     * @param x 被除数
+     * @param y 除数
+     * @return 商的结果向下取整
+     */
+    public static long floorDivToLong(double x, double y) {
+        return floorToLong(x / y);
+    }
+
+    // endregion
+
+
+    // region 数值转换
+
+    /**
+     * long的数值转为int的数值，如果超出{@linkplain Integer#MAX_VALUE}则抛出异常
+     *
+     * @param val 数值
+     * @return 转换后的数值
+     * @throws ArithmeticException 数据溢出
+     */
+    public static int toIntExact(long val) throws ArithmeticException {
+        int i = (int) val;
+        if (i != val) {
+            throw new ArithmeticException("integer overflow");
+        }
+        return i;
+    }
+
+    /**
+     * 安装金额格式格式化，即保留2位有效小数进行四舍五入。
+     *
+     * @param val 数值
+     * @return 格式化后的数值
+     */
+    public static double formatAsMoney(double val) {
+        return FluentBigDecimal.of(val).doubleValue();
+    }
+
     /**
      * 金额元转为金额分
      *
@@ -271,120 +482,6 @@ public class Numbers {
         return Objects.isNull(fen) ? null : fen2YuanStr(fen.toString());
     }
 
-    // region min & max
-
-    /**
-     * 取最小值
-     *
-     * @param numberArray 数组
-     * @return 最小值
-     * @see Arrays#min(long...)
-     */
-    public static long min(long... numberArray) {
-        return Arrays.min(numberArray);
-    }
-
-    /**
-     * 取最小值
-     *
-     * @param numberArray 数组
-     * @return 最小值
-     * @see Arrays#min(int...)
-     */
-    public static int min(int... numberArray) {
-        return Arrays.min(numberArray);
-    }
-
-    /**
-     * 取最小值
-     *
-     * @param numberArray 数组
-     * @return 最小值
-     * @see Arrays#min(short...)
-     */
-    public static short min(short... numberArray) {
-        return Arrays.min(numberArray);
-    }
-
-    /**
-     * 取最小值
-     *
-     * @param numberArray 数组
-     * @return 最小值
-     * @see Arrays#min(double...)
-     */
-    public static double min(double... numberArray) {
-        return Arrays.min(numberArray);
-    }
-
-    /**
-     * 取最小值
-     *
-     * @param numberArray 数字数组
-     * @return 最小值
-     * @see Arrays#min(float...)
-     */
-    public static float min(float... numberArray) {
-        return Arrays.min(numberArray);
-    }
-
-    /**
-     * 取最大值
-     *
-     * @param numberArray 数组
-     * @return 最大值
-     * @see Arrays#max(long...)
-     */
-    public static long max(long... numberArray) {
-        return Arrays.max(numberArray);
-    }
-
-    /**
-     * 取最大值
-     *
-     * @param numberArray 数组
-     * @return 最大值
-     * @see Arrays#max(int...)
-     */
-    public static int max(int... numberArray) {
-        return Arrays.max(numberArray);
-    }
-
-    /**
-     * 取最大值
-     *
-     * @param numberArray 数组
-     * @return 最大值
-     * @see Arrays#max(short...)
-     */
-    public static short max(short... numberArray) {
-        return Arrays.max(numberArray);
-    }
-
-    /**
-     * 取最大值
-     *
-     * @param numberArray 数组
-     * @return 最大值
-     * @see Arrays#max(double...)
-     */
-    public static double max(double... numberArray) {
-        return Arrays.max(numberArray);
-    }
-
-    /**
-     * 取最大值
-     *
-     * @param numberArray 数组
-     * @return 最大值
-     * @see Arrays#max(float...)
-     */
-    public static float max(float... numberArray) {
-        return Arrays.max(numberArray);
-    }
-
-    // endregion
-
     /**
      * 将给定的数值转换为目标类型的实例
      *
@@ -452,42 +549,152 @@ public class Numbers {
                 number.getClass().getName() + "] to unsupported target class [" + targetClass.getName() + "]");
     }
 
+    // endregion
+
+
+    // region min
 
     /**
-     * Check for a {@code BigInteger}/{@code BigDecimal} long overflow
-     * before returning the given number as a long value.
+     * 取最小值
      *
-     * @param number      the number to convert
-     * @param targetClass the target class to convert to
-     * @return the long value, if convertible without overflow
-     * @throws IllegalArgumentException if there is an overflow
-     * @see #raiseOverflowException
+     * @param numberArray 数组
+     * @return 最小值
+     * @see Arrays#min(long...)
      */
-    private static long checkedLongValue(Number number, Class<? extends Number> targetClass) {
-        BigInteger bi = null;
-        if (number instanceof BigInteger) {
-            bi = (BigInteger) number;
-        } else if (number instanceof BigDecimal) {
-            bi = ((BigDecimal) number).toBigInteger();
-        }
-        // Effectively analogous to JDK 8's BigInteger.longValueExact()
-        if (bi != null && (bi.compareTo(LONG_MIN) < 0 || bi.compareTo(LONG_MAX) > 0)) {
-            raiseOverflowException(number, targetClass);
-        }
-        return number.longValue();
+    public static long min(long... numberArray) {
+        return Arrays.min(numberArray);
     }
 
     /**
-     * Raise an <em>overflow</em> exception for the given number and target class.
+     * 取最小值
      *
-     * @param number      the number we tried to convert
-     * @param targetClass the target class we tried to convert to
-     * @throws IllegalArgumentException if there is an overflow
+     * @param numberArray 数组
+     * @return 最小值
+     * @see Arrays#min(int...)
      */
-    private static void raiseOverflowException(Number number, Class<?> targetClass) {
-        throw new IllegalArgumentException("Could not convert number [" + number + "] of type [" +
-                number.getClass().getName() + "] to target class [" + targetClass.getName() + "]: overflow");
+    public static int min(int... numberArray) {
+        return Arrays.min(numberArray);
     }
+
+    /**
+     * 取最小值
+     *
+     * @param numberArray 数组
+     * @return 最小值
+     * @see Arrays#min(short...)
+     */
+    public static short min(short... numberArray) {
+        return Arrays.min(numberArray);
+    }
+
+    /**
+     * 取最小值
+     *
+     * @param numberArray 数组
+     * @return 最小值
+     * @see Arrays#min(double...)
+     */
+    public static double min(double... numberArray) {
+        return Arrays.min(numberArray);
+    }
+
+    /**
+     * 取最小值
+     *
+     * @param numberArray 数字数组
+     * @return 最小值
+     * @see Arrays#min(float...)
+     */
+    public static float min(float... numberArray) {
+        return Arrays.min(numberArray);
+    }
+
+    /**
+     * 取最小值
+     *
+     * @param numberArray 数组
+     * @return 最小值
+     * @see Arrays#min(Comparable[])
+     */
+    public static BigDecimal min(BigDecimal... numberArray) {
+        return Arrays.min(numberArray);
+    }
+
+    // endregion
+
+
+    // region max
+
+    /**
+     * 取最大值
+     *
+     * @param numberArray 数组
+     * @return 最大值
+     * @see Arrays#max(long...)
+     */
+    public static long max(long... numberArray) {
+        return Arrays.max(numberArray);
+    }
+
+    /**
+     * 取最大值
+     *
+     * @param numberArray 数组
+     * @return 最大值
+     * @see Arrays#max(int...)
+     */
+    public static int max(int... numberArray) {
+        return Arrays.max(numberArray);
+    }
+
+    /**
+     * 取最大值
+     *
+     * @param numberArray 数组
+     * @return 最大值
+     * @see Arrays#max(short...)
+     */
+    public static short max(short... numberArray) {
+        return Arrays.max(numberArray);
+    }
+
+    /**
+     * 取最大值
+     *
+     * @param numberArray 数组
+     * @return 最大值
+     * @see Arrays#max(double...)
+     */
+    public static double max(double... numberArray) {
+        return Arrays.max(numberArray);
+    }
+
+    /**
+     * 取最大值
+     *
+     * @param numberArray 数组
+     * @return 最大值
+     * @see Arrays#max(float...)
+     */
+    public static float max(float... numberArray) {
+        return Arrays.max(numberArray);
+    }
+
+    /**
+     * 取最大值
+     *
+     * @param numberArray 数组
+     * @return 最大值
+     * @see Arrays#max(Comparable[])
+     */
+    public static BigDecimal max(BigDecimal... numberArray) {
+        return Arrays.max(numberArray);
+    }
+
+    // endregion
+
+
+    // region 创建数值对象
 
     /**
      * 将字符串转为数值
@@ -755,6 +962,11 @@ public class Numbers {
         }
     }
 
+    // endregion
+
+
+    // region 内部私有方法
+
     /**
      * 判断字符串是否都为0
      *
@@ -772,5 +984,43 @@ public class Numbers {
         }
         return str.length() > 0;
     }
+
+    /**
+     * Check for a {@code BigInteger}/{@code BigDecimal} long overflow
+     * before returning the given number as a long value.
+     *
+     * @param number      the number to convert
+     * @param targetClass the target class to convert to
+     * @return the long value, if convertible without overflow
+     * @throws IllegalArgumentException if there is an overflow
+     * @see #raiseOverflowException
+     */
+    private static long checkedLongValue(Number number, Class<? extends Number> targetClass) {
+        BigInteger bi = null;
+        if (number instanceof BigInteger) {
+            bi = (BigInteger) number;
+        } else if (number instanceof BigDecimal) {
+            bi = ((BigDecimal) number).toBigInteger();
+        }
+        // Effectively analogous to JDK 8's BigInteger.longValueExact()
+        if (bi != null && (bi.compareTo(LONG_MIN) < 0 || bi.compareTo(LONG_MAX) > 0)) {
+            raiseOverflowException(number, targetClass);
+        }
+        return number.longValue();
+    }
+
+    /**
+     * Raise an <em>overflow</em> exception for the given number and target class.
+     *
+     * @param number      the number we tried to convert
+     * @param targetClass the target class we tried to convert to
+     * @throws IllegalArgumentException if there is an overflow
+     */
+    private static void raiseOverflowException(Number number, Class<?> targetClass) {
+        throw new IllegalArgumentException("Could not convert number [" + number + "] of type [" +
+                number.getClass().getName() + "] to target class [" + targetClass.getName() + "]: overflow");
+    }
+
+    // endregion
 
 }

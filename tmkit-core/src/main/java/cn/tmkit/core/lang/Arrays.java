@@ -2195,6 +2195,23 @@ public class Arrays {
     }
 
     /**
+     * 取最小值
+     *
+     * @param <T>   元素类型
+     * @param array 数字数组
+     * @return 最小值
+     */
+    public static <T extends Comparable<? super T>> T min(T[] array) {
+        T min = requireNotEmpty(array)[0];
+        for (int i = 1; i < array.length; i++) {
+            if (min.compareTo(array[i]) > 0) {
+                min = array[i];
+            }
+        }
+        return min;
+    }
+
+    /**
      * 取最大值
      *
      * @param array 数组
@@ -2305,6 +2322,23 @@ public class Arrays {
         float max = requireNotEmpty(array)[0];
         for (int i = 1; i < array.length; i++) {
             if (max < array[i]) {
+                max = array[i];
+            }
+        }
+        return max;
+    }
+
+    /**
+     * 取最大值
+     *
+     * @param <T>   元素类型
+     * @param array 数字数组
+     * @return 最大值
+     */
+    public static <T extends Comparable<? super T>> T max(T[] array) {
+        T max = requireNotEmpty(array)[0];
+        for (int i = 1; i < array.length; i++) {
+            if (max.compareTo(array[i]) < 0) {
                 max = array[i];
             }
         }

@@ -38,4 +38,13 @@ public class NumberUtilTest {
         assertEquals("1.00", Numbers.fen2YuanStr(fen));
     }
 
+    @Test
+    public void floorDiv() {
+        int i = Math.floorDiv(-4, 3);
+        System.out.println("i = " + i);
+        i = Numbers.floorDiv(-4, 3);
+        System.out.println("i = " + i);
+
+    }
+
 }
