@@ -1,5 +1,6 @@
 package cn.tmkit.core.lang;
 
+import cn.tmkit.core.function.Action;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
@@ -539,6 +540,20 @@ public class Collections {
             return;
         }
         consumer.accept(c);
+    }
+
+    /**
+     * 非空操作
+     *
+     * @param c      集合
+     * @param action 非空的操作
+     * @param <E>    元素类型
+     */
+    public static <E> void isNotEmpty(Collection<E> c, Action action) {
+        if (isEmpty(c) || Objects.isNull(action)) {
+            return;
+        }
+        action.execute();
     }
 
     // endregion
