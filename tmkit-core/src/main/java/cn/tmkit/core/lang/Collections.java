@@ -1062,10 +1062,10 @@ public class Collections {
      *
      * @param coll 源集合
      * @param size 小集合的元素数量
-     * @param <T>  元素类型
+     * @param <E>  元素类型
      * @return 分片列表
      */
-    public static <T> List<List<T>> partition(Collection<T> coll, int size) {
+    public static <E> List<List<E>> partition(Collection<E> coll, int size) {
         if (isEmpty(coll)) {
             return emptyList();
         }
@@ -1079,24 +1079,24 @@ public class Collections {
      *
      * @param coll 源集合
      * @param size 小集合的元素数量
-     * @param <T>  元素类型
+     * @param <E>  元素类型
      * @return 分片列表
      */
-    public static <T> List<List<T>> split(Collection<T> coll, int size) {
+    public static <E> List<List<E>> split(Collection<E> coll, int size) {
         return partition(coll, size);
     }
 
-    private static class Partition<T> extends AbstractList<List<T>> {
+    private static class Partition<E> extends AbstractList<List<E>> {
 
-        private final List<T> list;
+        private final List<E> list;
         private final int size;
 
-        private Partition(Collection<T> coll, int size) {
+        private Partition(Collection<E> coll, int size) {
             this.list = newArrayList(coll);
             this.size = Math.min(size, list.size());
         }
 
-        private Partition(List<T> coll, int size) {
+        private Partition(List<E> coll, int size) {
             this.list = newArrayList(coll);
             this.size = Math.min(size, list.size());
         }
@@ -1108,7 +1108,7 @@ public class Collections {
          * @throws IndexOutOfBoundsException {@inheritDoc}
          */
         @Override
-        public List<T> get(int index) {
+        public List<E> get(int index) {
             int start = index * size;
             int end = Math.min(start + size, list.size());
             return list.subList(start, end);
@@ -1120,6 +1120,44 @@ public class Collections {
         }
 
     }
+
+    /**
+     * 集合截取
+     *
+     * @param coll      源集合
+     * @param fromIndex 开始位置，包含
+     * @param size      截取长度
+     * @param <E>       元素类型
+     * @return 截取后的集合
+     */
+    public static <E> List<E> sub(Collection<E> coll, int fromIndex, int size) {
+        if (isEmpty(coll)) {
+            return emptyList();
+        }
+        if (coll instanceof List) {
+            List<E> list = (List<E>) coll;
+            int endIndex = Numbers.min(fromIndex + size, list.size());
+            return list.subList(fromIndex, endIndex);
+        }
+
+        List<E> subList = new ArrayList<>();
+        Iterator<E> iterator = coll.iterator();
+
+        int currentIndex = 0;
+        while (currentIndex < fromIndex && iterator.hasNext()) {
+            iterator.next();
+            currentIndex++;
+        }
+
+        int count = 0;
+        while (count < size && iterator.hasNext()) {
+            subList.add(iterator.next());
+            count++;
+        }
+
+        return subList;
+    }
+
     // endregion
 
 }
