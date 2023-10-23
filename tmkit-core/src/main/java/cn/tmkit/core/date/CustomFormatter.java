@@ -46,6 +46,11 @@ public interface CustomFormatter {
     String NORMAL_TIME_PATTERN = "HH:mm:ss";
 
     /**
+     * 标准时间格式 HH:mm
+     */
+    String NORMAL_MINUTE_PATTERN = "HH:mm";
+
+    /**
      * 瘦身时间格式 H:m:s
      */
     String SLIM_NORMAL_TIME_PATTERN = "H:m:s";
@@ -79,6 +84,11 @@ public interface CustomFormatter {
      * 标准日期格式：HHmmss
      */
     String PURE_TIME_PATTERN = "HHmmss";
+
+    /**
+     * 标准日期格式：HHmm
+     */
+    String PURE_MINUTE_PATTERN = "HHmm";
 
     /**
      * 标准日期格式：yyyyMMddHHmmss

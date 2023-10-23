@@ -38,6 +38,11 @@ public enum DefaultCustomFormatter implements CustomFormatter {
     NORMAL_TIME(NORMAL_TIME_PATTERN, DateTimeFormatter.ofPattern(NORMAL_TIME_PATTERN)),
 
     /**
+     * 标准时间格式 {@link DateTimeFormatter} HH:mm
+     */
+    NORMAL_MINUTE(NORMAL_MINUTE_PATTERN, DateTimeFormatter.ofPattern(NORMAL_MINUTE_PATTERN)),
+
+    /**
      * 瘦身时间格式 H:m:s
      */
     SLIM_NORMAL_TIME(SLIM_NORMAL_TIME_PATTERN, DateTimeFormatter.ofPattern(SLIM_NORMAL_TIME_PATTERN)),
@@ -72,6 +77,11 @@ public enum DefaultCustomFormatter implements CustomFormatter {
      * 标准日期格式 {@link DateTimeFormatter}：HHmmss
      */
     PURE_TIME(PURE_TIME_PATTERN, DateTimeFormatter.ofPattern(PURE_TIME_PATTERN)),
+
+    /**
+     * 标准日期格式 {@link DateTimeFormatter}：HHmm
+     */
+    PURE_MINUTE(PURE_MINUTE_PATTERN, DateTimeFormatter.ofPattern(PURE_MINUTE_PATTERN)),
 
     /**
      * 标准日期格式 {@link DateTimeFormatter}：yyyyMMddHHmmss
