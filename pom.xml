@@ -6,7 +6,7 @@
 
     <groupId>cn.tmkit</groupId>
     <artifactId>tmkit-root</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
 
     <name>root</name>
     <description>tmkit是一个Java快速工具，让开发更加快速方便。</description>
@@ -38,7 +38,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.report.outputEncoding>UTF-8</project.report.outputEncoding>
 
-        <tmkit.version>0.0.1-SNAPSHOT</tmkit.version>
+        <tmkit.version>0.0.2-SNAPSHOT</tmkit.version>
 
         <compile.version>1.8</compile.version>
         <junit5.version>5.9.2</junit5.version>

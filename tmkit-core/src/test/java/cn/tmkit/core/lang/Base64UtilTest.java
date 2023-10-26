@@ -1,8 +1,11 @@
 package cn.tmkit.core.lang;
 
+import cn.tmkit.core.codec.Base64Util;
+import cn.tmkit.core.codec.Base64s;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tester for {@linkplain  Base64Util}

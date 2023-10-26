@@ -1,6 +1,6 @@
 package cn.tmkit.core.id;
 
-import cn.tmkit.core.lang.Base64s;
+import cn.tmkit.core.codec.Base64s;
 import cn.tmkit.core.lang.reflect.Singletons;
 
 import java.security.SecureRandom;

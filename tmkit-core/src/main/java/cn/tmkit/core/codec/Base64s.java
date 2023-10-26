@@ -1,4 +1,8 @@
-package cn.tmkit.core.lang;
+package cn.tmkit.core.codec;
+
+import cn.tmkit.core.lang.Arrays;
+import cn.tmkit.core.lang.Charsets;
+import cn.tmkit.core.lang.Strings;
 
 import java.nio.charset.Charset;
 import java.util.Base64;

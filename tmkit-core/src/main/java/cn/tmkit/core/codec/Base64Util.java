@@ -1,4 +1,4 @@
-package cn.tmkit.core.lang;
+package cn.tmkit.core.codec;
 
 /**
  * BASE64工具类

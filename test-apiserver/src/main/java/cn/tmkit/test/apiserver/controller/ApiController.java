@@ -1,5 +1,6 @@
 package cn.tmkit.test.apiserver.controller;
 
+import cn.tmkit.core.codec.Base64Util;
 import cn.tmkit.core.io.FileUtil;
 import cn.tmkit.core.lang.*;
 import cn.tmkit.http.HttpClient;
