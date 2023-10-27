@@ -25,6 +25,15 @@ public class Threads {
     }
 
     /**
+     * 线程睡眠指定时间
+     *
+     * @param seconds 睡眠的时间，单位秒
+     */
+    public static void sleepSeconds(final long seconds) {
+        sleep(seconds * 1000);
+    }
+
+    /**
      * 使得线程永久睡眠
      */
     public static void sleepForever() {
@@ -46,6 +55,16 @@ public class Threads {
         sleep(ms);
     }
 
+    /**
+     * 线程睡眠随机时间，其控制范围[min,max]
+     *
+     * @param min 最低睡眠时间，单位秒
+     * @param max 最高睡眠时间，单位秒
+     */
+    public static void sleepSecondsRandom(final long min, final long max) {
+        long seconds = RandomUtil.nextLong(min, max + 1);
+        sleepSeconds(seconds);
+    }
 
     /**
      * 创建一个守护进程的线程工厂
