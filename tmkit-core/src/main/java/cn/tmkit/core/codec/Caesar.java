@@ -11,6 +11,8 @@ import cn.tmkit.core.lang.Chars;
  */
 public class Caesar {
 
+    private static final String TABLES = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
     /**
      * 编码为凯撒字符串
      *
@@ -21,20 +23,14 @@ public class Caesar {
     public static String encode(String message, int offset) {
         StringBuilder sb = new StringBuilder(message.length());
         char ch;
-        for (int i = 0; i < message.length(); i++) {
+        for (int i = 0, pos; i < message.length(); i++) {
             ch = message.charAt(i);
-            if (Chars.isLetterUpper(ch)) {
-                ch = (char) (ch + offset);
-                if (ch > 'Z') {
-                    ch = (char) (ch - 'Z' + 'A' - 1);
-                }
-            } else if (Chars.isLetterLower(ch)) {
-                ch = (char) (ch + offset);
-                if (ch > 'z') {
-                    ch = (char) (ch - 'z' + 'a' - 1);
-                }
+            if (Chars.isLetter(ch)) {
+                pos = (TABLES.indexOf(ch) + offset) % TABLES.length();
+                sb.append(TABLES.charAt(pos));
+            } else {
+                sb.append(ch);
             }
-            sb.append(ch);
         }
         return sb.toString();
     }
@@ -49,20 +45,17 @@ public class Caesar {
     public static String decode(String message, int offset) {
         StringBuilder sb = new StringBuilder(message.length());
         char ch;
-        for (int i = 0; i < message.length(); i++) {
+        for (int i = 0, pos; i < message.length(); i++) {
             ch = message.charAt(i);
-            if (Chars.isLetterUpper(ch)) {
-                ch = (char) (ch - offset);
-                if (ch < 'A') {
-                    ch = (char) (ch + 'Z' - 'A' + 1);
+            if (Chars.isLetter(ch)) {
+                pos = (TABLES.indexOf(ch) - offset) % TABLES.length();
+                if (pos < 0) {
+                    pos += TABLES.length();
                 }
-            } else if (Chars.isLetterLower(ch)) {
-                ch = (char) (ch - offset);
-                if (ch < 'a') {
-                    ch = (char) (ch + 'z' - 'a' + 1);
-                }
+                sb.append(TABLES.charAt(pos));
+            } else {
+                sb.append(ch);
             }
-            sb.append(ch);
         }
         return sb.toString();
     }
