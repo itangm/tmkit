@@ -11,7 +11,7 @@ import cn.tmkit.core.lang.Chars;
  */
 public class Caesar {
 
-    private static final String TABLES = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    private static final String TABLES = "zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA";
 
     /**
      * 编码为凯撒字符串
