@@ -13,7 +13,7 @@ public class CaesarTest {
 
     @Test
     public void encode() {
-        String str = Base64s.encode("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5hbnRJZCI6MTQ2OTg3NjcyNzE5OTE2NjQ2NSwidXNlcklkIjoxNDY5ODc2NzI3MTk5MTY2NDY1LCJuaWNrbmFtZSI6ImdvdWdlIiwidXNlcm5hbWUiOiJ6aGFuZ3NhbiIsImRldmljZVR5cGUiOiJXWF9NSU5JIiwiaXNzIjoibW9yZWQifQ.htKIsy5DHjROG8_VHJr38WNKCkkjwYnwKZGM2ZADjQA");
+        String str = "eyJ0ZW5hbnRJZCI6MTQ2OTg3NjcyNzE5OTE2NjQ2NSwidXNlcklkIjoxNDY5ODc2NzI3MTk5MTY2NDY1LCJuaWNrbmFtZSI6ImdvdWdlIiwidXNlcm5hbWUiOiJ6aGFuZ3NhbiIsImRldmljZVR5cGUiOiJXWF9NSU5JIiwiaXNzIjoibW9yZWQifQ";
         System.out.println("原文 = " + str);
         System.out.println();
         String encode = Caesar.encode(str, 15);
