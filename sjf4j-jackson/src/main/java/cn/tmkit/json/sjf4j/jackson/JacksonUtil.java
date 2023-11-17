@@ -5,6 +5,7 @@ import cn.tmkit.json.sjf4j.jackson.deser.OffsetDateTimeDeserializer;
 import cn.tmkit.json.sjf4j.jackson.deser.ZonedDateTimeDeserializer;
 import cn.tmkit.json.sjf4j.jackson.ser.OffsetDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -102,6 +103,17 @@ public class JacksonUtil {
             }
         });
         return objectMapper;
+    }
+
+    /**
+     * 创建{@linkplain  ObjectMapper}，在序列化时会携带类的元数据信息，即JSON字符串中会多一个属性{@code @class}
+     *
+     * @return {@linkplain  ObjectMapper}
+     */
+    public static ObjectMapper createObjectMapperWithClass() {
+        ObjectMapper om = createObjectMapper();
+        om.activateDefaultTyping(om.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+        return om;
     }
 
     /**

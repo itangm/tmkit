@@ -1098,6 +1098,15 @@ public class LocalDateTimes {
     /**
      * 返回一天的开始，即当天的00:00:00
      *
+     * @return 一天的开始
+     */
+    public static LocalDateTime beginOfDay() {
+        return startOfDay();
+    }
+
+    /**
+     * 返回一天的开始，即当天的00:00:00
+     *
      * @param date 某一天的时间
      * @return 一天的开始
      */
@@ -1114,11 +1123,31 @@ public class LocalDateTimes {
      * @param date 某一天的时间
      * @return 一天的开始
      */
+    public static LocalDateTime beginOfDay(LocalDate date) {
+        return startOfDay(date);
+    }
+
+    /**
+     * 返回一天的开始，即当天的00:00:00
+     *
+     * @param date 某一天的时间
+     * @return 一天的开始
+     */
     public static LocalDateTime startOfDay(LocalDateTime date) {
         if (date == null) {
             return null;
         }
         return startOfDay(date.toLocalDate());
+    }
+
+    /**
+     * 返回一天的开始，即当天的00:00:00
+     *
+     * @param date 某一天的时间
+     * @return 一天的开始
+     */
+    public static LocalDateTime beginOfDay(LocalDateTime date) {
+        return startOfDay(date);
     }
 
     /**
@@ -1221,6 +1250,125 @@ public class LocalDateTimes {
     }
 
     /**
+     * 获取当前时间所在一周的开始时间，一周的开始是周一
+     *
+     * @return {@linkplain LocalDateTime}
+     */
+    public static LocalDateTime startOfWeek() {
+        return beginOfWeek();
+    }
+
+    /**
+     * 获取当前时间所在一周的开始时间，一周的开始是周一
+     *
+     * @return {@linkplain LocalDateTime}
+     */
+    public static LocalDateTime beginOfWeek() {
+        return beginOfWeek(now());
+    }
+
+    /**
+     * 获取指定时间所在一周的开始时间，一周的开始是周一
+     *
+     * @param date 指定时间
+     * @return {@linkplain LocalDateTime}
+     */
+    public static LocalDateTime startOfWeek(LocalDate date) {
+        return beginOfWeek(date);
+    }
+
+    /**
+     * 获取指定时间所在一周的开始时间，一周的开始是周一
+     *
+     * @param date 指定时间
+     * @return {@linkplain LocalDateTime}
+     */
+    public static LocalDateTime beginOfWeek(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        LocalDate ld = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        return startOfDay(ld);
+    }
+
+    /**
+     * 获取指定时间所在一周的开始时间，一周的开始是周一
+     *
+     * @param ldt 指定时间
+     * @return {@linkplain LocalDateTime}
+     */
+    public static LocalDateTime startOfWeek(LocalDateTime ldt) {
+        return beginOfWeek(ldt);
+    }
+
+    /**
+     * 获取指定时间所在一周的开始时间，一周的开始是周一
+     *
+     * @param ldt 指定时间
+     * @return {@linkplain LocalDateTime}
+     */
+    public static LocalDateTime beginOfWeek(LocalDateTime ldt) {
+        if (ldt == null) {
+            return null;
+        }
+        return startOfWeek(ldt.toLocalDate());
+    }
+
+    /**
+     * 获取当前时间所在一周的结束时间，一周的开结束是周日
+     *
+     * @return {@linkplain LocalDateTime}
+     */
+    public static LocalDateTime endOfWeek() {
+        return endOfWeek(now());
+    }
+
+    /**
+     * 获取指定时间所在一周的结束时间，一周的开结束是周日
+     *
+     * @param date 指定时间
+     * @return {@linkplain LocalDateTime}
+     */
+    public static LocalDateTime endOfWeek(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        LocalDate ld = date.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        return endOfDay(ld);
+    }
+
+    /**
+     * 获取指定时间所在一周的结束时间，一周的开结束是周日
+     *
+     * @param date 指定时间
+     * @return {@linkplain LocalDateTime}
+     */
+    public static LocalDateTime endOfWeek(LocalDateTime date) {
+        if (date == null) {
+            return null;
+        }
+        return endOfWeek(date.toLocalDate());
+    }
+
+    /**
+     * 获取此时此刻月的开始时间
+     *
+     * @return {@link LocalDateTime}
+     */
+    public static LocalDateTime beginOfMonth() {
+        return beginOfMonth(now());
+    }
+
+    /**
+     * 获取此时此刻月的开始时间
+     *
+     * @return {@link LocalDateTime}
+     */
+    public static LocalDateTime startOfMonth() {
+        return beginOfMonth();
+    }
+
+    /**
      * 获取某月的开始时间
      *
      * @param ldt 日期
@@ -1236,6 +1384,16 @@ public class LocalDateTimes {
     /**
      * 获取某月的开始时间
      *
+     * @param ldt 日期
+     * @return {@link LocalDateTime}
+     */
+    public static LocalDateTime startOfMonth(LocalDateTime ldt) {
+        return beginOfMonth(ldt);
+    }
+
+    /**
+     * 获取某月的开始时间
+     *
      * @param date 日期
      * @return {@link LocalDateTime}
      */
@@ -1244,6 +1402,16 @@ public class LocalDateTimes {
             return null;
         }
         return startOfDay(date.with(TemporalAdjusters.firstDayOfMonth()));
+    }
+
+    /**
+     * 获取某月的开始时间
+     *
+     * @param date 日期
+     * @return {@link LocalDateTime}
+     */
+    public static LocalDateTime startOfMonth(LocalDate date) {
+        return beginOfMonth(date);
     }
 
     /**
@@ -1273,25 +1441,21 @@ public class LocalDateTimes {
     }
 
     /**
-     * 返回当前日期月份的第几天
+     * 返回当前时间所在季度的第一天的开始时刻
      *
-     * @return 月份的第几天
+     * @return 一天的开始
      */
-    public static int dayOfMonth() {
-        return dayOfMonth(now());
+    public static LocalDateTime startOfQuarter() {
+        return startOfQuarter(now());
     }
 
     /**
-     * 返回当前日期月份的第几天，如果参数为{@code null}则返回{@code -1}
+     * 返回当前时间所在季度的第一天的开始时刻
      *
-     * @param ldt 指定日期
-     * @return 月份的第几天
+     * @return 一天的开始
      */
-    public static int dayOfMonth(LocalDateTime ldt) {
-        if (ldt == null) {
-            return -1;
-        }
-        return ldt.getDayOfMonth();
+    public static LocalDateTime beginOfQuarter() {
+        return startOfQuarter();
     }
 
     /**
@@ -1314,11 +1478,31 @@ public class LocalDateTimes {
      * @param date 某一天的时间
      * @return 一天的开始
      */
+    public static LocalDateTime beginOfQuarter(LocalDate date) {
+        return startOfQuarter(date);
+    }
+
+    /**
+     * 返回指定时间所在季度的第一天的开始时刻
+     *
+     * @param date 某一天的时间
+     * @return 一天的开始
+     */
     public static LocalDateTime startOfQuarter(LocalDateTime date) {
         if (date == null) {
             return null;
         }
         return startOfQuarter(date.toLocalDate());
+    }
+
+    /**
+     * 返回指定时间所在季度的第一天的开始时刻
+     *
+     * @param date 某一天的时间
+     * @return 一天的开始
+     */
+    public static LocalDateTime beginOfQuarter(LocalDateTime date) {
+        return startOfQuarter(date);
     }
 
     /**
@@ -1351,6 +1535,24 @@ public class LocalDateTimes {
     }
 
     /**
+     * 返回当前时间所在年的第一天的开始
+     *
+     * @return 一天的开始
+     */
+    public static LocalDateTime startOfYear() {
+        return startOfYear(now());
+    }
+
+    /**
+     * 返回当前时间所在年的第一天的开始
+     *
+     * @return 一天的开始
+     */
+    public static LocalDateTime beginOfYear() {
+        return startOfYear();
+    }
+
+    /**
      * 返回指定时间所在年的第一天的开始
      *
      * @param date 某一天的时间
@@ -1369,11 +1571,31 @@ public class LocalDateTimes {
      * @param date 某一天的时间
      * @return 一天的开始
      */
+    public static LocalDateTime beginOfYear(LocalDate date) {
+        return startOfYear(date);
+    }
+
+    /**
+     * 返回指定时间所在年的第一天的开始
+     *
+     * @param date 某一天的时间
+     * @return 一天的开始
+     */
     public static LocalDateTime startOfYear(LocalDateTime date) {
         if (date == null) {
             return null;
         }
         return startOfYear(date.toLocalDate());
+    }
+
+    /**
+     * 返回指定时间所在年的第一天的开始
+     *
+     * @param date 某一天的时间
+     * @return 一天的开始
+     */
+    public static LocalDateTime beginOfYear(LocalDateTime date) {
+        return startOfYear(date);
     }
 
     /**
@@ -1596,5 +1818,27 @@ public class LocalDateTimes {
     }
 
     // endregion
+
+    /**
+     * 返回当前日期月份的第几天
+     *
+     * @return 月份的第几天
+     */
+    public static int dayOfMonth() {
+        return dayOfMonth(now());
+    }
+
+    /**
+     * 返回当前日期月份的第几天，如果参数为{@code null}则返回{@code -1}
+     *
+     * @param ldt 指定日期
+     * @return 月份的第几天
+     */
+    public static int dayOfMonth(LocalDateTime ldt) {
+        if (ldt == null) {
+            return -1;
+        }
+        return ldt.getDayOfMonth();
+    }
 
 }
