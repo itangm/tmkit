@@ -24,7 +24,7 @@ import java.util.Collection;
  * @date 2023-02-07
  */
 @Getter
-public class FluentBigDecimal extends Number implements Serializable, Comparable<FluentBigDecimal> {
+class FluentBigDecimal extends Number implements Serializable, Comparable<FluentBigDecimal> {
 
     /**
      * store value
