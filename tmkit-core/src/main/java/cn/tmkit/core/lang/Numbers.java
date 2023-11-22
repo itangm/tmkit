@@ -353,6 +353,19 @@ public class Numbers {
         return fmt(val, "#.00");
     }
 
+    /**
+     * 按照金额格式格式化，即保留2位有效小数进行四舍五入。
+     *
+     * @param val 数值
+     * @return 格式化后的数值
+     */
+    public static String fmtByMoney(BigDecimal val) {
+        if (val == null) {
+            return null;
+        }
+        return fmt(val, "#.00");
+    }
+
     public static String fmt(double val, String pattern) {
         return new DecimalFormat(pattern).format(val);
     }

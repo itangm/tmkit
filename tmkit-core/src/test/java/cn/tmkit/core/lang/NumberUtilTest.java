@@ -22,7 +22,10 @@ public class NumberUtilTest {
     public void fmtByMoney() {
         assertEquals("1.34", Numbers.fmtByMoney(1.34125));
         assertEquals("21.34", Numbers.fmtByMoney(21.34125));
-        assertEquals("21.35", Numbers.fmtByMoney(21.348125));
+        assertEquals("21.35", Numbers.fmtByMoney(Double.valueOf("21.348125")));
+        assertEquals("21.35", Numbers.fmtByMoney(new BigDecimal("21.348125")));
+        assertEquals("21.34", Numbers.fmtByMoney(new BigDecimal("21.341125")));
+
     }
 
     @Test
