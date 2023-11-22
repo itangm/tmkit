@@ -555,9 +555,45 @@ public class Numbers {
      * @param fen 金额，单位分
      * @return 金额元
      */
+    public static double fen2Yuan(double fen) {
+        return fen2Yuan(Double.toString(fen));
+    }
+
+    /**
+     * 人民币金额分转元，保留2位小数
+     *
+     * @param fen 金额，单位分
+     * @return 金额元
+     */
+    public static Double fen2Yuan(Double fen) {
+        if (Objects.isNull(fen)) {
+            return null;
+        }
+        return fen2Yuan(Double.toString(fen));
+    }
+
+    /**
+     * 人民币金额分转元，保留2位小数
+     *
+     * @param fen 金额，单位分
+     * @return 金额元
+     */
     public static double fen2Yuan(String fen) {
         Asserts.notNull(fen);
         return divAsDouble(new BigDecimal(fen), ONE_HUNDRED_BD);
+    }
+
+    /**
+     * 人民币金额分转元，保留2位小数
+     *
+     * @param fen 金额，单位分
+     * @return 金额元
+     */
+    public static BigDecimal fen2Yuan(BigDecimal fen) {
+        if (Objects.isNull(fen)) {
+            return null;
+        }
+        return div(fen, ONE_HUNDRED_BD);
     }
 
     /**
