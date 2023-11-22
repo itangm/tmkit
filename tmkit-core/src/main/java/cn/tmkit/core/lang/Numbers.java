@@ -347,9 +347,6 @@ public class Numbers {
      * @return 格式化后的数值
      */
     public static String fmtByMoney(Double val) {
-        if (val == null) {
-            return null;
-        }
         return fmt(val, "#.00");
     }
 
@@ -360,9 +357,6 @@ public class Numbers {
      * @return 格式化后的数值
      */
     public static String fmtByMoney(BigDecimal val) {
-        if (val == null) {
-            return null;
-        }
         return fmt(val, "#.00");
     }
 
@@ -395,6 +389,149 @@ public class Numbers {
             decimalFormat.setRoundingMode(mode);
         }
         return decimalFormat.format(val);
+    }
+
+    // endregion
+
+
+    // region 精确度
+
+    /**
+     * 四舍五入并保留2位小数
+     *
+     * @param val 数值
+     * @return 四舍五入后的数值
+     */
+    public static double roundUp(double val) {
+        return roundUp(val, DEFAULT_SCALE);
+    }
+
+    /**
+     * 四舍五入并保留{@code scale}位小数
+     *
+     * @param val   数值
+     * @param scale 保留小数位数
+     * @return 四舍五入后的数值
+     */
+    public static double roundUp(double val, int scale) {
+        return round(val, scale, RoundingMode.HALF_UP);
+    }
+
+    /**
+     * 保留固定位数小数
+     *
+     * @param val   数值
+     * @param scale 保留小数位数
+     * @param mode  保留小数的模式 {@link RoundingMode}，如果传入null则默认四舍五入
+     * @return 处理后的值
+     */
+    public static double round(double val, int scale, RoundingMode mode) {
+        return round(BigDecimal.valueOf(val), scale, mode).doubleValue();
+    }
+
+    /**
+     * 四舍五入并保留{@code scale}位小数
+     *
+     * @param val 数值
+     * @return 四舍五入后的数值
+     */
+    public static Double roundUp(Double val) {
+        return roundUp(val, DEFAULT_SCALE);
+    }
+
+    /**
+     * 四舍五入并保留{@code scale}位小数
+     *
+     * @param val   数值
+     * @param scale 保留小数位数
+     * @return 四舍五入后的数值
+     */
+    public static Double roundUp(Double val, int scale) {
+        return round(val, scale, RoundingMode.HALF_UP);
+    }
+
+    /**
+     * 保留固定位数小数
+     *
+     * @param val   数值
+     * @param scale 保留小数位数
+     * @param mode  保留小数的模式 {@link RoundingMode}，如果传入null则默认四舍五入
+     * @return 处理后的值
+     */
+    public static Double round(Double val, int scale, RoundingMode mode) {
+        return round(val == null ? null : new BigDecimal(val.toString()), scale, mode).doubleValue();
+    }
+
+    /**
+     * 四舍五入并保留{@code scale}位小数
+     *
+     * @param val 数值
+     * @return 四舍五入后的数值
+     */
+    public static BigDecimal roundUp(BigDecimal val) {
+        return roundUp(val, DEFAULT_SCALE);
+    }
+
+    /**
+     * 四舍五入并保留{@code scale}位小数
+     *
+     * @param val   数值
+     * @param scale 保留小数位数
+     * @return 四舍五入后的数值
+     */
+    public static BigDecimal roundUp(BigDecimal val, int scale) {
+        return round(val, scale, RoundingMode.HALF_UP);
+    }
+
+    /**
+     * 保留固定位数小数
+     *
+     * @param val   数值
+     * @param scale 保留小数位数
+     * @param mode  保留小数的模式 {@link RoundingMode}，如果传入null则默认四舍五入
+     * @return 处理后的值
+     */
+    public static BigDecimal round(BigDecimal val, int scale, RoundingMode mode) {
+        if (Objects.isNull(val)) {
+            return null;
+        }
+        if (mode == null) {
+            mode = RoundingMode.HALF_UP;
+        }
+        return val.setScale(scale, mode);
+    }
+
+    /**
+     * 四舍五入并保留{@code scale}位小数
+     *
+     * @param val 数值
+     * @return 四舍五入后的数值
+     */
+    public static String roundUp(String val) {
+        return roundUp(val, DEFAULT_SCALE);
+    }
+
+    /**
+     * 四舍五入并保留{@code scale}位小数
+     *
+     * @param val   数值
+     * @param scale 保留小数位数
+     * @return 四舍五入后的数值
+     */
+    public static String roundUp(String val, int scale) {
+        return round(val, scale, RoundingMode.HALF_UP);
+    }
+
+    /**
+     * 保留固定位数小数
+     *
+     * @param val   数值
+     * @param scale 保留小数位数
+     * @param mode  保留小数的模式 {@link RoundingMode}，如果传入null则默认四舍五入
+     * @return 处理后的值
+     */
+    public static String round(String val, int scale, RoundingMode mode) {
+        return round(StringUtil.isBlank(val) ? null : new BigDecimal(val), scale, mode).toString();
     }
 
     // endregion
