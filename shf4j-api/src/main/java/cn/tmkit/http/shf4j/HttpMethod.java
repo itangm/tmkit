@@ -1,5 +1,7 @@
 package cn.tmkit.http.shf4j;
 
+import cn.tmkit.core.lang.StringUtil;
+
 /**
  * HTTP请求方式
  *
@@ -53,5 +55,17 @@ public enum HttpMethod {
      * TRACE
      */
     TRACE,
+
+    ;
+
+    /**
+     * 判断是否匹配该枚举值
+     *
+     * @param method 方法名
+     * @return 是否匹配
+     */
+    public boolean match(String method) {
+        return StringUtil.equalsIgnoreCase(this.name(), method);
+    }
 
 }

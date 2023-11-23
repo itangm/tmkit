@@ -1,5 +1,7 @@
 package cn.tmkit.web.servlet3.request;
 
+import cn.tmkit.http.shf4j.HttpMethod;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -11,29 +13,31 @@ import java.io.IOException;
  * @version 0.0.1
  * @date 2023-03-02
  */
-public class RepeatableHttpServletRequestFilter implements Filter {
+public class RepeatableHttpServletRequestFilter implements BaseFilter {
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        if (servletRequest instanceof HttpServletRequest) {
-            HttpServletRequest request = (HttpServletRequest) servletRequest;
-            String method = request.getMethod().toUpperCase();
-            if (!"GET".equals(method)) {
-                request = new RepeatableHttpServletRequestWrapper(request);
-            }
-            filterChain.doFilter(request, servletResponse);
-        } else {
-            filterChain.doFilter(servletRequest, servletResponse);
+        HttpServletRequest requestToUse = (HttpServletRequest) servletRequest;
+        if (!isAsyncDispatch(servletRequest) && shouldCache(requestToUse) && !(servletRequest instanceof RepeatableHttpServletRequestWrapper)) {
+            requestToUse = new RepeatableHttpServletRequestWrapper(requestToUse);
         }
+        filterChain.doFilter(requestToUse, servletResponse);
     }
 
     @Override
     public void destroy() {
 
     }
+
+    protected boolean shouldCache(HttpServletRequest request) {
+        String method = request.getMethod().toUpperCase();
+        return !HttpMethod.GET.match(method);
+    }
+
+
 }
