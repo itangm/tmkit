@@ -2045,7 +2045,8 @@ public class Numbers {
      * @return 和
      */
     public static String mulAsStr(@NotNull Number a, @NotNull Number b, int scale, RoundingMode mode) {
-        return mulAsStr(scale, mode, a, b);
+        BigDecimal val = mul(a, b);
+        return val == null ? null : val.setScale(scale, mode).toPlainString();
     }
 
     /**
