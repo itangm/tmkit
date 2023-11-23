@@ -180,4 +180,21 @@ public class NumberUtilTest {
 
     }
 
+    @Test
+    public void create() {
+        Object val = 1;
+        Short s1 = NumberUtil.create(val, Short.class);
+        System.out.println(s1+" " + s1.getClass());
+        val = 65535;
+        Integer i1 = NumberUtil.create(val, Integer.class);
+        System.out.println(i1+" " + i1.getClass());
+        Long lg1 = NumberUtil.create(val, Long.class);
+        System.out.println(lg1+" " + lg1.getClass());
+        Double d1 = NumberUtil.create(val, Double.class);
+        System.out.println(d1 + " " + d1.getClass());
+        BigDecimal bd1 = NumberUtil.create(val, BigDecimal.class);
+        System.out.println(bd1 + " " + bd1.getClass());
+
+    }
+
 }

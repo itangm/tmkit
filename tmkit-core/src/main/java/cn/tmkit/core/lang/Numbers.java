@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @version 0.0.1
  * @date 2023-02-22
  */
-@SuppressWarnings({"ConstantConditions", "DuplicatedCode"})
+@SuppressWarnings({"ConstantConditions", "DuplicatedCode", "unchecked"})
 public class Numbers {
 
     private static final int DEFAULT_SCALE = 2;
@@ -969,6 +969,38 @@ public class Numbers {
 
 
     // region 创建数值对象
+
+    /**
+     * 创建数值对象
+     *
+     * @param val   原始值
+     * @param clazz 目标的类型
+     * @param <T>   类型限定
+     * @return 目标类型的值
+     */
+    public static <T extends Number> T create(Object val, Class<T> clazz) {
+        if (val == null) {
+            return null;
+        } else if (val.getClass() == clazz) {
+            return (T) val;
+        } else if (clazz == Short.class || clazz == Short.TYPE) {
+            return (T) Short.decode(val.toString());
+        } else if (clazz == Integer.class || clazz == Integer.TYPE) {
+            return (T) toInteger(val.toString());
+        } else if (clazz == Float.class || clazz == Float.TYPE) {
+            return (T) Float.valueOf(val.toString());
+        } else if (clazz == Double.class || clazz == Double.TYPE) {
+            return (T) toDouble(val.toString());
+        } else if (clazz == Long.class || clazz == Long.TYPE) {
+            return (T) toLong(val.toString());
+        } else if (clazz == BigDecimal.class) {
+            return (T) toBigDecimal(val);
+        } else if (clazz == BigInteger.class) {
+            return (T) toBigInteger(val.toString());
+        } else {
+            return (T) createNumber(val.toString());
+        }
+    }
 
     /**
      * 将字符串转为数值
