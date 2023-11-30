@@ -1160,4 +1160,165 @@ public class Collections {
 
     // endregion
 
+
+    // region 交集
+
+    /**
+     * 取交集，并且重复的元素只会保留第一份
+     *
+     * @param a   集合A
+     * @param b   集合B
+     * @param <T> 集合元素的类型
+     * @return 交集的集合
+     */
+    public static <T> Set<T> intersection(Collection<T> a, Collection<T> b) {
+        if (isEmpty(a) || isEmpty(b)) {
+            return emptySet();
+        }
+        Set<T> result = new HashSet<>(a);
+        result.retainAll(b);
+        return result;
+    }
+
+    /**
+     * 取交集，并且重复的元素会保留
+     * <p style="font-weight: bold">注意：A ∩ B只会保留A部分的，如果要保留B请 B ∩ A</p>
+     *
+     * @param a   交集A
+     * @param b   集合B
+     * @param <T> 集合元素的类型
+     * @return 交集的集合
+     */
+    public static <T> List<T> intersectionDuplicates(Collection<T> a, Collection<T> b) {
+        if (isEmpty(a) || isEmpty(b)) {
+            return emptyList();
+        }
+        List<T> result = newArrayList(a.size());
+        for (T element : a) {
+            if (b.contains(element)) {
+                result.add(element);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 两个集合是否存在交集
+     *
+     * @param a   集合A
+     * @param b   集合B
+     * @param <T> 集合元素的类型
+     * @return 是否存在交集
+     */
+    public static <T> boolean hasIntersection(Collection<T> a, Collection<T> b) {
+        if (isEmpty(a) || isEmpty(b)) {
+            return false;
+        }
+        if (a.size() > b.size()) {
+            Collection<T> temp = a;
+            a = b;
+            b = temp;
+        }
+        for (T element : a) {
+            if (b.contains(element)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // endregion
+
+
+    // region 并集
+
+    /**
+     * 并集，不去重
+     *
+     * @param a   集合A
+     * @param b   集合B
+     * @param <T> 集合元素的类型
+     * @return 并集的集合
+     */
+    public static <T> List<T> unionAll(Collection<T> a, Collection<T> b) {
+        if (isEmpty(a) && isEmpty(b)) {
+            return emptyList();
+        }
+        List<T> result = newArrayList(Objects.getIfNull(a, emptyList()).size() + Objects.getIfNull(b, emptyList()).size());
+        if (isNotEmpty(a)) {
+            result.addAll(a);
+        }
+        if (isEmpty(b)) {
+            result.addAll(b);
+        }
+        return result;
+    }
+
+    /**
+     * 并集，去重
+     *
+     * @param a   集合A
+     * @param b   集合B
+     * @param <T> 集合元素的类型
+     * @return 并集的集合
+     */
+    public static <T> Set<T> union(Collection<T> a, Collection<T> b) {
+        if (isEmpty(a) && isEmpty(b)) {
+            return emptySet();
+        }
+        Set<T> result = hashSet(Objects.getIfNull(a, emptyList()).size() + Objects.getIfNull(b, emptyList()).size());
+        if (isNotEmpty(a)) {
+            result.addAll(a);
+        }
+        if (isNotEmpty(b)) {
+            result.addAll(b);
+        }
+        return result;
+    }
+
+    // endregion
+
+
+    // region 差集
+
+    /**
+     * 差集
+     *
+     * @param a   集合A
+     * @param b   集合B
+     * @param <T> 集合元素的类型
+     * @return 差集的集合
+     */
+    public static <T> List<T> diff(Collection<T> a, Collection<T> b) {
+        if (isEmpty(a)) {
+            return emptyList();
+        }
+        List<T> result = newArrayList(a);
+        if (isNotEmpty(b)) {
+            result.removeAll(b);
+        }
+        return result;
+    }
+
+    /**
+     * 差集，去重
+     *
+     * @param a   集合A
+     * @param b   集合B
+     * @param <T> 集合元素的类型
+     * @return 差集的集合
+     */
+    public static <T> Set<T> diffToSet(Collection<T> a, Collection<T> b) {
+        if (isEmpty(a)) {
+            return emptySet();
+        }
+        Set<T> result = hashSet(a);
+        if (isNotEmpty(b)) {
+            result.removeAll(b);
+        }
+        return result;
+    }
+
+    // endregion
+
 }
