@@ -112,7 +112,7 @@ public class JSONs {
      * @param <T>   泛型限定
      * @return {@linkplain List}对象
      */
-    public static <T> List<T> toList(String json, @NotNull Class<T> clazz) {
+    public static <T> @NotNull List<T> toList(String json, @NotNull Class<T> clazz) {
         return DEFAULT_JSON.toList(json, clazz);
     }
 
@@ -126,7 +126,7 @@ public class JSONs {
      * @param <V>    值类型的泛型
      * @return {@linkplain Map}对象
      */
-    public static <K, V> Map<K, V> toMap(String json, Class<K> kClass, Class<V> vClass) {
+    public static <K, V> @NotNull Map<K, V> toMap(String json, Class<K> kClass, Class<V> vClass) {
         return DEFAULT_JSON.toMap(json, kClass, vClass);
     }
 

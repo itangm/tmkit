@@ -1,5 +1,7 @@
 package cn.tmkit.json.sjf4j;
 
+import cn.tmkit.core.lang.Collections;
+import cn.tmkit.core.lang.Maps;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Type;
@@ -95,7 +97,7 @@ public class JSON {
      * @return 集合对象
      */
     public <T> List<T> toList(String json, Class<T> clazz) {
-        return json == null ? null : jsonHandler.deserializeList(json, clazz);
+        return json == null ? Collections.emptyList() : jsonHandler.deserializeList(json, clazz);
     }
 
     /**
@@ -109,7 +111,7 @@ public class JSON {
      * @return {@linkplain Map}对象
      */
     public <V, K> Map<K, V> toMap(String json, Class<K> kClass, Class<V> vClass) {
-        return json == null ? null : jsonHandler.deserializeMap(json, kClass, vClass);
+        return json == null ? Maps.emptyMap() : jsonHandler.deserializeMap(json, kClass, vClass);
     }
 
 }
