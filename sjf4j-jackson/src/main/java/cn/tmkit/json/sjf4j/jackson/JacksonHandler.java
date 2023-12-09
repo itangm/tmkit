@@ -13,6 +13,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -45,7 +47,7 @@ public class JacksonHandler extends BaseJsonHandler {
      * @throws JsonRuntimeException 序列化出现异常
      */
     @Override
-    public String doSerialize(@NotNull Object src,  String[] ignorePropertyNames) throws JsonRuntimeException {
+    public String doSerialize(@NotNull Object src, String[] ignorePropertyNames) throws JsonRuntimeException {
         if (Arrays.isNotEmpty(ignorePropertyNames)) {
             SimpleFilterProvider sfp = new SimpleFilterProvider();
             sfp.addFilter("fieldFilter", SimpleBeanPropertyFilter.serializeAllExcept(ignorePropertyNames));
@@ -68,7 +70,7 @@ public class JacksonHandler extends BaseJsonHandler {
      * @throws JsonRuntimeException 序列化出现异常
      */
     @Override
-    public String doSerialize(@NotNull Object src,  Type typeOfT) throws JsonRuntimeException {
+    public String doSerialize(@NotNull Object src, Type typeOfT) throws JsonRuntimeException {
         try {
             return objectMapper.writeValueAsString(src);
         } catch (JsonProcessingException e) {
@@ -109,6 +111,32 @@ public class JacksonHandler extends BaseJsonHandler {
         } catch (IOException e) {
             throw new JsonRuntimeException(e);
         }
+    }
+
+    /**
+     * 将JSON字符串转为集合
+     *
+     * @param json  字符串，可以为空
+     * @param clazz 集合元素的类型
+     * @return 集合对象
+     */
+    @Override
+    public <T> List<T> deserializeList(String json, Class<T> clazz) {
+        // 底层有缓存，所以其性能很高了
+        return doDeserialize(json, objectMapper.getTypeFactory().constructCollectionType(List.class, clazz));
+    }
+
+    /**
+     * 将JSON字符串反序列化为{@linkplain Map}对象
+     *
+     * @param json   字符串，可以为空
+     * @param kClass {@linkplain Map}的键类型
+     * @param vClass {@linkplain Map}的值类型
+     * @return {@linkplain Map}对象
+     */
+    @Override
+    public <K, V> Map<K, V> deserializeMap(String json, Class<K> kClass, Class<V> vClass) {
+        return doDeserialize(json, objectMapper.getTypeFactory().constructMapType(Map.class, kClass, vClass));
     }
 
 }

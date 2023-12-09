@@ -10,6 +10,7 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -100,7 +101,7 @@ public class ContentType implements java.io.Serializable {
         APPLICATION_PDF = new ContentType("application", "pdf", null);
 
         APPLICATION_DOC = new ContentType("application", "msword", null);
-        APPLICATION_XLS = new ContentType("application", "vnd.ms-excel", (Charset) null);
+        APPLICATION_XLS = new ContentType("application", "vnd.ms-excel", null);
         APPLICATION_PPT = new ContentType("application", "vnd.ms-powerpoint", null);
         APPLICATION_APK = new ContentType("application", "vnd.android.package-archive", null);
         APPLICATION_IPA = new ContentType("application", "iphone", null);
@@ -166,6 +167,19 @@ public class ContentType implements java.io.Serializable {
      */
     public String getMimeType() {
         return Strings.format("{}/{}", type, subtype);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ContentType that = (ContentType) o;
+        return type.equals(that.type) && subtype.equals(that.subtype) && Objects.equals(charset, that.charset);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, subtype, charset);
     }
 
     @Override

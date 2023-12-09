@@ -6,6 +6,8 @@ import cn.tmkit.json.sjf4j.JsonFactory;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -25,7 +27,7 @@ public class JSONs {
     }
 
     /**
-     * 将对象转为JSON字符串
+     * 将对象序列化为JSON字符串
      *
      * @param src 对象
      * @return JSON字符串或空字符串
@@ -39,7 +41,7 @@ public class JSONs {
     }
 
     /**
-     * 将对象转为JSON字符串
+     * 将对象序列化为JSON字符串
      *
      * @param src       对象
      * @param typeOfSrc 对象的某个类型
@@ -53,7 +55,7 @@ public class JSONs {
     }
 
     /**
-     * Java对象转为JSON字符串
+     * Java对象序列化为JSON字符串
      *
      * @param src                 Java对象
      * @param ignorePropertyNames 忽略的属性
@@ -67,7 +69,7 @@ public class JSONs {
     }
 
     /**
-     * 将JSON字符串转为Java对象
+     * 将JSON字符串反序列化为Java对象
      *
      * @param json  字符串，可以为空
      * @param clazz 类型
@@ -79,7 +81,7 @@ public class JSONs {
     }
 
     /**
-     * 将JSON字符串转为Java对象
+     * 将JSON字符串反序列化为Java对象
      *
      * @param json    字符串，可以为空
      * @param typeOfT 类型
@@ -91,15 +93,41 @@ public class JSONs {
     }
 
     /**
-     * 将JSON字符串转为Java对象
+     * 将JSON字符串反序列化为Java对象
      *
-     * @param text    字符串，可为空
+     * @param json    字符串，可为空
      * @param typeRef 类型
      * @param <T>     泛型
      * @return 对象
      */
-    public static <T> T fromJson(String text, @NotNull BaseTypeRef<T> typeRef) {
-        return DEFAULT_JSON.fromJson(text, Objects.requireNonNull(typeRef).getType());
+    public static <T> T fromJson(String json, @NotNull BaseTypeRef<T> typeRef) {
+        return DEFAULT_JSON.fromJson(json, Objects.requireNonNull(typeRef).getType());
+    }
+
+    /**
+     * 将JSON字符串反序列化为{@linkplain List}对象
+     *
+     * @param json  字符串，可以为空
+     * @param clazz 集合元素的类型
+     * @param <T>   泛型限定
+     * @return {@linkplain List}对象
+     */
+    public static <T> List<T> toList(String json, @NotNull Class<T> clazz) {
+        return DEFAULT_JSON.toList(json, clazz);
+    }
+
+    /**
+     * 将JSO你字符串反序列化为{@linkplain Map}对象
+     *
+     * @param json   字符串，可以为空
+     * @param kClass {@linkplain Map}的键类型
+     * @param vClass {@linkplain Map}的值类型
+     * @param <K>    键类型的泛型
+     * @param <V>    值类型的泛型
+     * @return {@linkplain Map}对象
+     */
+    public static <K, V> Map<K, V> toMap(String json, Class<K> kClass, Class<V> vClass) {
+        return DEFAULT_JSON.toMap(json, kClass, vClass);
     }
 
 }

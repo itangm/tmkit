@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Reader;
 import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 基础的 JSON Handler
@@ -93,6 +95,31 @@ public abstract class BaseJsonHandler implements JsonHandler {
      */
     @Override
     public <T> T deserialize(@NotNull Reader reader, @NotNull Type typeOfT) throws JsonRuntimeException {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * 将JSON字符串转为集合
+     *
+     * @param json  字符串，可以为空
+     * @param clazz 集合元素的类型
+     * @return 集合对象
+     */
+    @Override
+    public <T> List<T> deserializeList(String json, Class<T> clazz) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * 将JSON字符串反序列化为{@linkplain Map}对象
+     *
+     * @param json   字符串，可以为空
+     * @param kClass {@linkplain Map}的键类型
+     * @param vClass {@linkplain Map}的值类型
+     * @return {@linkplain Map}对象
+     */
+    @Override
+    public <K, V> Map<K, V> deserializeMap(String json, Class<K> kClass, Class<V> vClass) {
         throw new UnsupportedOperationException();
     }
 

@@ -3,6 +3,8 @@ package cn.tmkit.json.sjf4j;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 提供默认的工具类
@@ -82,6 +84,32 @@ public class JSON {
      */
     public JsonHandler getJsonHandler() {
         return jsonHandler;
+    }
+
+    /**
+     * 将JSON字符串转为集合
+     *
+     * @param json  字符串，可以为空
+     * @param clazz 集合元素的类型
+     * @param <T>   泛型限定
+     * @return 集合对象
+     */
+    public <T> List<T> toList(String json, Class<T> clazz) {
+        return json == null ? null : jsonHandler.deserializeList(json, clazz);
+    }
+
+    /**
+     * 将JSO你字符串反序列化为{@linkplain Map}对象
+     *
+     * @param json   字符串，可以为空
+     * @param kClass {@linkplain Map}的键类型
+     * @param vClass {@linkplain Map}的值类型
+     * @param <K>    键类型的泛型
+     * @param <V>    值类型的泛型
+     * @return {@linkplain Map}对象
+     */
+    public <V, K> Map<K, V> toMap(String json, Class<K> kClass, Class<V> vClass) {
+        return json == null ? null : jsonHandler.deserializeMap(json, kClass, vClass);
     }
 
 }
