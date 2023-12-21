@@ -231,4 +231,39 @@ public class LocalDateTimeUtilTest {
         assertEquals(expected, LocalDateTimeUtil.offsetDuration(Duration.ofDays(10)));
     }
 
+    @Test
+    public void between() {
+        LocalDateTime start = LocalDateTimes.of(2023, 12, 21, 18, 0, 0);
+        LocalDateTime end = LocalDateTimes.of(2023, 12, 21, 19, 20, 0);
+        Duration duration = LocalDateTimes.between(start, end);
+        assertEquals(1, duration.toHours());
+        assertEquals(80, duration.toMinutes());
+        duration = LocalDateTimes.between(end, start);
+        assertEquals(1, duration.toHours());
+        assertEquals(80, duration.toMinutes());
+        duration = LocalDateTimes.between(start, end, false);
+        assertEquals(-1, duration.toHours());
+        assertEquals(-80, duration.toMinutes());
+    }
+
+    @Test
+    public void betweenSeconds() {
+        LocalDateTime start = LocalDateTimes.of(2023, 12, 21, 19, 0, 0);
+        LocalDateTime end = LocalDateTimes.of(2023, 12, 21, 19, 20, 0);
+        long seconds = LocalDateTimes.betweenSeconds(start, end);
+        assertEquals(1200, seconds);
+        seconds = LocalDateTimes.betweenSeconds(start, end, false);
+        assertEquals(-1200, seconds);
+    }
+
+    @Test
+    public void aa() {
+        LocalDateTime start = LocalDateTimes.of(2023, 12, 21, 19, 0, 0);
+        LocalDateTime end = LocalDateTimes.of(2023, 12, 21, 19, 20, 0);
+        long minutes = LocalDateTimes.betweenMinutes(start, end);
+        assertEquals(20, minutes);
+        minutes = LocalDateTimes.betweenMinutes(start, end, false);
+        assertEquals(-20, minutes);
+    }
+
 }

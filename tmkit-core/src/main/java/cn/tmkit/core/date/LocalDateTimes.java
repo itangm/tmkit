@@ -753,7 +753,7 @@ public class LocalDateTimes {
     }
 
     /**
-     * 获取两个日期的差，其结果值永远为正整数或0
+     * 获取两个日期的差，其结果值为正整数或、0或{@code null}<br>
      * 返回结果为{@link Duration}对象，通过调用toXXX方法返回相差单位
      *
      * @param start 开始时间（包含）
@@ -765,8 +765,8 @@ public class LocalDateTimes {
     }
 
     /**
-     * 获取两个日期的差
-     * 返回结果为{@link Duration}对象，通过调用toXXX方法返回相差单位
+     * 获取两个日期的差，返回结果为{@link Duration}对象，通过调用toXXX方法返回相差单位<br>
+     * 如果开始时间小于结束时间则返回负数
      *
      * @param start      开始时间（包含）
      * @param end        结束时间（不包含）
@@ -777,18 +777,18 @@ public class LocalDateTimes {
         if (Arrays.isAnyNull(start, end)) {
             return null;
         }
-        LocalDateTime begin = start, fin = end;
-        if (isAbsolute && begin.isAfter(fin)) {
-            begin = end;
-            fin = start;
+        if (isAbsolute) {
+            if (start.isAfter(end)) {
+                return Duration.between(end, start);
+            }
+            return Duration.between(start, end);
         }
-
-        return Duration.between(begin, fin);
+        return Duration.between(end, start);
     }
 
     /**
      * 返回两者之间相差的毫秒数
-     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}，否则其值为0或正整数
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}，否则其值为0或正整数
      *
      * @param start 开始时间（包含）
      * @param end   结束时间（不包含）
@@ -800,7 +800,7 @@ public class LocalDateTimes {
 
     /**
      * 返回两者之间相差的毫秒数，如果{@code start}小于{@code end}负数
-     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}
      *
      * @param start      开始时间（包含）
      * @param end        结束时间（不包含）
@@ -809,14 +809,14 @@ public class LocalDateTimes {
      */
     public static long betweenMills(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
         if (Objects.isAnyNull(start, end)) {
-            return -1;
+            return 0;
         }
         return between(start, end, isAbsolute).toMillis();
     }
 
     /**
      * 返回两者之间相差的秒数
-     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}，否则其值为0或正整数
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}，否则其值为0或正整数
      *
      * @param start 开始时间（包含）
      * @param end   结束时间（不包含）
@@ -824,14 +824,14 @@ public class LocalDateTimes {
      */
     public static long betweenSeconds(LocalDateTime start, LocalDateTime end) {
         if (Objects.isAnyNull(start, end)) {
-            return -1;
+            return 0;
         }
         return between(start, end).getSeconds();
     }
 
     /**
-     * 返回两者之间相差的秒数，如果{@code start}小于{@code end}负数
-     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}
+     * 返回两者之间相差的秒数，如果{@code start}小于{@code end}则为负数
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}
      *
      * @param start      开始时间（包含）
      * @param end        结束时间（不包含）
@@ -840,14 +840,14 @@ public class LocalDateTimes {
      */
     public static long betweenSeconds(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
         if (Objects.isAnyNull(start, end)) {
-            return -1;
+            return 0;
         }
         return between(start, end, isAbsolute).getSeconds();
     }
 
     /**
-     * 返回两者之间相差的分钟数，如果{@code start}小于{@code end}负数
-     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}
+     * 返回两者之间相差的分钟数，如果{@code start}小于{@code end}则为负数
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}
      *
      * @param start 开始时间（包含）
      * @param end   结束时间（不包含）
@@ -855,14 +855,14 @@ public class LocalDateTimes {
      */
     public static long betweenMinutes(LocalDateTime start, LocalDateTime end) {
         if (Objects.isAnyNull(start, end)) {
-            return -1;
+            return 0;
         }
         return between(start, end).toMinutes();
     }
 
     /**
      * 返回两者之间相差的分钟数
-     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}，否则其值为0或正整数
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}，否则其值为0或正整数
      *
      * @param start      开始时间（包含）
      * @param end        结束时间（不包含）
@@ -871,14 +871,14 @@ public class LocalDateTimes {
      */
     public static long betweenMinutes(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
         if (Objects.isAnyNull(start, end)) {
-            return -1;
+            return 0;
         }
         return between(start, end, isAbsolute).toMinutes();
     }
 
     /**
      * 返回两者之间相差的小时数，如果{@code start}小于{@code end}负数
-     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}
      *
      * @param start 开始时间（包含）
      * @param end   结束时间（不包含）
@@ -886,14 +886,14 @@ public class LocalDateTimes {
      */
     public static long betweenHours(LocalDateTime start, LocalDateTime end) {
         if (Objects.isAnyNull(start, end)) {
-            return -1;
+            return 0;
         }
         return between(start, end).toHours();
     }
 
     /**
      * 返回两者之间相差的小时数
-     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}，否则其值为0或正整数
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}，否则其值为0或正整数
      *
      * @param start      开始时间（包含）
      * @param end        结束时间（不包含）
@@ -902,14 +902,14 @@ public class LocalDateTimes {
      */
     public static long betweenHours(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
         if (Objects.isAnyNull(start, end)) {
-            return -1;
+            return 0;
         }
         return between(start, end, isAbsolute).toHours();
     }
 
     /**
      * 返回两者之间相差的天数，如果{@code start}小于{@code end}负数
-     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}
      *
      * @param start 开始时间（包含）
      * @param end   结束时间（不包含）
@@ -917,14 +917,14 @@ public class LocalDateTimes {
      */
     public static long betweenDays(LocalDateTime start, LocalDateTime end) {
         if (Objects.isAnyNull(start, end)) {
-            return -1;
+            return 0;
         }
         return between(start, end).toDays();
     }
 
     /**
      * 返回两者之间相差的天数
-     * 如果{@code start}或{@code end}为{@code null}则返回{@code -1}，否则其值为0或正整数
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}，否则其值为0或正整数
      *
      * @param start      开始时间（包含）
      * @param end        结束时间（不包含）
@@ -933,7 +933,7 @@ public class LocalDateTimes {
      */
     public static long betweenDays(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
         if (Objects.isAnyNull(start, end)) {
-            return -1;
+            return 0;
         }
         return between(start, end, isAbsolute).toDays();
     }
@@ -961,7 +961,7 @@ public class LocalDateTimes {
      */
     public static long betweenHours(Temporal start, Temporal end) {
         if (Arrays.isAnyNull(start, end)) {
-            return -1;
+            return 0;
         }
         return ChronoUnit.HOURS.between(start, end);
     }
@@ -975,7 +975,7 @@ public class LocalDateTimes {
      */
     public static long betweenDays(Temporal start, Temporal end) {
         if (Arrays.isAnyNull(start, end)) {
-            return -1;
+            return 0;
         }
         return ChronoUnit.DAYS.between(start, end);
     }
@@ -1219,7 +1219,7 @@ public class LocalDateTimes {
      * @return {@link LocalDateTime}
      */
     public static LocalDateTime yesterday(LocalDateTime date) {
-        return offsetDay(date, -1);
+        return offsetDay(date, 0);
     }
 
     /**
@@ -1829,14 +1829,14 @@ public class LocalDateTimes {
     }
 
     /**
-     * 返回当前日期月份的第几天，如果参数为{@code null}则返回{@code -1}
+     * 返回当前日期月份的第几天，如果参数为{@code null}则返回{@code 0}
      *
      * @param ldt 指定日期
      * @return 月份的第几天
      */
     public static int dayOfMonth(LocalDateTime ldt) {
         if (ldt == null) {
-            return -1;
+            return 0;
         }
         return ldt.getDayOfMonth();
     }
