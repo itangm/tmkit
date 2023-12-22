@@ -8,10 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
 /**
@@ -650,26 +647,40 @@ public class Maps {
     }
 
     /**
-     * Compute if absent.
-     * Use this method if you are frequently using the same key,
-     * because the get method has no lock.
+     * 根据给定的键和映射函数，如果映射中不包含该键，将其添加到映射中，并返回该键对应的值。
+     * 如果映射中已经包含了该键，则返回该键原来的值。
      *
-     * @param map             the map
-     * @param key             the key
-     * @param mappingFunction the mapping function
-     * @param <K>             the type of key
-     * @param <V>             the type of value
-     * @return the value
+     * @param map 要操作的映射
+     * @param key 要查找或添加的键
+     * @param mf  用于添加键到映射中的函数
+     * @param <K> 映射中键的类型
+     * @param <V> 映射中值的类型
+     * @return 键对应的值
      */
-    public static <K, V> V computeIfAbsent(Map<K, V> map, K key, Function<? super K, ? extends V> mappingFunction) {
-        if (Objects.isAnyNull(map, key, mappingFunction)) {
+    public static <K, V> V computeIfAbsent(Map<K, V> map, K key, Function<? super K, ? extends V> mf) {
+        if (Objects.isAnyNull(map, key, mf)) {
             return null;
         }
         V value = map.get(key);
         if (value != null) {
             return value;
         }
-        return map.computeIfAbsent(key, mappingFunction);
+        return map.computeIfAbsent(key, mf);
+    }
+
+    /**
+     * 根据给定的键和映射函数，如果映射中不包含该键，将其添加到映射中，并返回该键对应的值。
+     * 如果映射中已经包含了该键，则返回该键原来的值。
+     *
+     * @param map      要操作的映射
+     * @param key      要查找或添加的键
+     * @param supplier 用于添加键到映射中的函数
+     * @param <K>      映射中键的类型
+     * @param <V>      映射中值的类型
+     * @return 键对应的值
+     */
+    public static <K, V> V computeIfAbsent(Map<K, V> map, K key, Supplier<V> supplier) {
+        return computeIfAbsent(map, key, k -> supplier.get());
     }
 
     /**
