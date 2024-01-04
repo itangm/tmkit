@@ -742,21 +742,6 @@ public class Numbers {
     // region 数值转换
 
     /**
-     * long的数值转为int的数值，如果超出{@linkplain Integer#MAX_VALUE}则抛出异常
-     *
-     * @param val 数值
-     * @return 转换后的数值
-     * @throws ArithmeticException 数据溢出
-     */
-    public static int toIntExact(long val) throws ArithmeticException {
-        int i = (int) val;
-        if (i != val) {
-            throw new ArithmeticException("integer overflow");
-        }
-        return i;
-    }
-
-    /**
      * 将给定的数值转换为目标类型的实例
      *
      * @param number      数值
@@ -2532,6 +2517,112 @@ public class Numbers {
 
     // endregion
 
+
+    // region JDK Method Copy 以下的方法均来自JDK，属于引用
+
+    /**
+     * long的数值转为int的数值，如果超出{@linkplain Integer#MAX_VALUE}则抛出异常
+     *
+     * @param val 数值
+     * @return 转换后的数值
+     * @throws ArithmeticException 数据溢出
+     * @see Math#toIntExact(long)
+     */
+    public static int toIntExact(long val) throws ArithmeticException {
+        return Math.toIntExact(val);
+    }
+
+    /**
+     * 返回一个数的相反数，即正数返回负数，负数返回正数，0还是0。
+     *
+     * @param val 数值
+     * @return 相反数
+     * @throws ArithmeticException integer overflow
+     * @see Math#negateExact(int)
+     */
+    public static int negateExact(int val) throws ArithmeticException {
+        return Math.negateExact(val);
+    }
+
+    /**
+     * 返回一个数的相反数，即正数返回负数，负数返回正数，0还是0。
+     *
+     * @param val 数值
+     * @return 相反数
+     * @throws ArithmeticException long overflow
+     * @see Math#negateExact(long)
+     */
+    public static long negateExact(long val) throws ArithmeticException {
+        return Math.negateExact(val);
+    }
+
+    /**
+     * 返回一个数的绝对值
+     *
+     * @param val 数值
+     * @return 绝对值
+     * @see Math#abs(int)
+     */
+    public static int abs(int val) {
+        return Math.abs(val);
+    }
+
+    /**
+     * 返回一个数的绝对值
+     *
+     * @param val 数值
+     * @return 绝对值
+     * @see Math#abs(long)
+     */
+    public static long abs(long val) {
+        return Math.abs(val);
+    }
+
+    /**
+     * 返回一个数的绝对值
+     *
+     * @param val 数值
+     * @return 绝对值
+     * @see BigDecimal#abs()
+     */
+    public static BigDecimal abs(BigDecimal val) {
+        return val == null ? null : val.abs();
+    }
+
+    /**
+     * 返回一个数的绝对值
+     *
+     * @param val 数值
+     * @return 绝对值
+     * @see BigInteger#abs()
+     */
+    public static BigInteger abs(BigInteger val) {
+        return val == null ? null : val.abs();
+    }
+
+    /**
+     * 返回一个数的绝对值
+     *
+     * @param val 数值
+     * @return 绝对值
+     * @see Math#abs(float)
+     */
+    public static float abs(float val) {
+        return Math.abs(val);
+    }
+
+    /**
+     * 返回一个数的绝对值
+     *
+     * @param val 数值
+     * @return 绝对值
+     * @see Math#abs(double)
+     */
+    public static double abs(double val) {
+        return Math.abs(val);
+    }
+
+    // endregion
 
     // region 内部私有方法
 
