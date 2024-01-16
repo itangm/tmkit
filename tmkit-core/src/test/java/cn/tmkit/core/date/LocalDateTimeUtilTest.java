@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -192,9 +193,11 @@ public class LocalDateTimeUtilTest {
     public void offsetDay() {
         LocalDateTime now = LocalDateTimeUtil.now();
         LocalDateTime expected = now.plusDays(10);
-        assertEquals(expected, LocalDateTimeUtil.offsetDay(10));
+        assertEquals(LocalDateTimes.truncateTo(expected, ChronoUnit.MINUTES),
+                LocalDateTimes.truncateTo(LocalDateTimeUtil.offsetDay(10), ChronoUnit.MINUTES));
         expected = now.minusDays(10);
-        assertEquals(expected, LocalDateTimeUtil.offsetDay(-10));
+        assertEquals(LocalDateTimes.truncateTo(expected, ChronoUnit.MINUTES),
+                LocalDateTimes.truncateTo(LocalDateTimeUtil.offsetDay(-10), ChronoUnit.MINUTES));
     }
 
     @Test
@@ -251,19 +254,56 @@ public class LocalDateTimeUtilTest {
         LocalDateTime start = LocalDateTimes.of(2023, 12, 21, 19, 0, 0);
         LocalDateTime end = LocalDateTimes.of(2023, 12, 21, 19, 20, 0);
         long seconds = LocalDateTimes.betweenSeconds(start, end);
-        assertEquals(1200, seconds);
-        seconds = LocalDateTimes.betweenSeconds(start, end, false);
         assertEquals(-1200, seconds);
+        seconds = LocalDateTimes.betweenSeconds(start, end, true);
+        assertEquals(1200, seconds);
     }
 
     @Test
-    public void aa() {
-        LocalDateTime start = LocalDateTimes.of(2023, 12, 21, 19, 0, 0);
-        LocalDateTime end = LocalDateTimes.of(2023, 12, 21, 19, 20, 0);
-        long minutes = LocalDateTimes.betweenMinutes(start, end);
-        assertEquals(20, minutes);
-        minutes = LocalDateTimes.betweenMinutes(start, end, false);
-        assertEquals(-20, minutes);
+    public void betweenMinutes() {
+        LocalDateTime start = LocalDateTimes.of(2024, 1, 15, 12, 2, 0);
+        LocalDateTime end = LocalDateTimes.of(2024, 1, 15, 12, 0, 1);
+        assertEquals(1, LocalDateTimes.betweenMinutes(start, end));
+        assertEquals(2, LocalDateTimes.betweenMinutesTruncate(start, end));
+    }
+
+    @Test
+    public void betweenHours() {
+        LocalDateTime start = LocalDateTimes.of(2024, 1, 15, 12, 0, 0);
+        LocalDateTime end = LocalDateTimes.of(2024, 1, 15, 11, 1, 0);
+        assertEquals(0, LocalDateTimes.betweenHours(start, end));
+        assertEquals(1, LocalDateTimes.betweenHoursTruncate(start, end));
+    }
+
+    @Test
+    public void betweenDays() {
+        LocalDateTime start = LocalDateTimes.of(2024, 1, 16, 12, 0, 0);
+        LocalDateTime end = LocalDateTimes.of(2024, 1, 15, 13, 0, 0);
+        assertEquals(0, LocalDateTimes.betweenDays(start, end));
+        assertEquals(1, LocalDateTimes.betweenDaysTruncate(start, end));
+    }
+
+    @Test
+    public void beginOfYear() {
+        LocalDateTime ldt = LocalDateTime.of(2024, 1, 16, 0, 0, 0);
+        assertEquals(LocalDateTime.of(2024, 1, 1, 0, 0, 0), LocalDateTimeUtil.beginOfYear(ldt));
+        LocalDate ld = LocalDate.of(2024, 2, 2);
+        assertEquals(LocalDateTime.of(2024, 1, 1, 0, 0, 0), LocalDateTimeUtil.beginOfYear(ld));
+        LocalDateTime now = LocalDateTimeUtil.now();
+        assertEquals(LocalDateTimeUtil.of(now.getYear(), 1, 1, 0, 0, 0),
+                LocalDateTimeUtil.beginOfYear());
+    }
+
+    @Test
+    public void dayOfMonth() {
+        LocalDateTime now = LocalDateTimeUtil.now();
+        assertEquals(now.getDayOfMonth(), LocalDateTimeUtil.dayOfMonth());
+    }
+
+    @Test
+    public void startOfMonth() {
+        LocalDateTime now = LocalDateTimeUtil.now();
+        assertEquals(LocalDateTimes.of(now.getYear(), now.getMonthValue(), 1, 0, 0, 0), LocalDateTimes.startOfMonth());
     }
 
 }

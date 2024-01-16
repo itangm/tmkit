@@ -3,6 +3,7 @@ package cn.tmkit.core.lang;
 import cn.tmkit.core.exception.ClassNotFoundRuntimeException;
 import cn.tmkit.core.exception.IoRuntimeException;
 import cn.tmkit.core.io.FastByteArrayOutputStream;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.nio.Buffer;
@@ -377,8 +378,8 @@ public class Objects {
      * @param <T>      对象类型
      * @return 被检查对象为{@code null}返回默认值，否则返回原值
      */
-    public static <T> T getIfNull(final T obj, Supplier<T> supplier) {
-        return isNull(obj) ? Asserts.notNull(supplier).get() : obj;
+    public static <T> T getIfNull(final T obj, @NotNull Supplier<T> supplier) {
+        return isNull(obj) ? supplier.get() : obj;
     }
 
     /**
@@ -401,8 +402,8 @@ public class Objects {
      * @param <T>      对象的类型
      * @return 对象值
      */
-    public static <T> T getIfEmpty(final T obj, final Supplier<T> supplier) {
-        return isEmpty(obj) ? Asserts.notNull(supplier).get() : obj;
+    public static <T> T getIfEmpty(final T obj, @NotNull Supplier<T> supplier) {
+        return isEmpty(obj) ? supplier.get() : obj;
     }
 
     // endregion

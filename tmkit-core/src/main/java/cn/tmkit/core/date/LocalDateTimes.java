@@ -822,11 +822,8 @@ public class LocalDateTimes {
      * @param end   结束时间（不包含）
      * @return 两者之间相差的秒数
      */
-    public static long betweenSeconds(LocalDateTime start, LocalDateTime end) {
-        if (Objects.isAnyNull(start, end)) {
-            return 0;
-        }
-        return between(start, end).getSeconds();
+    public static int betweenSeconds(LocalDateTime start, LocalDateTime end) {
+        return betweenSeconds(start, end, false);
     }
 
     /**
@@ -838,11 +835,11 @@ public class LocalDateTimes {
      * @param isAbsolute 结果值是否为正数
      * @return 两者之间相差的秒数
      */
-    public static long betweenSeconds(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
+    public static int betweenSeconds(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
         if (Objects.isAnyNull(start, end)) {
             return 0;
         }
-        return between(start, end, isAbsolute).getSeconds();
+        return Numbers.toIntExact(between(start, end, isAbsolute).getSeconds());
     }
 
     /**
@@ -853,11 +850,23 @@ public class LocalDateTimes {
      * @param end   结束时间（不包含）
      * @return 两者之间相差的分钟数
      */
-    public static long betweenMinutes(LocalDateTime start, LocalDateTime end) {
-        if (Objects.isAnyNull(start, end)) {
-            return 0;
-        }
-        return between(start, end).toMinutes();
+    public static int betweenMinutes(LocalDateTime start, LocalDateTime end) {
+        return betweenMinutes(start, end, false);
+    }
+
+    /**
+     * 返回两者之间相差的分钟数，本方法会截断（重置）秒、毫秒。
+     * 举个例子更为直观的说明：
+     * 如果 {@code start} = 2024-01-15 12:02:00， {@code end} = 2024-01-15 12:00:01，那么本方法得到的分钟值为2
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}，否则其值为0或正整数
+     *
+     * @param start 开始时间（包含）
+     * @param end   结束时间（不包含）
+     * @return 两者之间相差的分钟数
+     * @see #betweenMinutes(LocalDateTime, LocalDateTime)
+     */
+    public static int betweenMinutesTruncate(LocalDateTime start, LocalDateTime end) {
+        return betweenMinutes(truncateTo(start, ChronoUnit.MINUTES), truncateTo(end, ChronoUnit.MINUTES));
     }
 
     /**
@@ -869,26 +878,40 @@ public class LocalDateTimes {
      * @param isAbsolute 结果值是否为正数
      * @return 两者之间相差的分钟数
      */
-    public static long betweenMinutes(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
+    public static int betweenMinutes(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
         if (Objects.isAnyNull(start, end)) {
             return 0;
         }
-        return between(start, end, isAbsolute).toMinutes();
+        return Numbers.toIntExact(between(start, end, isAbsolute).toMinutes());
     }
 
     /**
      * 返回两者之间相差的小时数，如果{@code start}小于{@code end}负数
+     * 举个例子更为直观的说明：
+     * 如果 {@code start} = 2019-01-01 12:00:02， {@code end} = 2019-01-01 13:02:01，那么本方法得到的分钟值为1
      * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}
      *
      * @param start 开始时间（包含）
      * @param end   结束时间（不包含）
      * @return 两者之间相差的小时数
      */
-    public static long betweenHours(LocalDateTime start, LocalDateTime end) {
-        if (Objects.isAnyNull(start, end)) {
-            return 0;
-        }
-        return between(start, end).toHours();
+    public static int betweenHours(LocalDateTime start, LocalDateTime end) {
+        return betweenHours(start, end, false);
+    }
+
+    /**
+     * 返回两者之间相差的小时数，本方法会截断（重置）分钟、秒、毫秒。
+     * 举个例子更为直观的说明：
+     * 如果 {@code start} = 2024-01-15 12:00:00， {@code end} = 2024-01-15 11:01:00，那么本方法得到的小时数值为1
+     * 如果{@code start}小于{@code end}负数，如果{@code start}或{@code end}为{@code null}则返回{@code 0}
+     *
+     * @param start 开始时间（包含）
+     * @param end   结束时间（不包含）
+     * @return 两者之间相差的小时数
+     * @see #betweenMinutes(LocalDateTime, LocalDateTime)
+     */
+    public static int betweenHoursTruncate(LocalDateTime start, LocalDateTime end) {
+        return betweenHours(truncateTo(start, ChronoUnit.HOURS), truncateTo(end, ChronoUnit.HOURS));
     }
 
     /**
@@ -900,11 +923,11 @@ public class LocalDateTimes {
      * @param isAbsolute 结果值是否为正数
      * @return 两者之间相差的小时数
      */
-    public static long betweenHours(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
+    public static int betweenHours(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
         if (Objects.isAnyNull(start, end)) {
             return 0;
         }
-        return between(start, end, isAbsolute).toHours();
+        return Numbers.toIntExact(between(start, end, isAbsolute).toHours());
     }
 
     /**
@@ -915,11 +938,23 @@ public class LocalDateTimes {
      * @param end   结束时间（不包含）
      * @return 两者之间相差的天数
      */
-    public static long betweenDays(LocalDateTime start, LocalDateTime end) {
-        if (Objects.isAnyNull(start, end)) {
-            return 0;
-        }
-        return between(start, end).toDays();
+    public static int betweenDays(LocalDateTime start, LocalDateTime end) {
+        return betweenDays(start, end, false);
+    }
+
+    /**
+     * 返回两者之间相差的天数，本方法会截断（重置）小时、分钟、秒、毫秒。
+     * 举个例子更为直观的说明：
+     * 如果 {@code start} = 2024-01-16 12:00:00， {@code end} = 2024-01-15 132:00:00，那么本方法得到的天数值为1
+     * 如果{@code start}小于{@code end}负数，如果{@code start}或{@code end}为{@code null}则返回{@code 0}
+     *
+     * @param start 开始时间（包含）
+     * @param end   结束时间（不包含）
+     * @return 两者之间相差的天数
+     * @see #betweenDays(LocalDateTime, LocalDateTime)
+     */
+    public static int betweenDaysTruncate(LocalDateTime start, LocalDateTime end) {
+        return betweenDays(truncateTo(start, ChronoUnit.DAYS), truncateTo(end, ChronoUnit.DAYS));
     }
 
     /**
@@ -931,11 +966,11 @@ public class LocalDateTimes {
      * @param isAbsolute 结果值是否为正数
      * @return 两者之间相差的天数
      */
-    public static long betweenDays(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
+    public static int betweenDays(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
         if (Objects.isAnyNull(start, end)) {
             return 0;
         }
-        return between(start, end, isAbsolute).toDays();
+        return Numbers.toIntExact(between(start, end, isAbsolute).toDays());
     }
 
     /**
@@ -959,11 +994,11 @@ public class LocalDateTimes {
      * @param end   结束时间
      * @return 相差的天数
      */
-    public static long betweenHours(Temporal start, Temporal end) {
+    public static int betweenHours(Temporal start, Temporal end) {
         if (Arrays.isAnyNull(start, end)) {
             return 0;
         }
-        return ChronoUnit.HOURS.between(start, end);
+        return Numbers.toIntExact(ChronoUnit.HOURS.between(start, end));
     }
 
     /**
@@ -973,11 +1008,11 @@ public class LocalDateTimes {
      * @param end   结束时间
      * @return 相差的天数
      */
-    public static long betweenDays(Temporal start, Temporal end) {
+    public static int betweenDays(Temporal start, Temporal end) {
         if (Arrays.isAnyNull(start, end)) {
             return 0;
         }
-        return ChronoUnit.DAYS.between(start, end);
+        return Numbers.toIntExact(ChronoUnit.DAYS.between(start, end));
     }
 
     /**
