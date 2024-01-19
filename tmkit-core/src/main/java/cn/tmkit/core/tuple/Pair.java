@@ -1,6 +1,5 @@
 package cn.tmkit.core.tuple;
 
-import cn.tmkit.core.support.CloneSupport;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -13,7 +12,7 @@ import java.util.Map;
  * @version 0.0.1
  * @date 2023-01-12
  */
-public class Pair<L, R> extends CloneSupport<Pair<L, R>> implements Map.Entry<L, R>, Comparable<Pair<L, R>>, Serializable {
+public class Pair<L, R> extends BaseTuple implements Map.Entry<L, R>, Comparable<Pair<L, R>>, Serializable {
 
     private static final long serialVersionUID = 2023L;
 
@@ -30,6 +29,26 @@ public class Pair<L, R> extends CloneSupport<Pair<L, R>> implements Map.Entry<L,
     public Pair(L left, R right) {
         this.left = left;
         this.right = right;
+    }
+
+    /**
+     * 返回元组元素个数
+     *
+     * @return 元素个数
+     */
+    @Override
+    public int size() {
+        return 2;
+    }
+
+    /**
+     * 返回元组中所有的元素
+     *
+     * @return 元素列表
+     */
+    @Override
+    public Object[] elements() {
+        return new Object[]{left, right};
     }
 
     /**
@@ -112,8 +131,8 @@ public class Pair<L, R> extends CloneSupport<Pair<L, R>> implements Map.Entry<L,
     /**
      * 根据{@linkplain  Pair}的左侧和右侧元素进行对比，所以左侧和右侧的元素类型必须实现{@code Comparable}
      */
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings("unchecked")
     public int compareTo(@NotNull Pair<L, R> other) {
         Comparable<Object> thisLeft = (Comparable<Object>) this.left;
         Comparable<Object> otherLeft = (Comparable<Object>) other.left;
@@ -122,7 +141,7 @@ public class Pair<L, R> extends CloneSupport<Pair<L, R>> implements Map.Entry<L,
             return comparison;
         }
 
-        Comparable<Object> thisRight = (Comparable<Object>) other.right;
+        Comparable<Object> thisRight = (Comparable<Object>) this.right;
         Comparable<Object> otherRight = (Comparable<Object>) other.right;
         return thisRight.compareTo(otherRight);
     }
