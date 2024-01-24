@@ -100,11 +100,46 @@ public class ClassLoaders {
         return getDefaultClassLoader().getResource(resourceName);
     }
 
+    /**
+     * 根据资源地址获取{@linkplain InputStream}
+     *
+     * @param resourceName 资源地址
+     * @return {@linkplain InputStream}
+     */
     public static InputStream getInputStream(String resourceName) {
         if (Objects.isNull(resourceName)) {
             return null;
         }
         return getDefaultClassLoader().getResourceAsStream(resourceName);
+    }
+
+    /**
+     * 判断类是否可用
+     *
+     * @param className 类名
+     * @return 是否可用
+     */
+    public static boolean isPresent(String className) {
+        return isPresent(className, null);
+    }
+
+    /**
+     * 判断类是否可用
+     *
+     * @param className   类名
+     * @param classLoader 类加载器
+     * @return 是否可用
+     */
+    public static boolean isPresent(String className, ClassLoader classLoader) {
+        if (Objects.isNull(className)) {
+            return false;
+        }
+        try {
+            Class.forName(className, false, classLoader);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
     }
 
 }
