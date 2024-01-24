@@ -1,9 +1,11 @@
 package cn.tmkit.core.mutable;
 
+import cn.tmkit.core.lang.Objects;
+
 import java.io.Serializable;
 
 /**
- * 可变@{@code int}类型
+ * 可变@{@linkplain  Integer}类型
  *
  * @author ming.tang
  * @version 0.0.1
@@ -16,7 +18,7 @@ public class MutableInt extends Number implements Mutable<Integer>, Comparable<M
     /**
      * byte value
      */
-    private int value;
+    private Integer value;
 
     /**
      * 构造，默认值0
@@ -66,7 +68,7 @@ public class MutableInt extends Number implements Mutable<Integer>, Comparable<M
     @Override
     public boolean equals(final Object obj) {
         if (obj instanceof MutableInt) {
-            return value == ((MutableInt) obj).value;
+            return Objects.equals(value, ((MutableInt) obj).value);
         }
         return false;
     }

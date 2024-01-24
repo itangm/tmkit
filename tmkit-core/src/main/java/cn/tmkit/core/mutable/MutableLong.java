@@ -1,9 +1,11 @@
 package cn.tmkit.core.mutable;
 
+import cn.tmkit.core.lang.Objects;
+
 import java.io.Serializable;
 
 /**
- * 可变{@code long}类型
+ * 可变{@linkplain Long}类型
  *
  * @author ming.tang
  * @version 0.0.1
@@ -11,12 +13,12 @@ import java.io.Serializable;
  */
 public class MutableLong extends Number implements Mutable<Long>, Comparable<MutableLong>, Serializable {
 
-    private static final long serialVersionUID = 2023L;
+    private static final long serialVersionUID = 2024L;
 
     /**
      * byte value
      */
-    private long value;
+    private Long value;
 
     /**
      * 构造，默认值0
@@ -66,7 +68,7 @@ public class MutableLong extends Number implements Mutable<Long>, Comparable<Mut
     @Override
     public boolean equals(final Object obj) {
         if (obj instanceof MutableLong) {
-            return value == ((MutableLong) obj).value;
+            return Objects.equals(value, ((MutableLong) obj).value);
         }
         return false;
     }
@@ -105,7 +107,7 @@ public class MutableLong extends Number implements Mutable<Long>, Comparable<Mut
      */
     @Override
     public int intValue() {
-        return (int) value;
+        return value.intValue();
     }
 
     /**

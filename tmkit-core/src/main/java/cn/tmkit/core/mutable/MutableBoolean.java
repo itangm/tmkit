@@ -1,9 +1,11 @@
 package cn.tmkit.core.mutable;
 
+import cn.tmkit.core.lang.Objects;
+
 import java.io.Serializable;
 
 /**
- * 可变{@code boolean}类型
+ * 可变{@linkplain Boolean}类型
  *
  * @author ming.tang
  * @version 0.0.1
@@ -13,7 +15,7 @@ public class MutableBoolean implements Comparable<MutableBoolean>, Mutable<Boole
 
     private static final long serialVersionUID = 2023L;
 
-    private boolean value;
+    private Boolean value;
 
     /**
      * 构造，默认值{@code false}
@@ -54,7 +56,7 @@ public class MutableBoolean implements Comparable<MutableBoolean>, Mutable<Boole
     @Override
     public boolean equals(final Object obj) {
         if (obj instanceof MutableBoolean) {
-            return value == ((MutableBoolean) obj).value;
+            return Objects.equals(value, ((MutableBoolean) obj).value);
         }
         return false;
     }
