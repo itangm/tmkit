@@ -2,10 +2,12 @@ package cn.tmkit.core.lang;
 
 import cn.tmkit.core.exception.ArrayEmptyException;
 import cn.tmkit.core.exception.GenericRuntimeException;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -2378,6 +2380,82 @@ public class Arrays {
         }
         return java.util.Arrays.asList(array);
     }
+
+    // endregion
+
+    // region 数组的合并
+
+    /**
+     * 合并多个数组
+     *
+     * @param <T>    元素类型
+     * @param arrays 数组
+     * @return 合并后的数组
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> @NotNull T[] addAll(T[]... arrays) {
+        Asserts.notNull(arrays, "arrays == null");
+        if (arrays.length == 0) {
+            Class<?> componentType = arrays.getClass().getComponentType().getComponentType();
+            if (componentType.equals(String.class)) {
+                return (T[]) EMPTY_STRING_ARRAY;
+            } else if (componentType.equals(Character.class)) {
+                return (T[]) EMPTY_CHAR_OBJECT_ARRAY;
+            } else if (componentType.equals(Long.class)) {
+                return (T[]) EMPTY_LONG_OBJECT_ARRAY;
+            } else if (componentType.equals(Integer.class)) {
+                return (T[]) EMPTY_INTEGER_OBJECT_ARRAY;
+            } else if (componentType.equals(Short.class)) {
+                return (T[]) EMPTY_SHORT_OBJECT_ARRAY;
+            } else if (componentType.equals(Byte.class)) {
+                return (T[]) EMPTY_BYTE_OBJECT_ARRAY;
+            } else if (componentType.equals(Double.class)) {
+                return (T[]) EMPTY_DOUBLE_OBJECT_ARRAY;
+            } else if (componentType.equals(Float.class)) {
+                return (T[]) EMPTY_FLOAT_OBJECT_ARRAY;
+            } else if (componentType.equals(Boolean.class)) {
+                return (T[]) EMPTY_BOOLEAN_OBJECT_ARRAY;
+            } else {
+                return newArray(componentType, 0);
+            }
+        } else if (arrays.length == 1) {
+            return arrays[0];
+        } else {
+            int length = 0;
+            for (T[] array : arrays) {
+                if (null != array) {
+                    length += array.length;
+                }
+            }
+            T[] result = newArray(arrays.getClass().getComponentType().getComponentType(), length);
+            length = 0;
+            for (T[] array : arrays) {
+                if (null != array) {
+                    System.arraycopy(array, 0, result, length, array.length);
+                    length += array.length;
+                }
+            }
+            return result;
+        }
+    }
+
+    /**
+     * 合并数组并且去重
+     *
+     * @param arrays 多个数组
+     * @param <T>    数组的类型
+     * @return 合并后后的数组
+     */
+    @SafeVarargs
+    public static <T extends Comparable<T>> @NotNull T[] merge(T[]... arrays) {
+        T[] ts = addAll(arrays);
+        if (isEmpty(ts)) {
+            return ts;
+        }
+        Set<T> set = Collections.hashSet(ts);
+        return set.toArray(newArray(arrays.getClass().getComponentType().getComponentType(), 0));
+    }
+
 
     // endregion
 

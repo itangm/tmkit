@@ -2,10 +2,12 @@ package cn.tmkit.core.lang;
 
 import cn.tmkit.core.exception.ArrayEmptyException;
 import cn.tmkit.core.exception.GenericRuntimeException;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
+import static cn.tmkit.core.lang.Arrays.EMPTY_STRING_ARRAY;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -747,6 +749,19 @@ public class ArrayUtilTest {
         long[] array = new long[]{3, 4, 1, 2, 9};
         assertEquals(4, ArrayUtil.get(array, 1));
         assertEquals(9, ArrayUtil.get(array, -1));
+    }
+
+    @Test
+    public void merge() {
+        Integer[][] arrays = new Integer[][]{new Integer[]{1, 2, 3}, new Integer[]{4, 2, 3}};
+        @NotNull Integer[] merge = ArrayUtil.merge(arrays);
+        assertArrayEquals(new Integer[]{1, 2, 3, 4}, merge);
+    }
+
+    @Test
+    public void addAll() {
+        String[][] arrays = new String[][]{};
+        assertArrayEquals(EMPTY_STRING_ARRAY, ArrayUtil.addAll(arrays));
     }
 
 }
