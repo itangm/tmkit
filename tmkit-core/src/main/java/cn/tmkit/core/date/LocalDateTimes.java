@@ -1101,13 +1101,31 @@ public class LocalDateTimes {
     }
 
     /**
-     * 按照{@linkplain ChronoUnit#SECONDS}级别舍去
+     * 当前的日期时间，忽略毫秒数
+     * <pre>
+     *     // 假设ldt = 2020-01-01 12:34:56.789
+     *     LocalDateTimes.truncateToSecond(ldt) = 2020-01-01 12:34:56
+     * </pre>
      *
      * @param ldt 日期时间
      * @return 舍去后的日期时间
      */
     public static LocalDateTime truncateToSecond(LocalDateTime ldt) {
         return truncateTo(ldt, ChronoUnit.SECONDS);
+    }
+
+    /**
+     * 当前的日期时间，忽略秒数之后的（含秒）
+     * <pre>
+     *     // 假设ldt = 2020-01-01 12:34:56.789
+     *     LocalDateTimes.truncateToSecond(ldt) = 2020-01-01 12:34:00
+     * </pre>
+     *
+     * @param ldt 日期时间
+     * @return 舍去后的日期时间
+     */
+    public static LocalDateTime truncateToMinutes(LocalDateTime ldt) {
+        return truncateTo(ldt, ChronoUnit.MINUTES);
     }
 
     /**

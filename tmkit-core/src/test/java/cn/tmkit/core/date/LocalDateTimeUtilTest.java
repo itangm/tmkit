@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -304,6 +305,24 @@ public class LocalDateTimeUtilTest {
     public void startOfMonth() {
         LocalDateTime now = LocalDateTimeUtil.now();
         assertEquals(LocalDateTimes.of(now.getYear(), now.getMonthValue(), 1, 0, 0, 0), LocalDateTimes.startOfMonth());
+    }
+
+    @Test
+    public void truncateToSecond() {
+        LocalDateTime ldt = LocalDateTime.of(2020, 1, 1, 12, 34, 56);
+        ldt.with(ChronoField.MILLI_OF_SECOND, 789);
+        System.out.println("ldt = " + ldt);
+        assertEquals(LocalDateTime.of(2020, 1, 1, 12, 34, 56), LocalDateTimeUtil.truncateToSecond(ldt));
+    }
+
+    @Test
+    public void truncateToMinutes() {
+        LocalDateTime ldt = LocalDateTime.of(2020, 1, 1, 12, 34, 56);
+        ldt.with(ChronoField.MILLI_OF_SECOND, 789);
+        System.out.println("ldt = " + ldt);
+        LocalDateTime truncateToMinutes = LocalDateTimeUtil.truncateToMinutes(ldt);
+        assertEquals(LocalDateTime.of(2020, 1, 1, 12, 34, 0), truncateToMinutes);
+        System.out.println("truncateToMinutes = " + truncateToMinutes);
     }
 
 }
