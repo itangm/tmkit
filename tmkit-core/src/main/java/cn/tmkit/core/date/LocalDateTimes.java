@@ -1248,30 +1248,58 @@ public class LocalDateTimes {
 //    }
 
     /**
-     * 返回当前时间的分钟开始时间
+     * 返回当前时间的秒开始时间
      * <pre>
-     *     now = 2020-01-01 12:34:56
-     *     startOfDayOfMinute() = 2020-01-01 12:34:00
+     *     now = 2020-01-01 12:34:56.789
+     *     startOfMinute() = 2020-01-01 12:34:56
      * </pre>
      *
      * @return {@linkplain LocalDateTime}
-     * @see #startOfDayOfMinute(LocalDateTime)
+     * @see #startOfSecond(LocalDateTime)
      */
-    public static LocalDateTime startOfDayOfMinute() {
-        return startOfDayOfMinute(now());
+    public static LocalDateTime startOfSecond() {
+        return startOfSecond(now());
+    }
+
+    /**
+     * 返回当前时间的秒开始时间
+     * <pre>
+     *     now = 2020-01-01 12:34:56.789
+     *     startOfMinute() = 2020-01-01 12:34:56
+     * </pre>
+     *
+     * @return {@linkplain LocalDateTime}
+     * @see #truncateToSecond(LocalDateTime)
+     */
+    public static LocalDateTime startOfSecond(LocalDateTime ldt) {
+        return truncateToSecond(ldt);
     }
 
     /**
      * 返回当前时间的分钟开始时间
      * <pre>
      *     now = 2020-01-01 12:34:56
-     *     startOfDayOfMinute() = 2020-01-01 12:34:00
+     *     startOfMinute() = 2020-01-01 12:34:00
+     * </pre>
+     *
+     * @return {@linkplain LocalDateTime}
+     * @see #startOfMinute(LocalDateTime)
+     */
+    public static LocalDateTime startOfMinute() {
+        return startOfMinute(now());
+    }
+
+    /**
+     * 返回当前时间的分钟开始时间
+     * <pre>
+     *     now = 2020-01-01 12:34:56
+     *     startOfMinute() = 2020-01-01 12:34:00
      * </pre>
      *
      * @return {@linkplain LocalDateTime}
      * @see #truncateToMinutes(LocalDateTime)
      */
-    public static LocalDateTime startOfDayOfMinute(LocalDateTime ldt) {
+    public static LocalDateTime startOfMinute(LocalDateTime ldt) {
         return truncateToHours(ldt);
     }
 
@@ -1279,27 +1307,27 @@ public class LocalDateTimes {
      * 返回当前时间的小时开始时间
      * <pre>
      *     now = 2020-01-01 12:34:56
-     *     startOfDayOfHour() = 2020-01-01 12:00:00
+     *     startOfHour() = 2020-01-01 12:00:00
      * </pre>
      *
      * @return {@linkplain LocalDateTime}
-     * @see #startOfDayOfHour(LocalDateTime)
+     * @see #startOfHour(LocalDateTime)
      */
-    public static LocalDateTime startOfDayOfHour() {
-        return startOfDayOfHour(now());
+    public static LocalDateTime startOfHour() {
+        return startOfHour(now());
     }
 
     /**
      * 返回当前时间的小时开始时间
      * <pre>
      *     now = 2020-01-01 12:34:56
-     *     startOfDayOfHour() = 2020-01-01 12:00:00
+     *     startOfHour() = 2020-01-01 12:00:00
      * </pre>
      *
      * @return {@linkplain LocalDateTime}
      * @see #truncateToHours(LocalDateTime)
      */
-    public static LocalDateTime startOfDayOfHour(LocalDateTime ldt) {
+    public static LocalDateTime startOfHour(LocalDateTime ldt) {
         return truncateToHours(ldt);
     }
 
@@ -1365,6 +1393,24 @@ public class LocalDateTimes {
      */
     public static LocalDateTime beginOfDay(LocalDateTime date) {
         return startOfDay(date);
+    }
+
+    /**
+     * 返回指定时间秒的最大值，注意毫秒部分仍然为0·
+     * <pre>
+     *     ldt = 2020-01-01 12:34:56.789
+     *     endOfSecond(ldt) = 2020-01-01 12:34:59
+     * </pre>
+     *
+     * @param ldt 日期时间
+     * @return 一天的结束
+     */
+    public static LocalDateTime endOfSecond(LocalDateTime ldt) {
+        LocalDateTime localDateTime = truncateToSecond(ldt);
+        if (localDateTime != null) {
+            localDateTime = localDateTime.withSecond(59);
+        }
+        return localDateTime;
     }
 
     /**
