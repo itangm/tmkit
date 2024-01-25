@@ -843,6 +843,30 @@ public class LocalDateTimes {
     }
 
     /**
+     * 返回两者之间相差的秒数
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}，否则其值为0或正整数
+     *
+     * @param start 开始时间（包含）
+     * @param end   结束时间（不包含）
+     * @return 两者之间相差的秒数
+     */
+    public static int betweenSecondsTruncate(LocalDateTime start, LocalDateTime end) {
+        return betweenSecondsTruncate(start, end, false);
+    }
+
+    /**
+     * 返回两者之间相差的秒数
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}，否则其值为0或正整数
+     *
+     * @param start 开始时间（包含）
+     * @param end   结束时间（不包含）
+     * @return 两者之间相差的秒数
+     */
+    public static int betweenSecondsTruncate(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
+        return betweenSeconds(truncateToSecond(start), truncateToSecond(end), isAbsolute);
+    }
+
+    /**
      * 返回两者之间相差的分钟数，如果{@code start}小于{@code end}则为负数
      * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}
      *
@@ -866,7 +890,22 @@ public class LocalDateTimes {
      * @see #betweenMinutes(LocalDateTime, LocalDateTime)
      */
     public static int betweenMinutesTruncate(LocalDateTime start, LocalDateTime end) {
-        return betweenMinutes(truncateTo(start, ChronoUnit.MINUTES), truncateTo(end, ChronoUnit.MINUTES));
+        return betweenMinutesTruncate(start, end, false);
+    }
+
+    /**
+     * 返回两者之间相差的分钟数，本方法会截断（重置）秒、毫秒。
+     * 举个例子更为直观的说明：
+     * 如果 {@code start} = 2024-01-15 12:02:00， {@code end} = 2024-01-15 12:00:01，那么本方法得到的分钟值为2
+     * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}，否则其值为0或正整数
+     *
+     * @param start 开始时间（包含）
+     * @param end   结束时间（不包含）
+     * @return 两者之间相差的分钟数
+     * @see #betweenMinutes(LocalDateTime, LocalDateTime)
+     */
+    public static int betweenMinutesTruncate(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
+        return betweenMinutes(truncateToMinutes(start), truncateToMinutes(end), isAbsolute);
     }
 
     /**
@@ -911,7 +950,22 @@ public class LocalDateTimes {
      * @see #betweenMinutes(LocalDateTime, LocalDateTime)
      */
     public static int betweenHoursTruncate(LocalDateTime start, LocalDateTime end) {
-        return betweenHours(truncateTo(start, ChronoUnit.HOURS), truncateTo(end, ChronoUnit.HOURS));
+        return betweenHoursTruncate(start, end, false);
+    }
+
+    /**
+     * 返回两者之间相差的小时数，本方法会截断（重置）分钟、秒、毫秒。
+     * 举个例子更为直观的说明：
+     * 如果 {@code start} = 2024-01-15 12:00:00， {@code end} = 2024-01-15 11:01:00，那么本方法得到的小时数值为1
+     * 如果{@code start}小于{@code end}负数，如果{@code start}或{@code end}为{@code null}则返回{@code 0}
+     *
+     * @param start 开始时间（包含）
+     * @param end   结束时间（不包含）
+     * @return 两者之间相差的小时数
+     * @see #betweenMinutes(LocalDateTime, LocalDateTime)
+     */
+    public static int betweenHoursTruncate(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
+        return betweenHours(truncateTo(start, ChronoUnit.HOURS), truncateTo(end, ChronoUnit.HOURS), isAbsolute);
     }
 
     /**
@@ -954,7 +1008,22 @@ public class LocalDateTimes {
      * @see #betweenDays(LocalDateTime, LocalDateTime)
      */
     public static int betweenDaysTruncate(LocalDateTime start, LocalDateTime end) {
-        return betweenDays(truncateTo(start, ChronoUnit.DAYS), truncateTo(end, ChronoUnit.DAYS));
+        return betweenDaysTruncate(start, end, false);
+    }
+
+    /**
+     * 返回两者之间相差的天数，本方法会截断（重置）小时、分钟、秒、毫秒。
+     * 举个例子更为直观的说明：
+     * 如果 {@code start} = 2024-01-16 12:00:00， {@code end} = 2024-01-15 132:00:00，那么本方法得到的天数值为1
+     * 如果{@code start}小于{@code end}负数，如果{@code start}或{@code end}为{@code null}则返回{@code 0}
+     *
+     * @param start 开始时间（包含）
+     * @param end   结束时间（不包含）
+     * @return 两者之间相差的天数
+     * @see #betweenDays(LocalDateTime, LocalDateTime)
+     */
+    public static int betweenDaysTruncate(LocalDateTime start, LocalDateTime end, boolean isAbsolute) {
+        return betweenDays(truncateTo(start, ChronoUnit.DAYS), truncateTo(end, ChronoUnit.DAYS), isAbsolute);
     }
 
     /**
@@ -1129,14 +1198,109 @@ public class LocalDateTimes {
     }
 
     /**
-     * 根据日期时间生成CRON表达式
-     * <p style="font-weight: bold">特别注意，此处的CRON表达式并不是Spring Cron Expression</p>
+     * 当前的日期时间，忽略秒数之后的（含秒）
+     * <pre>
+     *     // 假设ldt = 2020-01-01 12:34:56.789
+     *     LocalDateTimes.truncateToSecond(ldt) = 2020-01-01 12:34:00
+     * </pre>
      *
-     * @param ldt 日期时间
-     * @return cron表达式
+     * @return 舍去后的日期时间
      */
-    public static String getCronExpression(LocalDateTime ldt) {
-        return format(ldt, DefaultCustomFormatter.CRON_DATE);
+    public static LocalDateTime truncateToMinutes() {
+        return truncateToMinutes(now());
+    }
+
+    /**
+     * 当前的日期时间，忽略秒数之后的（含秒）
+     * <pre>
+     *     // 假设ldt = 2020-01-01 12:34:56.789
+     *     LocalDateTimes.truncateToSecond(ldt) = 2020-01-01 12:00:00
+     * </pre>
+     *
+     * @return 舍去后的日期时间
+     */
+    public static LocalDateTime truncateToHours() {
+        return truncateToHours(now());
+    }
+
+    /**
+     * 当前的日期时间，忽略秒数之后的（含秒）
+     * <pre>
+     *     // 假设ldt = 2020-01-01 12:34:56.789
+     *     LocalDateTimes.truncateToSecond(ldt) = 2020-01-01 12:00:00
+     * </pre>
+     *
+     * @return 舍去后的日期时间
+     */
+    public static LocalDateTime truncateToHours(LocalDateTime ldt) {
+        return truncateTo(ldt, ChronoUnit.HOURS);
+    }
+
+//    /**
+//     * 根据日期时间生成CRON表达式
+//     * <p style="font-weight: bold">特别注意，此处的CRON表达式并不是Spring Cron Expression</p>
+//     *
+//     * @param ldt 日期时间
+//     * @return cron表达式
+//     */
+//    public static String getCronExpression(LocalDateTime ldt) {
+//        return format(ldt, DefaultCustomFormatter.CRON_DATE);
+//    }
+
+    /**
+     * 返回当前时间的分钟开始时间
+     * <pre>
+     *     now = 2020-01-01 12:34:56
+     *     startOfDayOfMinute() = 2020-01-01 12:34:00
+     * </pre>
+     *
+     * @return {@linkplain LocalDateTime}
+     * @see #startOfDayOfMinute(LocalDateTime)
+     */
+    public static LocalDateTime startOfDayOfMinute() {
+        return startOfDayOfMinute(now());
+    }
+
+    /**
+     * 返回当前时间的分钟开始时间
+     * <pre>
+     *     now = 2020-01-01 12:34:56
+     *     startOfDayOfMinute() = 2020-01-01 12:34:00
+     * </pre>
+     *
+     * @return {@linkplain LocalDateTime}
+     * @see #truncateToMinutes(LocalDateTime)
+     */
+    public static LocalDateTime startOfDayOfMinute(LocalDateTime ldt) {
+        return truncateToHours(ldt);
+    }
+
+    /**
+     * 返回当前时间的小时开始时间
+     * <pre>
+     *     now = 2020-01-01 12:34:56
+     *     startOfDayOfHour() = 2020-01-01 12:00:00
+     * </pre>
+     *
+     * @return {@linkplain LocalDateTime}
+     * @see #startOfDayOfHour(LocalDateTime)
+     */
+    public static LocalDateTime startOfDayOfHour() {
+        return startOfDayOfHour(now());
+    }
+
+    /**
+     * 返回当前时间的小时开始时间
+     * <pre>
+     *     now = 2020-01-01 12:34:56
+     *     startOfDayOfHour() = 2020-01-01 12:00:00
+     * </pre>
+     *
+     * @return {@linkplain LocalDateTime}
+     * @see #truncateToHours(LocalDateTime)
+     */
+    public static LocalDateTime startOfDayOfHour(LocalDateTime ldt) {
+        return truncateToHours(ldt);
     }
 
     /**
