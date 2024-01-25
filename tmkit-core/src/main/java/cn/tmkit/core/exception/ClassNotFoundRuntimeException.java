@@ -20,4 +20,14 @@ public class ClassNotFoundRuntimeException extends GenericRuntimeException {
         super(cause);
     }
 
+    /**
+     * Constructs a <code>ClassNotFoundException</code> with the
+     * specified detail message.
+     *
+     * @param   s   the detail message.
+     */
+    public ClassNotFoundRuntimeException(String s) {
+        super(s, null);  //  Disallow initCause
+    }
+
 }
