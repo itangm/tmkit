@@ -18,7 +18,7 @@ public class Utils {
     public static void closeParts(RequestBody requestBody) {
         if (requestBody instanceof MultipartBody) {
             MultipartBody multipartBody = (MultipartBody) requestBody;
-            List<MultipartBody.Part> parts = multipartBody.getParts();
+            List<FormPart> parts = multipartBody.getParts();
             if (Collections.isNotEmpty(parts)) {
                 parts.forEach(part -> {
                     InputStream in = part.getIn();

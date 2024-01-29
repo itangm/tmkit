@@ -45,24 +45,24 @@ public class ContentType implements java.io.Serializable {
     public static final ContentType APPLICATION_HTML;
     public static final ContentType APPLICATION_JAVASCRIPT;
 
-    //imgage
+    // image
     public static final ContentType IMAGE_PNG;
     public static final ContentType IMAGE_JPEG;
     public static final ContentType IMAGE_GIF;
 
-    //zip
+    // zip
     public static final ContentType APPLICATION_ZIP;
     public static final ContentType APPLICATION_GZ;
 
-    //pdf
+    // pdf
     public static final ContentType APPLICATION_PDF;
 
-    //ms
+    // ms
     public static final ContentType APPLICATION_DOC;
     public static final ContentType APPLICATION_XLS;
     public static final ContentType APPLICATION_PPT;
 
-    //apk or ios
+    // apk or ios
     public static final ContentType APPLICATION_APK;
     public static final ContentType APPLICATION_IPA;
 
@@ -70,7 +70,7 @@ public class ContentType implements java.io.Serializable {
     public static final ContentType DEFAULT_TEXT;
     public static final ContentType DEFAULT_BINARY;
 
-    //support file extension
+    // support file extension
     private static final Map<String, ContentType> SUPPORT_FILE_EXTS;
 
     static {
@@ -233,7 +233,7 @@ public class ContentType implements java.io.Serializable {
             throw new IllegalArgumentException("contentType " + contentType + " does not contain subtype after '/'");
         }
         String type = fullType.substring(0, subIndex);
-        String subtype = fullType.substring(subIndex + 1, fullType.length());
+        String subtype = fullType.substring(subIndex + 1);
         if ("*".equals(type) && !"*".equals(subtype)) {
             throw new IllegalArgumentException("contentType " + contentType + " wildcard type is legal only in '*/*' (all mime types)");
         }
@@ -261,7 +261,7 @@ public class ContentType implements java.io.Serializable {
                 int eqIndex = parameter.indexOf('=');
                 if (eqIndex >= 0) {
                     String attribute = parameter.substring(0, eqIndex).trim();
-                    String value = parameter.substring(eqIndex + 1, parameter.length()).trim();
+                    String value = parameter.substring(eqIndex + 1).trim();
                     parameters.put(attribute, value);
                 }
             }

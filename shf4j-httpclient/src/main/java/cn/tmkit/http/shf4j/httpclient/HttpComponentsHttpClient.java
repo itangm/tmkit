@@ -162,18 +162,13 @@ public class HttpComponentsHttpClient implements Client {
                         .setCharset(multipartBody.getCharset())
                         .setContentType(contentType)
                         .setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-                for (MultipartBody.Part part : multipartBody.getParts()) {
-                    ContentType partContentType = ContentType.create(
-                            part.getContentType().getMimeType(), part.getContentType().getCharset());
-                    if (part.getFile() != null) {
-                        multipartEntityBuilder.addBinaryBody(part.getName(), part.getFile());
-                    } else if (part.getIn() != null) {
-                        multipartEntityBuilder.addBinaryBody(part.getName(), part.getIn(), partContentType, part.getValue());
-                    } else if (part.getBody() != null) {
-                        multipartEntityBuilder.addBinaryBody(part.getName(), part.getBody().getData(),
-                                partContentType, part.getValue());
-                    } else if (part.getValue() != null) {
-                        multipartEntityBuilder.addTextBody(part.getName(), part.getValue(), partContentType);
+                for (FormPart formPart : multipartBody.getParts()) {
+                    ContentType partContentType = ContentType.create(formPart.getContentType().getMimeType(),
+                            formPart.getContentType().getCharset());
+                    if (formPart.getFilename() == null) {
+                        multipartEntityBuilder.addTextBody(formPart.getName(), IoUtil.read(formPart.getIn(), partContentType.getCharset()), partContentType);
+                    } else {
+                        multipartEntityBuilder.addBinaryBody(formPart.getName(), formPart.getIn(), partContentType, formPart.getFilename());
                     }
                 }
                 requestBuilder.setEntity(multipartEntityBuilder.build());

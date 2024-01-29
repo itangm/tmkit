@@ -161,27 +161,12 @@ public class OkClient implements Client {
             builder.setType(okhttp3MediaType);
 
             if (Collections.isEmpty(multipartBody.getParts())) {
-                builder.addPart(okhttp3.RequestBody.create(okhttp3.MultipartBody.FORM, Arrays.EMPTY_BYTE_ARRAY));
+                builder.addPart(okhttp3.RequestBody.create(Arrays.EMPTY_BYTE_ARRAY, okhttp3.MultipartBody.FORM));
             } else {
-                for (MultipartBody.Part part : multipartBody.getParts()) {
-                    MediaType partMediaType = MediaType.parse(part.getContentType().toString());
-                    if (part.getFile() != null) {
-                        builder.addFormDataPart(part.getName(), part.getValue(),
-                                okhttp3.RequestBody.create(part.getFile(), partMediaType));
-                    } else if (part.getIn() != null) {
-                        builder.addFormDataPart(part.getName(), part.getValue(),
-                                okhttp3.RequestBody.create(RequestBody.create(null, part.getIn()).getData(), partMediaType));
-                    } else if (part.getBody() != null) {
-                        RequestBody partBody = part.getBody();
-
-                        builder.addFormDataPart(part.getName(), part.getValue(), okhttp3.RequestBody.create(
-                                part.getBody().getData(), (part.getBody().contentType() == null) ? null : MediaType.parse(part.getBody().contentType().toString())
-                        ));
-                        builder.addFormDataPart(part.getName(), part.getValue(),
-                                okhttp3.RequestBody.create(part.getBody().getData(), partMediaType));
-                    } else if (part.getValue() != null) {
-                        builder.addFormDataPart(part.getName(), part.getValue());
-                    }
+                for (FormPart formPart : multipartBody.getParts()) {
+                    MediaType partMediaType = MediaType.parse(formPart.getContentType().toString());
+                    builder.addFormDataPart(formPart.getName(), formPart.getFilename(),
+                            okhttp3.RequestBody.create(IoUtil.readBytes(formPart.getIn()), partMediaType));
                 }
             }
             requestBuilder.method(input.method().name(), builder.build());

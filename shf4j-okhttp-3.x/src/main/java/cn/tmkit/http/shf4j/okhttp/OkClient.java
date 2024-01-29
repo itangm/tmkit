@@ -3,11 +3,14 @@ package cn.tmkit.http.shf4j.okhttp;
 import cn.tmkit.core.exception.IoRuntimeException;
 import cn.tmkit.core.io.IoUtil;
 import cn.tmkit.core.lang.*;
+import cn.tmkit.http.shf4j.FormBody;
+import cn.tmkit.http.shf4j.MultipartBody;
+import cn.tmkit.http.shf4j.Request;
+import cn.tmkit.http.shf4j.Response;
+import cn.tmkit.http.shf4j.ResponseBody;
 import cn.tmkit.http.shf4j.*;
-import okhttp3.Credentials;
-import okhttp3.HttpUrl;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -139,7 +142,7 @@ public class OkClient implements Client {
         }
         if (input.body() == null) {
             if (isMethodWithBody) {
-                requestBuilder.method(input.method().name(), okhttp3.RequestBody.create(okhttp3MediaType, Arrays.EMPTY_BYTE_ARRAY));
+                requestBuilder.method(input.method().name(), RequestBody.create(okhttp3MediaType, Arrays.EMPTY_BYTE_ARRAY));
             } else {
                 requestBuilder.method(input.method().name(), null);
             }
@@ -163,29 +166,15 @@ public class OkClient implements Client {
             if (Collections.isEmpty(multipartBody.getParts())) {
                 builder.addPart(okhttp3.RequestBody.create(okhttp3.MultipartBody.FORM, Arrays.EMPTY_BYTE_ARRAY));
             } else {
-                for (MultipartBody.Part part : multipartBody.getParts()) {
-                    MediaType partMediaType = MediaType.parse(part.getContentType().toString());
-                    if (part.getFile() != null) {
-                        builder.addFormDataPart(part.getName(), part.getValue(),
-                                okhttp3.RequestBody.create(partMediaType, part.getFile()));
-                    } else if (part.getIn() != null) {
-                        builder.addFormDataPart(part.getName(), part.getValue(),
-                                okhttp3.RequestBody.create(partMediaType, RequestBody.create(null, part.getIn()).getData()));
-                    } else if (part.getBody() != null) {
-                        RequestBody partBody = part.getBody();
-
-                        builder.addFormDataPart(part.getName(), part.getValue(), okhttp3.RequestBody.create(
-                                (part.getBody().contentType() == null) ? null : MediaType.parse(part.getBody().contentType().toString()), part.getBody().getData()));
-                        builder.addFormDataPart(part.getName(), part.getValue(),
-                                okhttp3.RequestBody.create(partMediaType, part.getBody().getData()));
-                    } else if (part.getValue() != null) {
-                        builder.addFormDataPart(part.getName(), part.getValue());
-                    }
+                for (FormPart formPart : multipartBody.getParts()) {
+                    MediaType partMediaType = MediaType.parse(formPart.getContentType().toString());
+                    builder.addFormDataPart(formPart.getName(), formPart.getFilename(),
+                            okhttp3.RequestBody.create(partMediaType, IoUtil.readBytes(formPart.getIn())));
                 }
             }
             requestBuilder.method(input.method().name(), builder.build());
         } else {
-            requestBuilder.method(input.method().name(), okhttp3.RequestBody.create(okhttp3MediaType, input.body().getData()));
+            requestBuilder.method(input.method().name(), RequestBody.create(okhttp3MediaType, input.body().getData()));
         }
         return requestBuilder.build();
     }

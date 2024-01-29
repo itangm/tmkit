@@ -4,10 +4,7 @@ import cn.tmkit.core.convert.Converts;
 import cn.tmkit.core.io.Files;
 import cn.tmkit.core.lang.*;
 import cn.tmkit.core.map.MultiValueMap;
-import cn.tmkit.http.shf4j.ContentType;
-import cn.tmkit.http.shf4j.FormBody;
-import cn.tmkit.http.shf4j.MultipartBody;
-import cn.tmkit.http.shf4j.RequestBody;
+import cn.tmkit.http.shf4j.*;
 import cn.tmkit.http.shf4j.exceptions.HttpClientException;
 import cn.tmkit.json.sjf4j.util.JSONs;
 
@@ -36,7 +33,7 @@ public class BaseBodyRequest<Req extends BaseBodyRequest<Req>> extends AbstractB
 
     protected MultiValueMap<String, String> params;
 
-    protected List<MultipartBody.Part> parts;
+    protected List<FormPart> parts;
 
     protected RequestBody httpRequestBody;
 
@@ -99,27 +96,7 @@ public class BaseBodyRequest<Req extends BaseBodyRequest<Req>> extends AbstractB
     public Req param(String name, File uploadFile) {
         if (Strings.hasLength(name) && uploadFile != null) {
             this.isMultipart = true;
-            this.parts.add(MultipartBody.Part.create(name, uploadFile));
-        }
-        return (Req) this;
-    }
-
-    /**
-     * 设置提交的文件
-     *
-     * @param name       参数名
-     * @param uploadFile 上传的文件
-     * @param filename   文件名
-     * @return {@linkplain PostRequest}
-     */
-    public Req param(String name, File uploadFile, String filename) {
-        if (Strings.hasLength(name) && uploadFile != null) {
-            this.isMultipart = true;
-            if (Strings.hasLength(filename)) {
-                this.parts.add(MultipartBody.Part.create(name, filename, uploadFile));
-            } else {
-                this.parts.add(MultipartBody.Part.create(name, uploadFile));
-            }
+            this.parts.add(FormPart.create(name, uploadFile));
         }
         return (Req) this;
     }
@@ -135,7 +112,7 @@ public class BaseBodyRequest<Req extends BaseBodyRequest<Req>> extends AbstractB
     public Req param(String name, InputStream inputStream, String streamName) {
         if (Strings.hasLength(name) && inputStream != null && Strings.hasLength(streamName)) {
             this.isMultipart = true;
-            this.parts.add(MultipartBody.Part.create(name, streamName, inputStream));
+            this.parts.add(FormPart.create(name, streamName, inputStream));
         }
         return (Req) this;
     }
@@ -143,7 +120,7 @@ public class BaseBodyRequest<Req extends BaseBodyRequest<Req>> extends AbstractB
     public Req param(String name, byte[] binaryData, String filename) {
         if (Strings.hasLength(name) && Arrays.isNotEmpty(binaryData) && Strings.hasLength(filename)) {
             this.isMultipart = true;
-            this.parts.add(MultipartBody.Part.create(name, filename, new ByteArrayInputStream(binaryData)));
+            this.parts.add(FormPart.create(name, filename, new ByteArrayInputStream(binaryData)));
         }
         return (Req) this;
     }
@@ -264,8 +241,8 @@ public class BaseBodyRequest<Req extends BaseBodyRequest<Req>> extends AbstractB
             } else if (value instanceof URL) {
                 URL url = (URL) value;
                 this.param(name, Urls.openStream(url), Files.getFilename(url.getFile()));
-            } else if (value instanceof MultipartBody.Part) {
-                this.parts.add((MultipartBody.Part) value);
+            } else if (value instanceof FormPart) {
+                this.parts.add(FormPart.create(name, (FormPart) value));
                 this.isMultipart = true;
             } else {
                 this.params.add(name, Converts.toStr(value));

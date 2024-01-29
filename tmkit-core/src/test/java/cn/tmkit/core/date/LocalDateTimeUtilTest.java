@@ -285,6 +285,14 @@ public class LocalDateTimeUtilTest {
     }
 
     @Test
+    public void betweenDaysTruncate() {
+
+        LocalDateTime start = LocalDateTimes.of(2024, 1, 26, 0, 0, 0);
+        LocalDateTime end = LocalDateTimes.of(2024, 2, 1, 23, 59, 0);
+        assertEquals(7, LocalDateTimes.betweenDaysTruncate(end, start));
+    }
+
+    @Test
     public void beginOfYear() {
         LocalDateTime ldt = LocalDateTime.of(2024, 1, 16, 0, 0, 0);
         assertEquals(LocalDateTime.of(2024, 1, 1, 0, 0, 0), LocalDateTimeUtil.beginOfYear(ldt));
