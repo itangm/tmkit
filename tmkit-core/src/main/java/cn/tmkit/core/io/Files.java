@@ -3,9 +3,11 @@ package cn.tmkit.core.io;
 import cn.tmkit.core.exception.IoRuntimeException;
 import cn.tmkit.core.lang.*;
 import org.jetbrains.annotations.NotNull;
+import sun.security.action.GetPropertyAction;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.security.AccessController;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -50,6 +52,11 @@ public class Files extends Paths {
      * Windows路径分隔符
      */
     public static final String WINDOWS_SEPARATOR = Strings.EMPTY_STRING + Chars.BACKSLASH;
+
+    /**
+     * 文件换行符
+     */
+    public static final String LINE_SEPARATOR = AccessController.doPrivileged(new GetPropertyAction("line.separator"));
 
     // endregion
 
