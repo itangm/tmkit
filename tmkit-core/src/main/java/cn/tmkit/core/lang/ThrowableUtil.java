@@ -12,6 +12,24 @@ import cn.tmkit.core.io.Files;
 public class ThrowableUtil {
 
     /**
+     * 获取数组中最后一个Throwable对象，如果不是则返回{@code null}
+     *
+     * @param argArray 数组对象
+     * @return 异常对象或{@code null}
+     */
+    public static Throwable getThrowableCandidate(final Object[] argArray) {
+        if (Arrays.isEmpty(argArray)) {
+            return null;
+        }
+
+        final Object lastEntry = argArray[argArray.length - 1];
+        if (lastEntry instanceof Throwable) {
+            return (Throwable) lastEntry;
+        }
+        return null;
+    }
+
+    /**
      * 将异常堆栈全部转为字符串
      *
      * @param e 异常堆栈
