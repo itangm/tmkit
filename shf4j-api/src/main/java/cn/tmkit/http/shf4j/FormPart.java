@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -48,7 +49,7 @@ public class FormPart {
     private String filename;
 
     /**
-     * 创建表单字段
+     * 创建普通表单字段
      *
      * @param name  表单字段名
      * @param value 表单字段值
@@ -59,7 +60,7 @@ public class FormPart {
     }
 
     /**
-     * 创建表单字段
+     * 创建普通表单字段
      *
      * @param name        表单字段名
      * @param value       表单字段值
@@ -73,7 +74,7 @@ public class FormPart {
     }
 
     /**
-     * 创建表单字段
+     * 创建普通表单字段
      *
      * @param name        表单字段名
      * @param value       表单字段值
@@ -85,7 +86,7 @@ public class FormPart {
     }
 
     /**
-     * 创建表单字段
+     * 创建文件表单字段
      *
      * @param name 表单字段名
      * @param file 文件
@@ -97,15 +98,28 @@ public class FormPart {
     }
 
     /**
-     * 创建表单字段
+     * 创建文件表单字段
      *
      * @param name     表单字段名
      * @param filename 文件名
      * @param in       文件输入流
      * @return {@literal @FormPart}
      */
-    public static FormPart create(String name, String filename, @NotNull InputStream in) {
-        return new FormPart(name, ContentType.DEFAULT_BINARY, in, filename);
+    public static FormPart create(String name, @NotNull String filename, @NotNull InputStream in) {
+        return create(name, filename, in, null);
+    }
+
+    /**
+     * 创建文件表单字段
+     *
+     * @param name        表单字段名
+     * @param filename    文件名
+     * @param in          文件输入流
+     * @param contentType 文件类型，如果为{@code null}则为{@linkplain ContentType#DEFAULT_BINARY}
+     * @return {@literal @FormPart}
+     */
+    public static FormPart create(String name, @NotNull String filename, @NotNull InputStream in, @Nullable ContentType contentType) {
+        return new FormPart(name, Objects.getIfNull(contentType, ContentType.DEFAULT_BINARY), in, filename);
     }
 
     public static FormPart create(String name, @NotNull FormPart formPart) {
