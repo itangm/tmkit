@@ -984,6 +984,8 @@ public class LocalDateTimes {
         return Numbers.toIntExact(between(start, end, isAbsolute).toHours());
     }
 
+    // region 计算相差的天数
+
     /**
      * 返回两者之间相差的天数，如果{@code start}小于{@code end}负数
      * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}
@@ -1043,6 +1045,56 @@ public class LocalDateTimes {
     }
 
     /**
+     * 计算两个日期之间的相差天数
+     *
+     * @param start 开始时间
+     * @param end   结束时间
+     * @return 相差的天数
+     */
+    public static int betweenDays(Temporal start, Temporal end) {
+        if (Arrays.isAnyNull(start, end)) {
+            return 0;
+        }
+        return Numbers.toIntExact(ChronoUnit.DAYS.between(start, end));
+    }
+
+    /**
+     * 获取从开始时间到结束时间一共有几天。
+     * <p>本方法和{@linkplain #betweenDaysTruncate(LocalDateTime, LocalDateTime, boolean)}的结果相差1天</p>
+     *
+     * @param start 开始时间
+     * @param end   结束时间
+     * @return 一共有几天
+     * @see #betweenDaysTruncate(LocalDateTime, LocalDateTime, boolean)
+     * @see #getTotalDays(LocalDate, LocalDate)
+     */
+    public static int getTotalDays(LocalDateTime start, LocalDateTime end) {
+        if (Arrays.isAnyNull(start, end)) {
+            return 0;
+        }
+        return getTotalDays(start.toLocalDate(), end.toLocalDate());
+    }
+
+    /**
+     * 获取从开始时间到结束时间一共有几天。
+     * <p>本方法和{@linkplain #betweenDaysTruncate(LocalDateTime, LocalDateTime, boolean)}的结果相差1天</p>
+     *
+     * @param start 开始时间
+     * @param end   结束时间
+     * @return 一共有几天
+     * @see #betweenDaysTruncate(LocalDateTime, LocalDateTime, boolean)
+     */
+    public static int getTotalDays(LocalDate start, LocalDate end) {
+        if (Arrays.isAnyNull(start, end)) {
+            return 0;
+        }
+        return Numbers.abs(betweenDays(start, end)) + 1;
+    }
+
+    // endregion
+
+
+    /**
      * 计算两个日期之间的相差
      *
      * @param start 开始时间
@@ -1068,20 +1120,6 @@ public class LocalDateTimes {
             return 0;
         }
         return Numbers.toIntExact(ChronoUnit.HOURS.between(start, end));
-    }
-
-    /**
-     * 计算两个日期之间的相差天数
-     *
-     * @param start 开始时间
-     * @param end   结束时间
-     * @return 相差的天数
-     */
-    public static int betweenDays(Temporal start, Temporal end) {
-        if (Arrays.isAnyNull(start, end)) {
-            return 0;
-        }
-        return Numbers.toIntExact(ChronoUnit.DAYS.between(start, end));
     }
 
     /**

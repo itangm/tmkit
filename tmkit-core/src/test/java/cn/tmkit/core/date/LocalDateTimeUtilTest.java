@@ -246,6 +246,7 @@ public class LocalDateTimeUtilTest {
         assertEquals(1, duration.toHours());
         assertEquals(80, duration.toMinutes());
         duration = LocalDateTimes.between(start, end, false);
+        assert duration != null;
         assertEquals(-1, duration.toHours());
         assertEquals(-80, duration.toMinutes());
     }
@@ -286,10 +287,16 @@ public class LocalDateTimeUtilTest {
 
     @Test
     public void betweenDaysTruncate() {
-
         LocalDateTime start = LocalDateTimes.of(2024, 1, 26, 0, 0, 0);
         LocalDateTime end = LocalDateTimes.of(2024, 2, 1, 23, 59, 0);
-        assertEquals(7, LocalDateTimes.betweenDaysTruncate(end, start));
+        assertEquals(6, LocalDateTimes.betweenDaysTruncate(end, start));
+    }
+
+    @Test
+    public void getTotalDays() {
+        LocalDateTime start = LocalDateTimes.of(2024, 1, 26, 0, 0, 0);
+        LocalDateTime end = LocalDateTimes.of(2024, 2, 1, 23, 59, 0);
+        assertEquals(7, LocalDateTimes.getTotalDays(end, start));
     }
 
     @Test
