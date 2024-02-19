@@ -2164,4 +2164,48 @@ public class Strings {
         return repeat(padChar, pads).concat(cse.toString());
     }
 
+    /**
+     * 将集合转换为字符串数组，默认会去除{@code null}的元素
+     *
+     * @param collection 集合
+     * @return 字符串数组
+     */
+    public static String[] toArray(@NotNull Collection<CharSequence> collection) {
+        return toArray(collection, true);
+    }
+
+    /**
+     * 将集合转换为字符串数组
+     *
+     * @param collection   集合
+     * @param isFilterNull 是否过滤{@code null}元素
+     * @return 字符串数组
+     */
+    public static String[] toArray(@NotNull Collection<CharSequence> collection, boolean isFilterNull) {
+        return collection.stream().filter(element -> !isFilterNull || element != null)
+                .map(Strings::str).toArray(element -> Arrays.EMPTY_STRING_ARRAY);
+    }
+
+    /**
+     * 将集合转换为字符串数组，去重并去除{@code null}的元素
+     *
+     * @param collection 集合
+     * @return 字符串数组
+     */
+    public static String[] distinctToArray(@NotNull Collection<CharSequence> collection) {
+        return distinctToArray(collection, true);
+    }
+
+    /**
+     * 将集合转换为字符串数组，去重
+     *
+     * @param collection   集合
+     * @param isFilterNull 是否过滤{@code null}元素
+     * @return 字符串数组
+     */
+    public static String[] distinctToArray(@NotNull Collection<CharSequence> collection, boolean isFilterNull) {
+        return collection.stream().filter(element -> !isFilterNull || element != null)
+                .distinct().map(Strings::str).toArray(element -> Arrays.EMPTY_STRING_ARRAY);
+    }
+
 }
