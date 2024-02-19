@@ -2170,7 +2170,7 @@ public class Strings {
      * @param collection 集合
      * @return 字符串数组
      */
-    public static String[] toArray(@NotNull Collection<CharSequence> collection) {
+    public static String[] toArray(@NotNull Collection<? extends CharSequence> collection) {
         return toArray(collection, true);
     }
 
@@ -2181,9 +2181,9 @@ public class Strings {
      * @param isFilterNull 是否过滤{@code null}元素
      * @return 字符串数组
      */
-    public static String[] toArray(@NotNull Collection<CharSequence> collection, boolean isFilterNull) {
+    public static String[] toArray(@NotNull Collection<? extends CharSequence> collection, boolean isFilterNull) {
         return collection.stream().filter(element -> !isFilterNull || element != null)
-                .map(Strings::str).toArray(element -> Arrays.EMPTY_STRING_ARRAY);
+                .map(Strings::str).toArray(String[]::new);
     }
 
     /**
@@ -2192,7 +2192,7 @@ public class Strings {
      * @param collection 集合
      * @return 字符串数组
      */
-    public static String[] distinctToArray(@NotNull Collection<CharSequence> collection) {
+    public static String[] distinctToArray(@NotNull Collection<? extends CharSequence> collection) {
         return distinctToArray(collection, true);
     }
 
@@ -2203,9 +2203,9 @@ public class Strings {
      * @param isFilterNull 是否过滤{@code null}元素
      * @return 字符串数组
      */
-    public static String[] distinctToArray(@NotNull Collection<CharSequence> collection, boolean isFilterNull) {
+    public static String[] distinctToArray(@NotNull Collection<? extends CharSequence> collection, boolean isFilterNull) {
         return collection.stream().filter(element -> !isFilterNull || element != null)
-                .distinct().map(Strings::str).toArray(element -> Arrays.EMPTY_STRING_ARRAY);
+                .distinct().map(Strings::str).toArray(String[]::new);
     }
 
 }

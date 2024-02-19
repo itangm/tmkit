@@ -704,8 +704,8 @@ public class StringUtilTest {
     @Test
     public void format2() {
         String urlTpl = "http://localhost/containers/{id}/logs/{name}?filters={filters}";
-        Map<String, Object> params = MapUtil.of("id", "0a081e8cc67f","name","demo-ok",
-                "filters","{st:ok}");
+        Map<String, Object> params = MapUtil.of("id", "0a081e8cc67f", "name", "demo-ok",
+                "filters", "{st:ok}");
         assertEquals("http://localhost/containers/0a081e8cc67f/logs/demo-ok?filters={st:ok}", StringUtil.format(urlTpl, params));
     }
 
@@ -731,6 +731,30 @@ public class StringUtilTest {
         assertEquals(2, list.size());
         assertEquals(1, list.get(0));
         assertEquals(2, list.get(1));
+    }
+
+    @Test
+    public void toArray() {
+        List<String> collection = new ArrayList<>();
+        collection.add("1");
+        collection.add(null);
+        collection.add("1");
+        String[] array = StrUtil.toArray(collection);
+        assertArrayEquals(new String[]{"1", "1"}, array);
+        array = StrUtil.toArray(collection, false);
+        assertArrayEquals(new String[]{"1", null, "1"}, array);
+    }
+
+    @Test
+    public void distinctToArray() {
+        List<String> collection = new ArrayList<>();
+        collection.add("1");
+        collection.add(null);
+        collection.add("1");
+        String[] array = StrUtil.distinctToArray(collection);
+        assertArrayEquals(new String[]{"1"}, array);
+        array = StrUtil.distinctToArray(collection, false);
+        assertArrayEquals(new String[]{"1", null}, array);
     }
 
 }
