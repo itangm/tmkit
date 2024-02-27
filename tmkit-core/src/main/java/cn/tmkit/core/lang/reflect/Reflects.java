@@ -295,6 +295,18 @@ public class Reflects {
     }
 
     /**
+     * 判断这个类是否存在这个字段名（含父类的）
+     *
+     * @param beanClass 被查找字段的类,不能为null
+     * @param name      字段名
+     * @return 是否包含字段
+     * @throws SecurityException 安全异常
+     */
+    public static boolean hasField(Class<?> beanClass, String name) throws SecurityException {
+        return null != getField(beanClass, name);
+    }
+
+    /**
      * 根据{@code fieldName}在{@code targetClass}查找，支持父类的属性查找。
      *
      * @param clazz     被查找的类
