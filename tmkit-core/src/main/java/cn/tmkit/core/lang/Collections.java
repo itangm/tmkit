@@ -318,6 +318,165 @@ public class Collections {
     }
 
     /**
+     * 集合升序，根据集合元素的某个属性的值完成升序
+     *
+     * @param list         集合
+     * @param keyExtractor 对象的属性提取器
+     * @param <E>          集合中的元素
+     */
+    public static <E> void asc(List<E> list, @NotNull ToIntFunction<? super E> keyExtractor) {
+        if (isNotEmpty(list)) {
+            sort(list, Comparator.comparingInt(keyExtractor));
+        }
+    }
+
+    /**
+     * 集合升序，根据集合元素的某个属性的值完成升序
+     *
+     * @param list         集合
+     * @param keyExtractor 对象的属性提取器
+     * @param <E>          集合中的元素
+     */
+    public static <E> void asc(List<E> list, @NotNull ToLongFunction<? super E> keyExtractor) {
+        if (isNotEmpty(list)) {
+            sort(list, Comparator.comparingLong(keyExtractor));
+        }
+    }
+
+    /**
+     * 集合升序，根据集合元素的某个属性的值完成升序
+     *
+     * @param list         集合
+     * @param keyExtractor 对象的属性提取器
+     * @param <E>          集合中的元素
+     */
+    public static <E> void asc(List<E> list, @NotNull ToDoubleFunction<? super E> keyExtractor) {
+        if (isNotEmpty(list)) {
+            sort(list, Comparator.comparingDouble(keyExtractor));
+        }
+    }
+
+    /**
+     * 集合降序，根据集合元素的某个属性的值完成降序
+     *
+     * @param list         集合
+     * @param keyExtractor 对象的属性提取器
+     * @param <E>          集合中的元素
+     */
+    public static <E> void desc(List<E> list, @NotNull ToIntFunction<? super E> keyExtractor) {
+        if (isNotEmpty(list)) {
+            sort(list, ComparatorUtil.reverseComparingInt(keyExtractor));
+        }
+    }
+
+    /**
+     * 集合降序，根据集合元素的某个属性的值完成降序
+     *
+     * @param list         集合
+     * @param keyExtractor 对象的属性提取器
+     * @param <E>          集合中的元素
+     */
+    public static <E> void desc(List<E> list, @NotNull ToLongFunction<? super E> keyExtractor) {
+        if (isNotEmpty(list)) {
+            sort(list, ComparatorUtil.reverseComparingLong(keyExtractor));
+        }
+    }
+
+    /**
+     * 集合降序，根据集合元素的某个属性的值完成降序
+     *
+     * @param list         集合
+     * @param keyExtractor 对象的属性提取器
+     * @param <E>          集合中的元素
+     */
+    public static <E> void desc(List<E> list, @NotNull ToDoubleFunction<? super E> keyExtractor) {
+        if (isNotEmpty(list)) {
+            sort(list, ComparatorUtil.reverseComparingDouble(keyExtractor));
+        }
+    }
+
+    /**
+     * 按照自定义排序规则对集合排序
+     *
+     * @param c          集合
+     * @param comparator 自定义排序规则
+     * @param <E>        集合中的元素
+     * @see java.util.stream.Stream#sorted(Comparator)
+     */
+    public static <E> List<E> sort(Collection<E> c, Comparator<? super E> comparator) {
+        if (isEmpty(c)) {
+            return emptyList();
+        }
+        return comparator == null ? c.stream().sorted().collect(Collectors.toList()) : c.stream().sorted(comparator).collect(Collectors.toList());
+    }
+
+    /**
+     * 集合升序，根据集合元素的某个属性的值完成升序
+     *
+     * @param c            集合
+     * @param keyExtractor 对象的属性提取器
+     * @param <E>          集合中的元素
+     */
+    public static <E> List<E> asc(Collection<E> c, @NotNull ToIntFunction<? super E> keyExtractor) {
+        return isEmpty(c) ? emptyList() : c.stream().sorted(Comparator.comparingInt(keyExtractor)).collect(Collectors.toList());
+    }
+
+    /**
+     * 集合升序，根据集合元素的某个属性的值完成升序
+     *
+     * @param c            集合
+     * @param keyExtractor 对象的属性提取器
+     * @param <E>          集合中的元素
+     */
+    public static <E> List<E> asc(Collection<E> c, @NotNull ToLongFunction<? super E> keyExtractor) {
+        return isEmpty(c) ? emptyList() : c.stream().sorted(Comparator.comparingLong(keyExtractor)).collect(Collectors.toList());
+    }
+
+    /**
+     * 集合升序，根据集合元素的某个属性的值完成升序
+     *
+     * @param c            集合
+     * @param keyExtractor 对象的属性提取器
+     * @param <E>          集合中的元素
+     */
+    public static <E> List<E> asc(Collection<E> c, @NotNull ToDoubleFunction<? super E> keyExtractor) {
+        return isEmpty(c) ? emptyList() : c.stream().sorted(Comparator.comparingDouble(keyExtractor)).collect(Collectors.toList());
+    }
+
+    /**
+     * 集合降序，根据集合元素的某个属性的值完成降序
+     *
+     * @param c            集合
+     * @param keyExtractor 对象的属性提取器
+     * @param <E>          集合中的元素
+     */
+    public static <E> List<E> desc(Collection<E> c, @NotNull ToIntFunction<? super E> keyExtractor) {
+        return isEmpty(c) ? emptyList() : c.stream().sorted(ComparatorUtil.reverseComparingInt(keyExtractor)).collect(Collectors.toList());
+    }
+
+    /**
+     * 集合降序，根据集合元素的某个属性的值完成降序
+     *
+     * @param c            集合
+     * @param keyExtractor 对象的属性提取器
+     * @param <E>          集合中的元素
+     */
+    public static <E> List<E> desc(Collection<E> c, @NotNull ToLongFunction<? super E> keyExtractor) {
+        return isEmpty(c) ? emptyList() : c.stream().sorted(ComparatorUtil.reverseComparingLong(keyExtractor)).collect(Collectors.toList());
+    }
+
+    /**
+     * 集合降序，根据集合元素的某个属性的值完成降序
+     *
+     * @param c            集合
+     * @param keyExtractor 对象的属性提取器
+     * @param <E>          集合中的元素
+     */
+    public static <E> List<E> desc(Collection<E> c, @NotNull ToDoubleFunction<? super E> keyExtractor) {
+        return isEmpty(c) ? emptyList() : c.stream().sorted(ComparatorUtil.reverseComparingDouble(keyExtractor)).collect(Collectors.toList());
+    }
+
+    /**
      * 集合洗牌，打乱
      *
      * @param list 集合

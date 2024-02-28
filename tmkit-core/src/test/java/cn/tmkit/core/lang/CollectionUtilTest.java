@@ -1,5 +1,6 @@
 package cn.tmkit.core.lang;
 
+import lombok.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -148,5 +149,48 @@ public class CollectionUtilTest {
         assertEquals(expected, set);
 
     }
+
+    @Test
+    public void ascAndDesc() {
+        List<Employee> employees = Collections.arrayList(
+                new Employee(1002L, "White", 22),
+                new Employee(1001L, "Anna", 20),
+                new Employee(1004L, "White", 24),
+                new Employee(1005L, "Tom", 19),
+                new Employee(1003L, "Mask", 18)
+        );
+        Collections.asc(employees, Employee::getNo);
+        assertEquals(1001, Collections.get(employees, 0).getNo());
+        assertEquals(1005, Collections.get(employees, 4).getNo());
+        Collections.desc(employees, Employee::getAge);
+        assertEquals(1004, Collections.get(employees, 0).getNo());
+        assertEquals(1003, Collections.get(employees, 4).getNo());
+
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
+    public static class Employee {
+
+        /**
+         * 员工编号
+         */
+        private Long no;
+
+        /**
+         * 员工姓名
+         */
+        private String name;
+
+        /**
+         * 员工年龄
+         */
+        private int age;
+
+    }
+
 
 }
