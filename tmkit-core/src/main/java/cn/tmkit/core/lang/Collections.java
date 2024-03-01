@@ -1306,6 +1306,45 @@ public class Collections {
     // endregion
 
 
+    // region 分片的集合合并（展开）
+
+    /**
+     * 嵌套的集合展开（合并、连接）单层的集合对象
+     *
+     * @param partitionList 分片的集合
+     * @param <E>           元素类型
+     * @return 展开后的集合
+     */
+    public static <E> List<E> flatten(Collection<Collection<E>> partitionList) {
+        return flatten(partitionList, false);
+    }
+
+    /**
+     * 嵌套的集合展开（合并、连接）单层的集合对象
+     *
+     * @param partitionList 分片的集合
+     * @param distinct      是否去重
+     * @param <E>           元素类型
+     * @return 展开后的集合
+     */
+    public static <E> List<E> flatten(Collection<Collection<E>> partitionList, boolean distinct) {
+        if (isEmpty(partitionList)) {
+            return emptyList();
+        }
+        if (distinct) {
+            return partitionList.stream().filter(ObjectUtil::nonNull)
+                    .flatMap(Collection::stream)
+                    .distinct()
+                    .collect(Collectors.toList());
+        }
+        return partitionList.stream().filter(ObjectUtil::nonNull)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+    }
+
+    // endregion
+
+
     // region 交集
 
     /**
