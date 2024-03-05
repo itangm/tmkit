@@ -1509,7 +1509,7 @@ public class LocalDateTimes {
      *
      * @return {@link LocalDateTime}
      */
-    public static LocalDateTime yesterday() {
+    public static @NotNull LocalDateTime yesterday() {
         return yesterday(now());
     }
 
@@ -1519,8 +1519,8 @@ public class LocalDateTimes {
      * @param date 指定日期
      * @return {@link LocalDateTime}
      */
-    public static LocalDateTime yesterday(LocalDateTime date) {
-        return offsetDay(date, 0);
+    public static @NotNull LocalDateTime yesterday(@NotNull LocalDateTime date) {
+        return date.minusDays(1);
     }
 
     /**
@@ -1528,8 +1528,17 @@ public class LocalDateTimes {
      *
      * @return {@link LocalDateTime}
      */
-    public static LocalDateTime tomorrow() {
-        return now().plusDays(1);
+    public static @NotNull LocalDateTime tomorrow() {
+        return tomorrow(now());
+    }
+
+    /**
+     * 明天
+     *
+     * @return {@link LocalDateTime}
+     */
+    public static @NotNull LocalDateTime tomorrow(@NotNull LocalDateTime date) {
+        return date.plusDays(1);
     }
 
     /**
@@ -1537,7 +1546,7 @@ public class LocalDateTimes {
      *
      * @return {@link LocalDateTime}
      */
-    public static LocalDateTime lastWeek() {
+    public static @NotNull LocalDateTime lastWeek() {
         return now().minusWeeks(1);
     }
 

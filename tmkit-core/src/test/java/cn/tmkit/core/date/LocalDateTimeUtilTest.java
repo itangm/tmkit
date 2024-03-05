@@ -340,4 +340,22 @@ public class LocalDateTimeUtilTest {
         System.out.println("truncateToMinutes = " + truncateToMinutes);
     }
 
+    @Test
+    public void yesterday() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime yesterday = LocalDateTimes.yesterday();
+        assertEquals(now.minusDays(1).withNano(0), yesterday.withNano(0));
+        yesterday = LocalDateTimes.yesterday(now);
+        assertEquals(now.minusDays(1).withNano(0), yesterday.withNano(0));
+    }
+
+    @Test
+    public void tomorrow() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime tomorrow = LocalDateTimes.tomorrow();
+        assertEquals(now.plusDays(1).withNano(0), tomorrow.withNano(0));
+        tomorrow = LocalDateTimes.tomorrow(now);
+        assertEquals(now.plusDays(1).withNano(0), tomorrow.withNano(0));
+    }
+
 }
