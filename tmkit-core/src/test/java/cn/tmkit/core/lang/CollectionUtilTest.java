@@ -17,6 +17,45 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CollectionUtilTest {
 
     @Test
+    public void toList() {
+        Collection<Employee> collection = null;
+        List<Employee> expected = CollectionUtil.toList(collection);
+        assertNotNull(expected);
+
+        collection = new HashSet<>();
+        collection.add(new Employee(1002L, "White", 22));
+        collection.add(new Employee(1001L, "Anna", 20));
+        collection.add(new Employee(1004L, "White", 24));
+        expected = Collections.toList(collection);
+        assertNotSame(expected, collection);
+        assertEquals(3, expected.size());
+
+        collection = new ArrayList<>();
+        collection.add(new Employee(1002L, "White", 22));
+        collection.add(new Employee(1001L, "Anna", 20));
+        collection.add(new Employee(1004L, "White", 24));
+        expected = Collections.toList(collection);
+        // 代表了没做任何变化
+        assertSame(expected, collection);
+
+        // 测试去重，但是没重写equals方法
+        collection.add(new Employee(1004L, "White", 24));
+        collection.add(new Employee(1004L, "White", 24));
+        expected = Collections.toList(collection, true);
+        assertEquals(5, expected.size());
+
+        // 测试去重，重写了Equals
+        List<SubEmployee> list = new ArrayList<>();
+        list.add(new SubEmployee(1002L, "White", 22));
+        list.add(new SubEmployee(1001L, "Anna", 20));
+        list.add(new SubEmployee(1004L, "White", 24));
+        list.add(new SubEmployee(1004L, "White", 24));
+        list.add(new SubEmployee(1004L, "White", 24));
+        List<SubEmployee> expectedList = Collections.toList(list, true);
+        assertEquals(3, expectedList.size());
+    }
+
+    @Test
     public void isEmpty() {
         Set<String> sets = new HashSet<>();
         assertTrue(CollectionUtil.isEmpty(sets));
@@ -178,17 +217,39 @@ public class CollectionUtilTest {
         /**
          * 员工编号
          */
-        private Long no;
+        protected Long no;
 
         /**
          * 员工姓名
          */
-        private String name;
+        protected String name;
 
         /**
          * 员工年龄
          */
-        private int age;
+        protected int age;
+
+    }
+
+    public static class SubEmployee extends Employee {
+
+        public SubEmployee(Long no, String name, int age) {
+            super(no, name, age);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof Employee)) {
+                return false;
+            }
+            Employee other = (Employee) obj;
+            return this.no.equals(other.no);
+        }
+
+        @Override
+        public int hashCode() {
+            return this.no.hashCode();
+        }
 
     }
 

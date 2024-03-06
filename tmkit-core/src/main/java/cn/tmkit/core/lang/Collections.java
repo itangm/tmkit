@@ -779,6 +779,37 @@ public class Collections {
     }
 
     /**
+     * 集合对象转为List集合
+     *
+     * @param collection 集合对象
+     * @param distinct   是否去重
+     * @param <E>        元素类型
+     * @return List集合
+     * @see #toList(Collection)
+     * @see #distinct(Collection)
+     */
+    public static <E> List<E> toList(Collection<E> collection, boolean distinct) {
+        return distinct ? distinct(collection) : toList(collection);
+    }
+
+    /**
+     * 集合去重，必须重写{@linkplain Object#hashCode()}和{@linkplain Object#equals(Object)}方法
+     *
+     * @param collection 集合
+     * @param <E>        集合的元素类型限定
+     * @return 去重后的集合
+     */
+    public static <E> List<E> distinct(Collection<E> collection) {
+        if (collection == null) {
+            return emptyList();
+        }
+        if (collection instanceof Set) {
+            return newArrayList(collection);
+        }
+        return collection.stream().distinct().collect(Collectors.toList());
+    }
+
+    /**
      * 集合对象转为Set集合
      *
      * @param collection 集合对象

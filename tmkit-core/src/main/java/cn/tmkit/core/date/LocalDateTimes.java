@@ -823,7 +823,7 @@ public class LocalDateTimes {
      * @return 两者之间相差的秒数
      */
     public static int betweenSeconds(LocalDateTime start, LocalDateTime end) {
-        return betweenSeconds(start, end, false);
+        return betweenSeconds(start, end, true);
     }
 
     /**
@@ -851,7 +851,7 @@ public class LocalDateTimes {
      * @return 两者之间相差的秒数
      */
     public static int betweenSecondsTruncate(LocalDateTime start, LocalDateTime end) {
-        return betweenSecondsTruncate(start, end, false);
+        return betweenSecondsTruncate(start, end, true);
     }
 
     /**
@@ -867,15 +867,14 @@ public class LocalDateTimes {
     }
 
     /**
-     * 返回两者之间相差的分钟数，如果{@code start}小于{@code end}则为负数
-     * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}
+     * 返回两者之间相差的分钟数，其结果值为0或正整数
      *
      * @param start 开始时间（包含）
      * @param end   结束时间（不包含）
      * @return 两者之间相差的分钟数
      */
     public static int betweenMinutes(LocalDateTime start, LocalDateTime end) {
-        return betweenMinutes(start, end, false);
+        return betweenMinutes(start, end, true);
     }
 
     /**
@@ -890,7 +889,7 @@ public class LocalDateTimes {
      * @see #betweenMinutes(LocalDateTime, LocalDateTime)
      */
     public static int betweenMinutesTruncate(LocalDateTime start, LocalDateTime end) {
-        return betweenMinutesTruncate(start, end, false);
+        return betweenMinutesTruncate(start, end, true);
     }
 
     /**
@@ -925,7 +924,7 @@ public class LocalDateTimes {
     }
 
     /**
-     * 返回两者之间相差的小时数，如果{@code start}小于{@code end}负数
+     * 返回两者之间相差的小时数，，其结果值为0或正整数
      * 举个例子更为直观的说明：
      * 如果 {@code start} = 2019-01-01 12:00:02， {@code end} = 2019-01-01 13:02:01，那么本方法得到的分钟值为1
      * 如果{@code start}或{@code end}为{@code null}则返回{@code 0}
@@ -935,11 +934,11 @@ public class LocalDateTimes {
      * @return 两者之间相差的小时数
      */
     public static int betweenHours(LocalDateTime start, LocalDateTime end) {
-        return betweenHours(start, end, false);
+        return betweenHours(start, end, true);
     }
 
     /**
-     * 返回两者之间相差的小时数，本方法会截断（重置）分钟、秒、毫秒。
+     * 返回两者之间相差的小时数，其结果值为0或正整数。本方法会截断（重置）分钟、秒、毫秒。
      * 举个例子更为直观的说明：
      * 如果 {@code start} = 2024-01-15 12:00:00， {@code end} = 2024-01-15 11:01:00，那么本方法得到的小时数值为1
      * 如果{@code start}小于{@code end}负数，如果{@code start}或{@code end}为{@code null}则返回{@code 0}
@@ -950,7 +949,7 @@ public class LocalDateTimes {
      * @see #betweenMinutes(LocalDateTime, LocalDateTime)
      */
     public static int betweenHoursTruncate(LocalDateTime start, LocalDateTime end) {
-        return betweenHoursTruncate(start, end, false);
+        return betweenHoursTruncate(start, end, true);
     }
 
     /**
@@ -995,7 +994,7 @@ public class LocalDateTimes {
      * @return 两者之间相差的天数
      */
     public static int betweenDays(LocalDateTime start, LocalDateTime end) {
-        return betweenDays(start, end, false);
+        return betweenDays(start, end, true);
     }
 
     /**
